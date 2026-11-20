@@ -1,6 +1,8 @@
 // src/models/qwen4exp/kernels/dec_moe_kernels.cuh - the decode MoE tail's route, stage, wait and test kernels (one TU: dec_moe.cu), on dec_moe.cuh's device code.
 #pragma once
 
+#include "basalt/kernels/wait_abort.hpp"
+
 namespace basalt::kernels {
 namespace {
 
@@ -222,7 +224,8 @@ __global__ void __launch_bounds__(kDmThreads) dm_stage_kernel(DmRouteArgs a, uin
 }
 
 __global__ void dm_wait_kernel(const DmPlan* plan, const volatile uint32_t* peer_done, const volatile uint32_t* host_flag,
-                               uint32_t ring, unsigned long long* stats, int layer, int trigger) {
+                               uint32_t ring, unsigned long long* stats, int layer, int trigger,
+                               unsigned long long* abort = nullptr) {
     if ((trigger & 1) != 0) pdl_trigger();
     if (stats != nullptr) {
         stats[1] = dm_clock();
@@ -231,8 +234,8 @@ __global__ void dm_wait_kernel(const DmPlan* plan, const volatile uint32_t* peer
         dm_stat_record(stats, plan, layer);
         return;
     }
-    if (plan->counts[2] > 0 && (trigger & 2) == 0) while (*peer_done < ring) spin_pause();
-    if (plan->counts[3] > 0) while (*host_flag < ring) spin_pause();
+    if (plan->counts[2] > 0 && (trigger & 2) == 0) spin_ge(peer_done, ring, abort, kWaitDmWait, 2);
+    if (plan->counts[3] > 0) spin_ge(host_flag, ring, abort, kWaitDmWait, 3);
     __threadfence_system();
     pdl_wait();   // started during the down kernel: its rows are complete once this returns
 }

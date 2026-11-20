@@ -29,6 +29,7 @@ struct Verifier::WindowRecorder {
     float* Rt(int t) const { return v_.R_ + (size_t) t * HC * N; }
     void stamp(int64_t l, int i) const {
         if (v_.prof_on_) kernels::gpu_stamp(v_.prof_, (int) (l * kProfPer + i), cs);
+        if (v_.trace_w_ != nullptr) kernels::dm_stamp(v_.trace_w_, (uint32_t) ((l + 1) * 100 + i), cs);
     }
     bool lazy_layer(int64_t l) const { return lazy && l < v_.le_ && gdn_idx[(size_t) l] > gdn_first; }
 

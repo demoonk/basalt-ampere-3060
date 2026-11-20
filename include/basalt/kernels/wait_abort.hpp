@@ -12,8 +12,12 @@ namespace basalt::kernels {
 
 /// who timed out (the code's bits 56..62)
 constexpr unsigned kWaitMidChain = 1, kWaitCommitFinisher = 2, kWaitHostRelease = 3;
+constexpr unsigned kWaitDmWait = 4, kWaitCombine = 5, kWaitMix = 6, kWaitDoorbell = 7, kWaitTagPoll = 8,
+                 kWaitGuDown = 9, kWaitPk = 10;
 /// a bounded wait reads the word only once it has waited this long
 constexpr unsigned long long kWaitPollNs = 1000000ull;
+/// a spin that never gets its word gives up after this long
+constexpr unsigned long long kWaitGiveUpNs = 4000000ull;
 
 /// Allocate the word (mapped host memory, one per process) and its alias on the current device; outside a stream
 /// capture, once per device.  Ends the process when the allocation fails.
@@ -47,6 +51,39 @@ static __device__ __noinline__ bool wait_give_up(unsigned long long* word, unsig
     if (elapsed <= bound) return false;
     *w = code;
     __threadfence_system();
+    return true;
+}
+
+// A spin on a host-mapped word that a ring's arrival is supposed to satisfy.  Without the abort word it is the
+// unbounded wait of the upstream code; with it the wait falls through after kWaitGiveUpNs and names itself, so a
+// hand-off that never comes ends the window instead of hanging the card.
+__device__ __forceinline__ bool spin_ge(const volatile uint32_t* word, uint32_t want, unsigned long long* abort,
+                                        unsigned who, unsigned kind) {
+    if (abort == nullptr) {
+        while (*word < want) __nanosleep(64);
+        return true;
+    }
+    unsigned long long elapsed = 0;
+    while (*word < want) {
+        if (wait_give_up(abort, elapsed, kWaitGiveUpNs, wait_abort_code_of(who, kind, 0, 0))) return false;
+        __nanosleep(64);
+        elapsed += 64;
+    }
+    return true;
+}
+
+__device__ __forceinline__ bool spin_eq(const volatile uint32_t* word, uint32_t want, unsigned long long* abort,
+                                        unsigned who, unsigned kind) {
+    if (abort == nullptr) {
+        while (*word != want) __nanosleep(64);
+        return true;
+    }
+    unsigned long long elapsed = 0;
+    while (*word != want) {
+        if (wait_give_up(abort, elapsed, kWaitGiveUpNs, wait_abort_code_of(who, kind, 0, 0))) return false;
+        __nanosleep(64);
+        elapsed += 64;
+    }
     return true;
 }
 

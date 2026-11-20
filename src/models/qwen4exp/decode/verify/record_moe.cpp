@@ -6,8 +6,10 @@
 #include "basalt/platform/compiler.hpp"
 #include "basalt/core/peer_experts.hpp"
 #include "basalt/kernels/iq_kernels.hpp"
+#include "basalt/kernels/device_caps.hpp"
 #include "basalt/kernels/cpu/expert_layout.hpp"
 #include "basalt/models/qwen4exp/geometry.hpp"
+#include "basalt/core/diag.hpp"
 #include "basalt/models/qwen4exp/kernels/native_moe.hpp"
 #include "basalt/kernels/elementwise.hpp"
 #include "basalt/models/qwen4exp/kernels/cvec.hpp"
@@ -56,7 +58,11 @@ bool Verifier::WindowRecorder::post(int64_t l) {
         DmPlan* P = v_.dm_->plan;
         // the next GDN layer's commit (and later ones while this layer waits for the CPU), and the next layer's
         // projection weights into L2 while this layer's combine waits
-        const bool lz_next = lazy && l + 1 < v_.le_ && (lazy_layer(l + 1) || is_qsa_layer(g, l + 1));
+        // The commit fork's L2 read-ahead (a bulk prefetch on Blackwell, one 128-byte prefetch per line below it)
+        // costs more than it saves on a card with few SMs: on an Ampere 3060 the fork then starves the layer's FFN.
+        const bool lazy_pf = basalt::kernels::device_clusters() || exp_flag("lazy_pf", 0) != 0.0;
+        const bool lz_next = lazy && l + 1 < v_.le_ && (lazy_layer(l + 1) || is_qsa_layer(g, l + 1)) &&
+                            exp_flag("no_lazy", 0) == 0.0;   // --exp no_lazy=1: the diagnostic without the commit fork
         if (lz_next) {
             GdnLazyPf pf;
             {
@@ -97,7 +103,8 @@ bool Verifier::WindowRecorder::post(int64_t l) {
             cudaStreamWaitEvent(v_.lz_s_, v_.lz_fork_, 0);
             gdn_commit_lazy(lazy_args, v_.commit_ctl_,
                             lazy_layer(l + 1) ? (int) (gdn_idx[(size_t) (l + 1)] - gdn_first) : 0,
-                            v_.dm_->tags ? v_.dm_->cseen : nullptr, ring, v_.lz_s_, v_.fin_blocks_, &pf);
+                            v_.dm_->tags ? v_.dm_->cseen : nullptr, ring, v_.lz_s_, v_.fin_blocks_,
+                            lazy_pf ? &pf : nullptr);   // no L2 read-ahead below sm_90 unless forced
             cudaEventRecord(v_.lz_join_, v_.lz_s_);
             lz_open = true;
         }

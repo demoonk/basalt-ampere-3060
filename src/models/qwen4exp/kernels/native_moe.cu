@@ -23,6 +23,7 @@
 #include "basalt/models/qwen4exp/kernels/native_moe.hpp"
 #include "basalt/models/qwen4exp/kernels/dec_moe.hpp"
 #include "basalt/kernels/pdl.hpp"
+#include "basalt/kernels/wait_abort.hpp"
 #include "basalt/core/diag.hpp"
 #include <cuda_runtime.h>
 #include <cstddef>
@@ -97,12 +98,12 @@ __global__ void dm_combine_kernel(const float* __restrict__ parts, const float* 
                                   const DmPlan* __restrict__ plan, const float* __restrict__ weights,
                                   const float* __restrict__ shared, float* __restrict__ output, int64_t n_embd, int k,
                                   const volatile uint32_t* peer_done, const volatile uint32_t* host_flag, uint32_t ring,
-                                  const float* __restrict__ sh_gate) {
+                                  const float* __restrict__ sh_gate, unsigned long long* abort = nullptr) {
     __shared__ int s_kind[16];
     const int64_t tk = blockIdx.y;
     if (threadIdx.x == 0 && peer_done != nullptr) {
-        if (plan->counts[2] > 0) while (*peer_done < ring) __nanosleep(100);
-        if (plan->counts[3] > 0) while (*host_flag < ring) __nanosleep(100);
+        if (plan->counts[2] > 0) spin_ge(peer_done, ring, abort, kWaitCombine, 2);
+        if (plan->counts[3] > 0) spin_ge(host_flag, ring, abort, kWaitCombine, 3);
         __threadfence_system();
     }
     if (threadIdx.x < k) s_kind[threadIdx.x] = plan->kind[tk * k + threadIdx.x];
@@ -144,7 +145,7 @@ __global__ void dm_combine4_kernel(const float* __restrict__ parts, const float*
                                    float* __restrict__ output, int64_t n_embd, int k,
                                    const volatile uint32_t* tag_done = nullptr, uint32_t ring = 0,
                                    const volatile uint32_t* cpu_done = nullptr, unsigned* cpu_seen = nullptr,
-                                   const float* __restrict__ sh_gate = nullptr) {
+                                   const float* __restrict__ sh_gate = nullptr, unsigned long long* abort = nullptr) {
     static_assert(!WAITC || (TAG && !DEP), "the CPU pool's word is waited for inside a plain launch");
     __shared__ int s_kind[16];
     // the next kernel (the hc read) may start its blocks and stage weights while this one waits
@@ -196,13 +197,21 @@ __global__ void dm_combine4_kernel(const float* __restrict__ parts, const float*
         if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0) {
             if (cpu) {
                 st_release_gpu(cpu_seen, ring | 0x80000000u);   // waiting for the pool
-                while (*cpu_done < ring) __nanosleep(64);
+                spin_ge(cpu_done, ring, abort, kWaitCombine, 4);
                 __threadfence_system();
             }
             st_release_gpu(cpu_seen, pmark ? ring | 0x40000000u : ring);   // (pmark: waiting for the peers' rows)
         }
-        if (cpu)
-            while (ld_acquire_gpu(cpu_seen) != ring) __nanosleep(32);
+        if (cpu) {
+            unsigned long long elapsed = 0;
+            while (ld_acquire_gpu(cpu_seen) != ring) {
+                if (abort != nullptr &&
+                    wait_give_up(abort, elapsed, kWaitGiveUpNs, wait_abort_code_of(kWaitCombine, 5, 0u, blockIdx.x)))
+                    break;
+                __nanosleep(32);
+                elapsed += 32;
+            }
+        }
     }
     // every other mapped row's load is issued before the first one is used
 #pragma unroll
@@ -230,6 +239,10 @@ __global__ void dm_combine4_kernel(const float* __restrict__ parts, const float*
             while (waiting(v[j])) {
                 if (rel) break;
                 if ((++spins & 63u) == 0u && *tag_done >= ring) { __threadfence_system(); rel = true; }
+                if (abort != nullptr && (spins & 2047u) == 0u &&
+                    wait_give_up(abort, (unsigned long long) spins * 250ull, kWaitGiveUpNs,
+                                 wait_abort_code_of(kWaitTagPoll, (unsigned) j, 0u, blockIdx.x)))
+                    break;
                 v[j] = __ldcv(src);
             }
             if (spins > 0) {
@@ -279,18 +292,20 @@ void dec_moe_combine(const float* parts, const float* peer_rows_m, const float* 
         const int ki = int(k);
         const volatile uint32_t* none = nullptr;
         unsigned* nseen = nullptr;
+        unsigned long long* const ab = wait_abort_device_word();
         if (cpu_done != nullptr)
             (void) cudaLaunchKernelEx(&cfg, dm_combine4_kernel<10, false, true, true>, parts, peer_rows_m, cpu_rows_m, plan,
-                                      weights, shared, output, n_embd, ki, tag_done, ring, cpu_done, cpu_seen, shared_gate);
+                                      weights, shared, output, n_embd, ki, tag_done, ring, cpu_done, cpu_seen, shared_gate,
+                                      ab);
         else if (dep && tag_done != nullptr)
             (void) cudaLaunchKernelEx(&cfg, dm_combine4_kernel<10, true, true>, parts, peer_rows_m, cpu_rows_m, plan, weights,
-                                      shared, output, n_embd, ki, tag_done, ring, none, nseen, shared_gate);
+                                      shared, output, n_embd, ki, tag_done, ring, none, nseen, shared_gate, ab);
         else if (dep)
             (void) cudaLaunchKernelEx(&cfg, dm_combine4_kernel<10, true>, parts, peer_rows_m, cpu_rows_m, plan, weights,
-                                      shared, output, n_embd, ki, none, 0u, none, nseen, shared_gate);
+                                      shared, output, n_embd, ki, none, 0u, none, nseen, shared_gate, ab);
         else
             (void) cudaLaunchKernelEx(&cfg, dm_combine4_kernel<10, false>, parts, peer_rows_m, cpu_rows_m, plan, weights,
-                                      shared, output, n_embd, ki, none, 0u, none, nseen, shared_gate);
+                                      shared, output, n_embd, ki, none, 0u, none, nseen, shared_gate, ab);
         const auto error = cudaGetLastError();
         if (error != cudaSuccess) throw std::runtime_error(cudaGetErrorString(error));
         return;
@@ -298,7 +313,7 @@ void dec_moe_combine(const float* parts, const float* peer_rows_m, const float* 
     dm_combine_kernel<<<dim3(unsigned((n_embd + 255) / 256), (unsigned) n_tok), 256, 0,
                         static_cast<cudaStream_t>(stream)>>>(parts, peer_rows_m, cpu_rows_m, plan, weights, shared,
                                                              output, n_embd, int(k), peer_done_m, host_flag_m, ring,
-                                                             shared_gate);
+                                                             shared_gate, wait_abort_device_word());
     const auto error = cudaGetLastError();
     if (error != cudaSuccess) throw std::runtime_error(cudaGetErrorString(error));
 }

@@ -1,6 +1,8 @@
 // src/models/qwen4exp/kernels/dec_moe_host.cuh - the decode MoE tail's launchers, on dec_moe.cuh and dec_moe_kernels.cuh (one TU: dec_moe.cu).
 #pragma once
 
+#include "basalt/kernels/wait_abort.hpp"
+
 namespace basalt::kernels {
 
 int dec_moe_route_blocks(int n_tok, int n_embd) { return 1 + (n_tok * n_embd + kDmThreads - 1) / kDmThreads; }
@@ -112,7 +114,7 @@ void dec_moe_glue(const NativeExpertLayout& L, const DmGlueArgs& a_in, void* scr
 void dec_moe_wait(const DmPlan* plan, const volatile uint32_t* peer_done_m, const volatile uint32_t* host_flag_m,
                   uint32_t ring, void* stream, unsigned long long* stats, int layer, bool trigger, bool skip_peer) {
     launch_pdl(dm_wait_kernel, dim3(1), dim3(1), 0, (cudaStream_t) stream, plan, peer_done_m, host_flag_m, ring, stats, layer,
-               (trigger ? 1 : 0) | (skip_peer ? 2 : 0));
+               (trigger ? 1 : 0) | (skip_peer ? 2 : 0), wait_abort_device_word());
     check("dec_moe_wait");
 }
 
@@ -128,9 +130,22 @@ __global__ void dm_mix_publish_kernel(const uint4* __restrict__ xq, int n16, con
     }
 }
 
-__global__ void dm_mix_wait_kernel(const volatile uint32_t* done_m, uint32_t ring) {
-    while (*done_m < ring) spin_pause();
+__global__ void dm_mix_wait_kernel(const volatile uint32_t* done_m, uint32_t ring, unsigned long long* abort = nullptr) {
+    spin_ge(done_m, ring, abort, kWaitMix, 1);
     __threadfence_system();
+}
+
+__global__ void dm_stamp_kernel(volatile uint32_t* w, uint32_t v) {
+    *w = v;
+    __threadfence_system();
+}
+
+// A heartbeat into the ring's own mapped words: which recorded stage the graph reached last.  Diagnostics for a
+// window whose ring never arrives (--exp dm_trace=1).
+void dm_stamp(uint32_t* w_m, uint32_t value, void* stream) {
+    if (w_m == nullptr || stream == nullptr) return;
+    dm_stamp_kernel<<<1, 1, 0, (cudaStream_t) stream>>>(w_m, value);
+    check("dm_stamp");
 }
 
 void dec_moe_mix_publish(const void* xq, const float* x, int n_tok, int n_embd, uint8_t* xq_m, float* x_m, uint32_t* seq_m,
@@ -143,9 +158,10 @@ void dec_moe_mix_publish(const void* xq, const float* x, int n_tok, int n_embd, 
     check("dec_moe_mix_publish");
 }
 
-__global__ void dm_mix_combine_kernel(const volatile uint32_t* done_m, uint32_t ring, const float* part_m, float* out, int count) {
+__global__ void dm_mix_combine_kernel(const volatile uint32_t* done_m, uint32_t ring, const float* part_m, float* out,
+                                      int count, unsigned long long* abort = nullptr) {
     if (threadIdx.x == 0)
-        while (*done_m < ring) spin_pause();
+        spin_ge(done_m, ring, abort, kWaitMix, 2);
     __syncthreads();
     __threadfence_system();
     for (int i = blockIdx.x * blockDim.x + threadIdx.x; i < count; i += gridDim.x * blockDim.x) out[i] += __ldcv(part_m + i);

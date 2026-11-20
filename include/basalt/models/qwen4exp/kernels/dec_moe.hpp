@@ -190,6 +190,8 @@ void dec_moe_mix_combine(const volatile uint32_t* done_m, uint32_t ring, const f
                          void* stream);
 /// CUDA0: spins until done_m >= ring (the peer's mixer share of that ring has landed or the window was released).
 void dec_moe_mix_wait(const volatile uint32_t* done_m, uint32_t ring, void* stream);
+/// A one-thread heartbeat into a mapped word: the last recorded stage of a window.  Diagnostics only.
+void dm_stamp(uint32_t* w_m, uint32_t value, void* stream);
 /// Router rows the warm-up's predictor covers.
 constexpr int kDmPredExperts = 512;
 /// A down wait inside a ring that does not end within this long aborts the window (so does a corrupt ring, or the host's

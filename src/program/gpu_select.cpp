@@ -162,7 +162,7 @@ GpuChoice choose_gpus(const GpuSpec& spec, const std::vector<GpuCard>& visible, 
     const int n = (int) visible.size();
     auto unsupported_main = [&](int i) {
         return "gpu: " + gpu_label(visible, i) + " is sm_" + std::to_string(visible[(size_t) i].cc_major) +
-               std::to_string(visible[(size_t) i].cc_minor) + ", not sm_120";
+               std::to_string(visible[(size_t) i].cc_minor) + ", not sm_86 or sm_120";
     };
     if (spec.kind == GpuSpec::Kind::Auto) {
         if (!known) {
@@ -175,10 +175,10 @@ GpuChoice choose_gpus(const GpuSpec& spec, const std::vector<GpuCard>& visible, 
         for (int i = 0; i < n; ++i) {
             if (gpu_main_supported(visible[(size_t) i])) main_ok.push_back(i);
             else if (gpu_peer_supported(visible[(size_t) i])) peer_ok.push_back(i);
-            else c.notes.push_back("gpu auto: " + gpu_label(visible, i) + " skipped, not sm_120");
+            else c.notes.push_back("gpu auto: " + gpu_label(visible, i) + " skipped, this build runs on sm_86 or sm_120");
         }
         if (main_ok.empty()) {
-            c.error = n == 0 ? "gpu auto: no GPU is visible" : "gpu auto: no sm_120 GPU visible";
+            c.error = n == 0 ? "gpu auto: no GPU is visible" : "gpu auto: no GPU this build can run on (sm_86 or sm_120) is visible";
             return c;
         }
         int best = main_ok[0];
@@ -194,7 +194,7 @@ GpuChoice choose_gpus(const GpuSpec& spec, const std::vector<GpuCard>& visible, 
         for (int i : peer_ok)
             c.cards.push_back(i);
         for (int i : peer_ok)
-            if (i != best) c.notes.push_back("gpu auto: " + gpu_label(visible, i) + " is not sm_120, using it as an expert-tier peer only");
+            if (i != best) c.notes.push_back("gpu auto: " + gpu_label(visible, i) + " is not an sm_120 main card, using it as an expert-tier peer only");
         return c;
     }
     if (spec.kind == GpuSpec::Kind::Unset) {

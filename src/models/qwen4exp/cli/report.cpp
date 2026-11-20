@@ -116,6 +116,11 @@ void print_speculation(const SpeculationReport& report) {
                         ver.ms_commit / rounds,
                         (double) (drive.d.multi_misses - misses0) / (double) (rounds * g.n_layers),
                         (double) (drive.d.multi_entries - entries0) / (double) (rounds * g.n_layers));
+        {   // the GPU stage breakdown --profile collects: serve prints it as it goes, a direct run prints it at the end
+            auto& vprof = *const_cast<basalt::core::Verifier*>(&ver);
+            const std::string pr = vprof.profile_report();
+            if (!pr.empty()) std::printf("%s\n", pr.c_str());
+        }
         if (rounds > 0)
             std::printf("%-24s gate/up %.3f  quantize %.3f  down %.3f ms/round; %.1f GB/s over the rows phases; "
                         "CPU pool call %.3f ms/round\n", "pool multi", pool.ms_multi_gu / rounds,

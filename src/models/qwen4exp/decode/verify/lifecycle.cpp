@@ -269,6 +269,16 @@ bool Verifier::init(const WeightTable& wt, const ModelGeometry& g, SessionState&
     }
     cudaMemset(arena_, 0, count.used);
     prof_on_ = diagnostics().profile;
+    trace_ = exp_flag("dm_trace", 0) != 0;
+    // --exp ff_phase=1|2, gu2=N, old_kernels=1, grouped_v1=1: bisect the grouped expert FFN on a card where it is slow
+    {
+        const int ph = (int) exp_flag("ff_phase", 0);
+        if (ph != 0) basalt::kernels::native_expert_set_mode(0, ph);
+        const int g2 = (int) exp_flag("gu2", -1);
+        if (g2 >= 0) basalt::kernels::native_grouped_set_gu2(g2);
+        if (exp_flag("old_kernels", 0) != 0) basalt::kernels::iq_set_old_kernels(true);
+        if (exp_flag("grouped_v1", 0) != 0) basalt::kernels::native_grouped_set_v1(true);
+    }
     if (prof_on_) decode_gaps().host_on = true;
     if (next_ == nullptr && exp_flag("host_ev", 0) != 0) decode_events().enable(4000);
     if (prof_on_) {
@@ -317,6 +327,8 @@ bool Verifier::init(const WeightTable& wt, const ModelGeometry& g, SessionState&
         int sms = 0;
         cudaDeviceGetAttribute(&sms, cudaDevAttrMultiProcessorCount, device_ >= 0 ? device_ : 0);
         fin_blocks_ = sms;
+        const int fb = (int) exp_flag("fin_blocks", 0);   // --exp fin_blocks=N: how many blocks the GDN commit fork runs
+        if (fb > 0) fin_blocks_ = fb;
         mid_max_t_ = sms < 160 ? basalt::kernels::kMidChainMaxT : 4;
     }
     if (!basalt::kernels::gdn_commit_lazy_none(commit_ctl_) ||

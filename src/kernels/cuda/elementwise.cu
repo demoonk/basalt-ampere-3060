@@ -1,6 +1,7 @@
 // src/kernels/cuda/elementwise.cu - the glue kernels.  See the header for why each exists.
 #include "basalt/kernels/elementwise.hpp"
 #include "basalt/kernels/dp4a.hpp"
+#include "basalt/kernels/wait_abort.hpp"
 
 #include "basalt/kernels/bf16_bits.hpp"
 #include "basalt/kernels/f16_bits.hpp"
@@ -184,35 +185,36 @@ void silu_inplace(float* x, int64_t n, void* stream) {
     sync_if_needed(stream, "silu_inplace");
 }
 
-__global__ void doorbell_wait_kernel(const volatile uint32_t* flag, const volatile uint32_t* seq) {
+__global__ void doorbell_wait_kernel(const volatile uint32_t* flag, const volatile uint32_t* seq,
+                                     unsigned long long* abort = nullptr) {
     const uint32_t want = *seq;
-    while (*flag != want) spin_pause();
+    spin_eq(flag, want, abort, kWaitDoorbell, 1);
     __threadfence_system();
 }
 
 void doorbell_wait(const uint32_t* d_flag, const uint32_t* d_seq, void* stream) {
     if (d_flag == nullptr || d_seq == nullptr) return;
-    doorbell_wait_kernel<<<1, 1, 0, (cudaStream_t) stream>>>(d_flag, d_seq);
+    doorbell_wait_kernel<<<1, 1, 0, (cudaStream_t) stream>>>(d_flag, d_seq, wait_abort_device_word());
     check_launch("doorbell_wait");
 }
 
-__global__ void wait_word_kernel(const volatile uint32_t* word, uint32_t value) {
-    while (*word != value) spin_pause();
+__global__ void wait_word_kernel(const volatile uint32_t* word, uint32_t value, unsigned long long* abort = nullptr) {
+    spin_eq(word, value, abort, kWaitDoorbell, 2);
     __threadfence_system();
 }
 
 void wait_word(const uint32_t* word, uint32_t value, void* stream) {
-    wait_word_kernel<<<1, 1, 0, (cudaStream_t) stream>>>(word, value);
+    wait_word_kernel<<<1, 1, 0, (cudaStream_t) stream>>>(word, value, wait_abort_device_word());
     check_launch("wait_word");
 }
 
-__global__ void wait_flag_ge_kernel(const volatile uint32_t* flag, uint32_t value) {
-    while (*flag < value) spin_pause();
+__global__ void wait_flag_ge_kernel(const volatile uint32_t* flag, uint32_t value, unsigned long long* abort = nullptr) {
+    spin_ge(flag, value, abort, kWaitDoorbell, 3);
     __threadfence_system();
 }
 
 void wait_flag_ge(const uint32_t* flag, uint32_t value, void* stream) {
-    wait_flag_ge_kernel<<<1, 1, 0, (cudaStream_t) stream>>>(flag, value);
+    wait_flag_ge_kernel<<<1, 1, 0, (cudaStream_t) stream>>>(flag, value, wait_abort_device_word());
     check_launch("wait_flag_ge");
 }
 

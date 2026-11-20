@@ -442,7 +442,13 @@ __global__ void __launch_bounds__(32 * RG) gdn_commit_lazy_kernel(GdnCommitLayer
     // the combine marks its wait: the ring with bit 31 (the CPU pool) or bit 30 (only the peers' rows)
     auto tier_wait = [&](uint32_t w) { return w == (stop_value | 0x80000000u) || w == (stop_value | 0x40000000u); };
     uint32_t v;
-    while (!tier_wait(v = ld_acquire(stop)) && v != stop_value) __nanosleep(256);
+    // The combine marks the ring it waited for.  A card with few SMs cannot run the fork and the layer's FFN
+    // side by side, so an unbounded wait here starves the window: give up after a few seconds and skip the prefetch.
+    unsigned pf_spins = 0;
+    while (!tier_wait(v = ld_acquire(stop)) && v != stop_value) {
+        if (++pf_spins > 30000u) return;
+        __nanosleep(256);
+    }
     if (!tier_wait(v)) return;
     // step k of every block covers [k * blocks + b, +1) * step of the ranges laid end to end; after its requests a block
     // reads the step's last word (it lands once that part is in L2), then looks at the stop word again
@@ -1151,9 +1157,10 @@ __global__ void __launch_bounds__(kResidentPlanMax) resident_plan_kernel(const i
         }
     }
 }
-__global__ void wait_flag_ge_or_kernel(const volatile uint32_t* flag, uint32_t value, const volatile uint32_t* skip) {
+__global__ void wait_flag_ge_or_kernel(const volatile uint32_t* flag, uint32_t value, const volatile uint32_t* skip,
+                                       unsigned long long* abort = nullptr) {
     if (*skip == value) return;
-    while (*flag < value) spin_pause();
+    spin_ge(flag, value, abort, kWaitDoorbell, 4);
     __threadfence_system();
 }
 __global__ void copy_i32_unless_kernel(int32_t* __restrict__ dst, const volatile int32_t* src, int n,

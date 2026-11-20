@@ -561,6 +561,8 @@ private:
     static constexpr int kProfPer = 33;              // stamps per layer (32 left the hc-read second
                                       // half's up-stamp at slot 32 = the next layer's slot 0: D8)
     bool prof_on_ = false;
+    bool trace_ = false;   // --exp dm_trace=1: a heartbeat word per recorded stage, for a window that never rings
+    uint32_t* trace_w_ = nullptr;   // the mapped heartbeat word (the ring's own words, slot 62)
     unsigned long long* prof_ = nullptr;              // device: n_layers * kProfPer + 4 stamps
     std::vector<unsigned long long> prof_h_;
     double prof_sum_[2][kProfPer] = {};   // [GDN / QSA layers][stage]

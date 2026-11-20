@@ -12,6 +12,7 @@
 // per thread, issued S - 1 chunks ahead across tile boundaries, the first ones before the grid dependency wait:
 // weights are constant).  The q8_1 columns are read through L1.
 #include "basalt/models/qwen4exp/kernels/dense_tc.hpp"
+#include "basalt/kernels/device_caps.hpp"
 #include "basalt/kernels/pdl.hpp"
 
 #include <cuda_fp16.h>
@@ -1107,7 +1108,8 @@ void launch(const void* w, const void* x, float* y, int n_in, int n_out, int nco
 #ifndef FZ_DEV_ONLY   // host side: another translation unit (the mid chain) takes only the device code
 
 bool dense_tc_supported(int t, int n_in) noexcept {
-    return n_in > 0 && n_in % 512 == 0 && (t == 12 || t == 13 || t == 14 || t == 23 || t == 11 || t == 42 || t == 8);
+    return basalt::kernels::device_clusters() && n_in > 0 && n_in % 512 == 0 &&
+           (t == 12 || t == 13 || t == 14 || t == 23 || t == 11 || t == 42 || t == 8);
 }
 
 bool dense_tc_supported(int t, int n_in, int n_out, const void* w) noexcept {
@@ -1203,9 +1205,11 @@ void dense_tc_l2_prefetch(const void* w, size_t bytes, void* stream) {
     launch_pdl(dense_tc_l2_kernel, dim3(16), dim3(32), 0, (cudaStream_t) stream, (const uint8_t*) w, bytes);
 }
 
-int dense_tc_pair_mask() { return g_pair; }
+int dense_tc_pair_mask() { return basalt::kernels::device_clusters() ? g_pair : 0; }
 
-int dense_tc_mask() { return 29; }   // DEC_DTC 1 | 4 | 8 | 16 (see src/core/verify/)
+// The tensor-core dense kernels are built for sm_90 and newer; on an older card the mask is empty and the
+// callers take the native/MMVQ path.
+int dense_tc_mask() { return basalt::kernels::device_clusters() ? 29 : 0; }   // DEC_DTC 1 | 4 | 8 | 16 (see src/core/verify/)
 
 #endif
 }  // namespace basalt::kernels

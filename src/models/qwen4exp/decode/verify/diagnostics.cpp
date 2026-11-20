@@ -106,6 +106,9 @@ std::string Verifier::dm_note() const {
              std::to_string(r.n_cpu) + ")";
     }
     s += ", host flag " + std::to_string(rd(h_flag_));
+    if (trace_)
+        s += "; trace: stage " + std::to_string(rd(d->m_w + 62)) + ", mixer doorbell " + std::to_string(rd(d->m_w + 52)) +
+            ", wait abort " + basalt::kernels::wait_abort_text(basalt::kernels::wait_abort_code());
     if (d->pdev >= 0) {
         const uint32_t w = rd(d->h_w + 0), done = rd(d->h_w + 16);
         std::string st = "not launched";
