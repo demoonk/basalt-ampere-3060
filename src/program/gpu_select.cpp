@@ -1,6 +1,7 @@
 // src/program/gpu_select.cpp - see gpu_select.hpp.
 #include "basalt/program/gpu_select.hpp"
 
+#include "basalt/core/gpu_arch.hpp"
 #include "basalt/log.hpp"
 #include "basalt/platform/dynlib.hpp"
 #include "basalt/platform/process.hpp"
@@ -133,18 +134,19 @@ bool parse_gpu_spec(const std::string& text, GpuSpec& out, std::string& err) {
     return true;
 }
 
-// The main GPU runs the model's decode kernels (NVFP4 tensor cores, Blackwell instructions) — sm_120 only.
+// The main GPU runs the model's decode kernels: Blackwell (sm_120) with the NVFP4 tensor cores, or Ampere
+// (sm_86), where those paths are compiled out and the plain kernels carry the layer.
 // A peer GPU runs only the expert tier's standard CUDA kernels (Q8_1/Q2_0 rows, shared-memory rings,
 // doorbells), which a build with -DPEER_ADA=ON also compiles for sm_89 (Ada).
-bool gpu_main_supported(const GpuCard& c) { return c.cc_major == 0 || (c.cc_major == 12 && c.cc_minor == 0); }
-// sm_89 (Ada) is the one older architecture the peer kernels can be compiled for (when built with PEER_ADA);
-// a peer card of any other pre-Blackwell arch (or an sm_89 card without PEER_ADA) is rejected here
-// rather than failing later with 'no kernel image' at the first peer launch.
+bool gpu_main_supported(const GpuCard& c) {
+    return c.cc_major == 0 || basalt::core::supported_compute_capability(c.cc_major, c.cc_minor);
+}
 bool gpu_peer_supported(const GpuCard& c) {
+    if (gpu_main_supported(c)) return true;
 #if defined(BASALT_PEER_ADA)
-    return c.cc_major == 0 || (c.cc_major == 12 && c.cc_minor == 0) || (c.cc_major == 8 && c.cc_minor == 9);
+    return c.cc_major == 8 && c.cc_minor == 9;
 #else
-    return c.cc_major == 0 || (c.cc_major == 12 && c.cc_minor == 0);
+    return false;
 #endif
 }
 

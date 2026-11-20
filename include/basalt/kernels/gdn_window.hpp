@@ -12,6 +12,7 @@
 // gate's activation (GdnGate) are the model's.  State layout [S rows][h_v][S cols] fp32, then the conv history
 // [C][3]; value head h meets key head h % h_k.
 #pragma once
+#include "basalt/kernels/device_caps.hpp"
 #include <cstddef>
 #include <cstdint>
 
@@ -103,8 +104,9 @@ void dec_gdn_rec_split(const DecRecArgs& a, int n_tok, void* stream);
 void dec_gdn_rec_norm(const DecRecArgs& a, int n_tok, void* stream);
 /// The verify window's GDN block around native q8_1 + qkv/z/out projections, as run: dec_gdn_rec_split beside the z
 /// projection (z forked after the q8_1, beside qkv too), then dec_gdn_rec_norm.  Mode 1 is dec_gdn_rec after z, 2 forks
-/// z after qkv.
-inline constexpr int dec_gdnf_mode() { return 3; }
+/// z after qkv.  Mode 3 is the one-cluster rec_kernel launch; a card with no clusters (below compute capability 9.0)
+/// runs the split pair instead, which gives the same bits.
+inline int dec_gdnf_mode() { return basalt::kernels::device_clusters() ? 3 : 0; }
 
 /// history <- the last 3 entries of [history | qkv_0 .. qkv_{n-1}], n = *n_keep (0 leaves it as it was).
 void gdn_conv_commit(float* history, const float* qkv, int channels, const int32_t* n_keep, void* stream);

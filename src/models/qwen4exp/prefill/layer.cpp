@@ -13,6 +13,7 @@ using namespace detail;
 
 bool Prefill::Run::Chunk::layer(int64_t l) {
     core::progress_beat();   // the serve watchdog: a prompt chunk of 8192 tokens is still moving
+    prefill_check("layer entry");
     if (owner.on_layer && LB == 0 && owner.next_ == nullptr) owner.on_layer(l, g.n_layers, T, p0);
     core::progress_at("reading the prompt (batched): layer", l, p0);   // a stall names layer and chunk
     const core::LayerView v(*m.wt, l);
@@ -30,8 +31,11 @@ bool Prefill::Run::Chunk::layer(int64_t l) {
         if (!wn || !wd || !wu || !wi) return false;
         if (!normed) gr_norm_rs(m.R, (const float*) wn->data, EPS, m.grs, m.xn16, T, m.cs);
         normed = false;
+        prefill_check("gr_norm_rs");
         if (!bf16_proj(m.gemm, wd, m.xn16, m.lo, T, sd, err)) return false;
+        prefill_check("hc down proj");
         gr_silu(m.lo, m.lo16, T, m.cs);
+        prefill_check("gr_silu");
         if (wu->kind != core::WeightKind::Bf16InF32 || !wu->data || wu->ne1 != D || wu->ne0 != LR) {
             err = "prefill: " + su + " is not a resident BF16 tensor of the hc shape";
             return false;

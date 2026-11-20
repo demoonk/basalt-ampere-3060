@@ -559,6 +559,14 @@ __global__ void to_bf16_kernel(const float* __restrict__ x, uint16_t* __restrict
 
 }  // namespace
 
+void prefill_check(const char* what) {
+    const cudaError_t e = cudaGetLastError();
+    if (e != cudaSuccess) {
+        basalt::log::error("basalt", "prefill %s: %s", what, cudaGetErrorString(e));
+        std::exit(1);
+    }
+}
+
 void kv_append(const float* K, const float* V, int64_t T, int64_t pos0, const int32_t* page_table, int64_t page_size,
                uint16_t* k_pool, uint16_t* v_pool, int8_t* k_q, int8_t* v_q, uint16_t* k_scale, uint16_t* v_scale,
                void* stream, const basalt::kernels::KvHostPools* host, const basalt::kernels::KvHostPools* stage) {
@@ -607,6 +615,7 @@ bool gr_up_mix(const uint16_t* lo16, const uint16_t* w_up, const float* R, const
         !al(mixed16, 4) || !al(mixed_h, 4) || !al(mixed16_lo, 4))
         return false;
     if (T <= 0) return true;
+    check("gr_up_mix entry");
     const dim3 grid(N / UM_BD, (unsigned) ((T + UM_BM - 1) / UM_BM));
     gr_up_mix_kernel<<<grid, 256, UM_SMEM, (cudaStream_t) stream>>>(lo16, w_up, R, rs, w_norm, mixed, mixed16, mixed_h,
                                                                     mixed16_lo, T);

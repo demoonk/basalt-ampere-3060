@@ -13,6 +13,9 @@
 
 namespace basalt::prefill {
 
+/// Diagnostics: abort with the name of the stage if an earlier launch left a CUDA error.
+void prefill_check(const char* what);
+
 // ---- hyper-connection (n_embd 2560, hc 4, hc_lr 320)
 /// xn[t, c*2560 + d] = R[t,c,d] * rsqrt(mean_d R[t,c,:]^2 + eps) * w_norm[c*2560 + d]; also its BF16 image.
 /// `xn16_lo` (null: none) takes bf16(x - xn16): W.xn16 + W.xn16_lo is the product with ~16 mantissa bits of x.

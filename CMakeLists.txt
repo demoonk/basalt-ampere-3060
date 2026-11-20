@@ -1,7 +1,7 @@
 # basalt: a local inference engine for one NVIDIA GPU.
 cmake_minimum_required(VERSION 3.24)
 if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
-  set(CMAKE_CUDA_ARCHITECTURES 120 CACHE STRING "CUDA architectures" FORCE)
+  set(CMAKE_CUDA_ARCHITECTURES 86 CACHE STRING "CUDA architectures" FORCE)
 endif()
 project(basalt VERSION 0.5.0 LANGUAGES C CXX CUDA)
 add_compile_definitions(BASALT_VERSION="${PROJECT_VERSION}")
@@ -43,16 +43,32 @@ find_package(CUDAToolkit REQUIRED)
 # Main kernels (NVFP4 tensor cores, TMA, Blackwell instructions) compile for sm_120 only.
 # When PEER_ADA is enabled, peer kernels (Q8_1/Q2_0 expert rows, standard CUDA) additionally compile
 # for sm_89 (Ada) so a non-Blackwell card can serve as the expert tier.
+# Device targets this fork builds: Blackwell (sm_120) and Ampere (sm_86). Specialized kernels check
+# their run-time capability, so an Ampere build compiles the Blackwell paths out of the device code.
 foreach(_a IN LISTS CMAKE_CUDA_ARCHITECTURES)
   string(REGEX REPLACE "[-a].*$" "" _base "${_a}")     # 120-real / 120a are still 120
-  if(NOT _base STREQUAL "120")
-    message(FATAL_ERROR "CMAKE_CUDA_ARCHITECTURES is '${CMAKE_CUDA_ARCHITECTURES}': basalt builds for compute capability 12.0 only (peer-arch kernels are compiled separately below)")
+  if(NOT _base STREQUAL "86" AND NOT _base STREQUAL "120")
+    message(FATAL_ERROR "CMAKE_CUDA_ARCHITECTURES is '${CMAKE_CUDA_ARCHITECTURES}': basalt-ampere builds for compute capabilities 8.6 and 12.0")
+  endif()
+endforeach()
+# True when this build carries Blackwell device code; the FP4/FP8 tensor-core targets need it.
+set(_basalt_blackwell OFF)
+foreach(_a IN LISTS CMAKE_CUDA_ARCHITECTURES)
+  string(REGEX REPLACE "[-a].*$" "" _base "${_a}")
+  if(_base STREQUAL "120")
+    set(_basalt_blackwell ON)
   endif()
 endforeach()
 if(CMAKE_CUDA_COMPILER_VERSION VERSION_LESS 13.0)
   message(FATAL_ERROR "CUDA ${CMAKE_CUDA_COMPILER_VERSION}: basalt needs CUDA 13.0 or newer")
 endif()
 message(STATUS "basalt: CUDA arch ${CMAKE_CUDA_ARCHITECTURES}")
+# A target whose kernels use sm_120a instructions: they are compiled for sm_120 in every build.  In an
+# Ampere-only build they still link - the host side checks the card before launching them, so on a card
+# without the FP4 and block-scaled FP8 matrix products they are never reached.
+function(basalt_blackwell_target target)
+  set_target_properties(${target} PROPERTIES CUDA_ARCHITECTURES 120a-real)
+endfunction()
 set(_gpu_runtime_target CUDA::cudart)
 set(_gpu_blas_target CUDA::cublas)
 set(_gpu_include_directories ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
@@ -1699,7 +1715,7 @@ target_link_libraries(model_qwen4exp_prefill PUBLIC model_qwen4exp_moe_fused)
 endif()
 # a prompt chunk's products against FP8 E4M3 weights on the FP8 tensor cores (W8A8)
 add_library(prefill_fp8 STATIC src/prefill/fp8_gemm.cu)
-set_target_properties(prefill_fp8 PROPERTIES CUDA_ARCHITECTURES 120a-real)   # the block-scaled mma
+basalt_blackwell_target(prefill_fp8)   # the block-scaled mma needs sm_120a
 target_include_directories(prefill_fp8 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(prefill_fp8 PUBLIC core ${_gpu_runtime_target})
 if(BUILD_TESTING)
@@ -1722,7 +1738,7 @@ endif()
 # a decode window's products against FP8 and NVFP4 matrices (the NVFP4 codes convert with sm_120a instructions)
 add_library(window_gemm STATIC src/kernels/cuda/window_gemm.cu src/kernels/cuda/window_gemm_f8.cu
                                src/kernels/cuda/window_gemm_nvfp4.cu)
-set_target_properties(window_gemm PROPERTIES CUDA_ARCHITECTURES 120a-real)
+basalt_blackwell_target(window_gemm)
 target_include_directories(window_gemm PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(window_gemm PUBLIC core ${_gpu_runtime_target})
 add_library(prefill_fp4 STATIC src/prefill/moe_fp4.cu src/prefill/fp4_dense.cu)

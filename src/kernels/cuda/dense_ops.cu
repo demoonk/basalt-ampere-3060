@@ -1,5 +1,6 @@
 // src/kernels/cuda/dense_ops.cu - see include/basalt/kernels/dense_ops.hpp.
 #include "basalt/kernels/dense_ops.hpp"
+#include "basalt/kernels/device_caps.hpp"
 #include "basalt/kernels/gqa_attn.hpp"
 #include "basalt/kernels/pdl.hpp"
 #include "philox.cuh"
@@ -165,17 +166,25 @@ __global__ void __launch_bounds__(32) bf16_rows_dot_kernel(const float* __restri
 constexpr int GP_AHEAD = 1;   // K / GP_S must be a multiple of 32 GP_AHEAD
 constexpr int GP_HV = 48, GP_S = 8, GP_TT = 64, GP_LD = 2 * GP_HV + 8, GP_NF = 2 * GP_HV / 8;
 // In: FP32 x (two BF16 terms) or BF16 x (exact: one term)
-template <class In>
-__global__ void __cluster_dims__(1, 1, GP_S) __launch_bounds__(128)
-    gdn_gating_proj_kernel(const In* __restrict__ x, const uint16_t* __restrict__ w, const float* __restrict__ dt,
-                           const float* __restrict__ ssm_a, float* __restrict__ gate, float* __restrict__ beta, int64_t T,
-                           int64_t K) {
-    namespace cg = cooperative_groups;
+// The gates of one token row from the summed a and b projections (the same expressions as gdn_gates).
+__device__ __forceinline__ void gp_gate(float* gate, float* beta, const float* dt, const float* ssm_a, int64_t t,
+                                       int64_t T, int h, float a, float b) {
+    if (t >= T) return;
+    const float v = a + dt[h];
+    gate[t * GP_HV + h] = (v > 20.0f ? v : log1pf(__expf(v))) * ssm_a[h];
+    beta[t * GP_HV + h] = 1.0f / (1.0f + __expf(-b));
+}
+// RANKS blocks of a token tile split K between them and meet through distributed shared memory; RANKS = 1
+// is the plain launch a card below compute capability 9.0 uses, where the block owns the whole K.
+template <class In, int RANKS>
+__device__ __forceinline__ void gp_partials(const In* __restrict__ x, const uint16_t* __restrict__ w,
+                                           const float* __restrict__ dt, const float* __restrict__ ssm_a,
+                                           float* __restrict__ gate, float* __restrict__ beta, int64_t T, int64_t K) {
     __shared__ __align__(16) float part[GP_TT * GP_LD];
     const int tid = threadIdx.x, warp = tid >> 5, lane = tid & 31, g = lane >> 2, c = lane & 3;
     const int rank = blockIdx.z;
     const int64_t tile0 = (int64_t) blockIdx.x * GP_TT, t0 = tile0 + warp * 16;
-    const int64_t kslice = K / GP_S, kbeg = rank * kslice;
+    const int64_t kslice = K / RANKS, kbeg = rank * kslice;
     const int64_t ta = min(t0 + g, T - 1), tb = min(t0 + g + 8, T - 1);
     // thread c reads 8 consecutive k per 32 (an mma step takes them as the pairs 0,1 and 2,3: the k order inside a step is
     // free), so the four lanes of a row read 128 contiguous bytes of x and 64 of w, one wide load each
@@ -253,6 +262,8 @@ __global__ void __cluster_dims__(1, 1, GP_S) __launch_bounds__(128)
         *reinterpret_cast<float2*>(part + (warp * 16 + g) * GP_LD + 8 * j + 2 * c) = make_float2(acc[j][0], acc[j][1]);
         *reinterpret_cast<float2*>(part + (warp * 16 + g + 8) * GP_LD + 8 * j + 2 * c) = make_float2(acc[j][2], acc[j][3]);
     }
+#if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 900
+    namespace cg = cooperative_groups;
     cg::cluster_group cluster = cg::this_cluster();
     cluster.sync();
     const float* remote[GP_S];
@@ -263,14 +274,35 @@ __global__ void __cluster_dims__(1, 1, GP_S) __launch_bounds__(128)
         float a = 0.f, b = 0.f;
 #pragma unroll
         for (int q = 0; q < GP_S; ++q) { a += remote[q][tl * GP_LD + h]; b += remote[q][tl * GP_LD + GP_HV + h]; }
-        const int64_t t = tile0 + tl;
-        if (t >= T) continue;
-        const float v = a + dt[h];
-        gate[t * GP_HV + h] = (v > 20.0f ? v : log1pf(__expf(v))) * ssm_a[h];
-        beta[t * GP_HV + h] = 1.0f / (1.0f + __expf(-b));
+        gp_gate(gate, beta, dt, ssm_a, tile0 + tl, T, h, a, b);
     }
     cluster.sync();   // no block leaves while another still reads its partial sums
+#else
+    (void) rank;
+    for (int idx = tid; idx < GP_TT * GP_HV; idx += 128) {
+        const int tl = idx / GP_HV, h = idx % GP_HV;
+        gp_gate(gate, beta, dt, ssm_a, tile0 + tl, T, h, part[tl * GP_LD + h], part[tl * GP_LD + GP_HV + h]);
+    }
+#endif
 }
+
+#if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 900
+template <class In>
+__global__ void __cluster_dims__(1, 1, GP_S) __launch_bounds__(128)
+    gdn_gating_proj_kernel(const In* __restrict__ x, const uint16_t* __restrict__ w, const float* __restrict__ dt,
+                           const float* __restrict__ ssm_a, float* __restrict__ gate, float* __restrict__ beta, int64_t T,
+                           int64_t K) {
+    gp_partials<In, GP_S>(x, w, dt, ssm_a, gate, beta, T, K);
+}
+#else   // a card with no clusters: one block a token tile, the whole K in one pass
+template <class In>
+__global__ void __launch_bounds__(128)
+    gdn_gating_proj_kernel(const In* __restrict__ x, const uint16_t* __restrict__ w, const float* __restrict__ dt,
+                           const float* __restrict__ ssm_a, float* __restrict__ gate, float* __restrict__ beta, int64_t T,
+                           int64_t K) {
+    gp_partials<In, 1>(x, w, dt, ssm_a, gate, beta, T, K);
+}
+#endif
 
 // Block (row t, head j): j < n_head a query head, else a key/value head; one thread per head dim.
 __device__ __forceinline__ float ldf(const float* p) { return *p; }
@@ -578,22 +610,25 @@ void bf16_rows_dot(const float* x, const uint16_t* w, float* y, int64_t T, int64
 void gdn_gating_proj(const float* x, const uint16_t* w_ab, const float* dt, const float* ssm_a, float* gate, float* beta,
                      int64_t T, int64_t HV, int64_t K, void* stream) {
     if (T <= 0) return;
-    if (HV != GP_HV || K % (32 * GP_AHEAD * GP_S) != 0) {
+    const int ranks = device_clusters() ? GP_S : 1;
+    if (HV != GP_HV || K % (32 * GP_AHEAD * ranks) != 0) {
         basalt::log::error("basalt", "gdn_gating_proj: HV %lld K %lld", (long long) HV, (long long) K);
         std::exit(1);
     }
-    gdn_gating_proj_kernel<float><<<dim3((unsigned) ((T + GP_TT - 1) / GP_TT), 1, GP_S), 128, 0, (cudaStream_t) stream>>>(
-        x, w_ab, dt, ssm_a, gate, beta, T, K);
+    gdn_gating_proj_kernel<float><<<dim3((unsigned) ((T + GP_TT - 1) / GP_TT), 1, (unsigned) ranks), 128, 0,
+                                    (cudaStream_t) stream>>>(x, w_ab, dt, ssm_a, gate, beta, T, K);
     check("gdn_gating_proj");
 }
 void gdn_gating_proj(const uint16_t* x, const uint16_t* w_ab, const float* dt, const float* ssm_a, float* gate, float* beta,
                      int64_t T, int64_t HV, int64_t K, void* stream) {
     if (T <= 0) return;
-    if (HV != GP_HV || K % (32 * GP_AHEAD * GP_S) != 0) {
+    const int ranks = device_clusters() ? GP_S : 1;
+    if (HV != GP_HV || K % (32 * GP_AHEAD * ranks) != 0) {
         basalt::log::error("basalt", "gdn_gating_proj: HV %lld K %lld", (long long) HV, (long long) K);
         std::exit(1);
     }
-    gdn_gating_proj_kernel<__nv_bfloat16><<<dim3((unsigned) ((T + GP_TT - 1) / GP_TT), 1, GP_S), 128, 0, (cudaStream_t) stream>>>(
+    gdn_gating_proj_kernel<__nv_bfloat16><<<dim3((unsigned) ((T + GP_TT - 1) / GP_TT), 1, (unsigned) ranks), 128, 0,
+                                           (cudaStream_t) stream>>>(
         reinterpret_cast<const __nv_bfloat16*>(x), w_ab, dt, ssm_a, gate, beta, T, K);
     check("gdn_gating_proj");
 }

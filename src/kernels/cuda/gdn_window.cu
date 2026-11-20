@@ -411,6 +411,11 @@ __global__ void __cluster_dims__(4, 1, 1) __launch_bounds__(S) rec_kernel(const 
     cg::cluster_group cl = cg::this_cluster();
     rec_block<MAXT, NJ, false>(a, T, blockIdx.x / 4, blockIdx.x % 4, sm, &cl);
 }
+#else
+// A card below compute capability 9.0 has no clusters: rec_kernel exists only so the host side, which names it
+// in every build, compiles.  It is never launched there (dec_gdn_rec takes the split pair).
+template<int MAXT, int NJ>
+__global__ void __launch_bounds__(S) rec_kernel(const DecRecArgs a, int T) { __trap(); }
 #endif  // !DM_REC_NO_CLUSTERS
 
 template<int MAXT, int NJ>
@@ -456,6 +461,13 @@ __global__ void __cluster_dims__(4, 1, 1) __launch_bounds__(S) rec_seg_kernel(co
     cg::cluster_group cl = cg::this_cluster();
     rec_block<MAXT, NJ, false>(seg_args(a0, r, state_off, dst, off_c, off_hv), r.n, blockIdx.x / 4, blockIdx.x % 4, sm, &cl);
 }
+#else
+// A card below compute capability 9.0 has no clusters.  The host dispatch never launches these (it takes the split
+// kernels), but it names them, so the templates have to exist.
+template<int MAXT, int NJ>
+__global__ void __launch_bounds__(S) rec_seg_kernel(const DecRecArgs a0, const SegRow* rows, size_t state_off,
+                                                   const SegDst* dst, size_t off_c, size_t off_hv) { __trap(); }
+#endif
 
 // rec_split_kernel over a segmented window (rec_seg_kernel's rows), without clusters (a cluster launch keeps at most two
 // blocks on an SM whatever its size, too few for two segments' heads in one wave), the gates from dec_gdn_gates (every
@@ -489,7 +501,6 @@ __global__ void __launch_bounds__(128) gates_kernel(const DecRecArgs a, int n_to
     ab_pair<NJ>(a, wab, t, lane, dt, sa, al, be);
     if (lane == 0) { gates[(size_t) t * a.h_v + gh] = al; gates[((size_t) n_tok + t) * a.h_v + gh] = be; }
 }
-#endif  // !DM_REC_NO_CLUSTERS
 
 // one warp per (token, value head): the head's four 32-value sums of squares in rank order, then norm_q8 per rank
 __global__ void __launch_bounds__(128) rec_norm_kernel(const DecRecArgs a, int T) {
@@ -539,11 +550,43 @@ template<int MAXT, int NJ> struct SplitK { static constexpr auto f = rec_split_k
 template<int MAXT, int NJ> struct SegK { static constexpr auto f = rec_seg_kernel<MAXT, NJ>; };
 template<int MAXT, int NJ> struct SplitSegK { static constexpr auto f = rec_split_seg_kernel<MAXT, NJ>; };
 
+// A card below compute capability 9.0 runs the recurrence as the split pair: the split kernel writes the raw
+// output, the norm kernel norms it in place.  The split pair needs a buffer for the un-normed output; a caller
+// that has none (the verify path) gets these, grown to the window in front of them.
+static float* scratch_grow(float*& buf, size_t& cap, size_t floats, const char* what) {
+    if (cap >= floats) return buf;
+    const size_t want = floats < 1u << 17 ? (1u << 17) : floats;   // 512 KiB of headroom, then as asked
+    float* nb = nullptr;
+    if (cudaMalloc(&nb, want * sizeof(float)) != cudaSuccess) {
+        (void) cudaGetLastError();
+        basalt::log::error("basalt", "%s: no scratch for the split recurrence", what);
+        std::exit(1);
+    }
+    if (buf) cudaFree(buf);
+    buf = nb; cap = want;
+    return buf;
+}
+static float* rec_raw_scratch(size_t floats) {
+    static float* buf = nullptr; static size_t cap = 0;
+    return scratch_grow(buf, cap, floats, "dec_gdn_rec");
+}
+static float* rec_gate_scratch(size_t floats) {
+    static float* buf = nullptr; static size_t cap = 0;
+    return scratch_grow(buf, cap, floats, "dec_gdn_rec_seg");
+}
+
 void dec_gdn_rec(const DecRecArgs& a, int n_tok, void* stream) {
     if (n_tok < 1 || n_tok > kDecMaxT || !dec_gdn_rec_supported(a.n_embd) || a.h_k <= 0 || a.h_v % a.h_k != 0 ||
         mapped_heads(a) < 1) {
         basalt::log::error("basalt", "dec_gdn_rec: invalid arguments");
         std::exit(1);
+    }
+    if (!device_clusters()) {   // no clusters here: the split pair, the same bits
+        DecRecArgs b = a;
+        if (!b.o) b.o = b.y ? b.y : rec_raw_scratch((size_t) n_tok * S * (size_t) a.h_v);
+        dec_gdn_rec_split(b, n_tok, stream);
+        dec_gdn_rec_norm(b, n_tok, stream);
+        return;
     }
     const dim3 grid((unsigned) (mapped_heads(a) * 4)), block(S);
     const cudaStream_t s = (cudaStream_t) stream;
@@ -559,6 +602,17 @@ void dec_gdn_rec_seg(const DecRecArgs& a, const SegRow* rows, size_t state_off, 
         basalt::log::error("basalt", "dec_gdn_rec_seg: invalid arguments");
         std::exit(1);
     }
+    if (!device_clusters()) {   // the segmented split pair: the gates first, then the split blocks and the norm
+        DecRecArgs b = a;
+        int n_tok = 0;
+        for (int i = 0; i < n_rows; ++i) { const int r = rows[i].row0 + rows[i].n; if (r > n_tok) n_tok = r; }
+        if (n_tok < 1) return;
+        if (!b.o) b.o = b.y ? b.y : rec_raw_scratch((size_t) n_tok * S * (size_t) a.h_v);
+        float* gates = rec_gate_scratch((size_t) 2 * n_tok * (size_t) a.h_v);
+        dec_gdn_gates(b, n_tok, gates, stream);
+        dec_gdn_rec_seg_split(b, rows, state_off, n_rows, max_n, n_tok, stream, dst, off_c, off_hv, gates);
+        return;
+    }
     const dim3 grid((unsigned) (a.h_v * 4), (unsigned) n_rows), block(S);
     const cudaStream_t s = (cudaStream_t) stream;
     by_width<SegK>(a.n_embd, max_n, [&](auto k) { launch_pdl(k, grid, block, 0, s, a, rows, state_off, dst, off_c, off_hv); });
@@ -567,7 +621,7 @@ void dec_gdn_rec_seg(const DecRecArgs& a, const SegRow* rows, size_t state_off, 
 }
 
 void dec_gdn_gates(const DecRecArgs& a, int n_tok, float* gates, void* stream) {
-    if (n_tok < 1 || n_tok > 2 * kDecMaxT || !gates || !dec_gdn_rec_supported(a.n_embd) || a.h_v < 1) {
+    if (n_tok < 1 || n_tok > 512 || !gates || !dec_gdn_rec_supported(a.n_embd) || a.h_v < 1) {
         basalt::log::error("basalt", "dec_gdn_gates: invalid arguments");
         std::exit(1);
     }
@@ -581,7 +635,7 @@ void dec_gdn_gates(const DecRecArgs& a, int n_tok, float* gates, void* stream) {
 
 void dec_gdn_rec_seg_split(const DecRecArgs& a, const SegRow* rows, size_t state_off, int n_rows, int max_n, int n_tok,
                            void* stream, const SegDst* dst, size_t off_c, size_t off_hv, const float* gates) {
-    if (n_rows < 1 || max_n < 1 || max_n > kDecMaxT || n_tok < 1 || n_tok > 2 * kDecMaxT || !rows || !a.o || !gates ||
+    if (n_rows < 1 || max_n < 1 || max_n > kDecMaxT || n_tok < 1 || n_tok > 512 || !rows || !a.o || !gates ||
         !dec_gdn_rec_supported(a.n_embd) || a.h_k <= 0 || a.h_v % a.h_k != 0 || a.nk != 0) {
         basalt::log::error("basalt", "dec_gdn_rec_seg_split: invalid arguments");
         std::exit(1);

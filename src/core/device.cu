@@ -1,5 +1,6 @@
 // src/core/device.cu - the CUDA side of the runtime core.
 #include "basalt/core/device.hpp"
+#include "basalt/core/gpu_arch.hpp"
 #include "basalt/platform/dynlib.hpp"
 
 #include <cuda_runtime.h>
@@ -233,11 +234,12 @@ DeviceInfo device_info(int ordinal) {
     check(cudaDriverGetVersion(&d.driver_version), "cudaDriverGetVersion");
     check(cudaRuntimeGetVersion(&d.runtime_version), "cudaRuntimeGetVersion");
 
-    // The binary holds code for one compute capability only; a card of another compute capability is refused here rather than failing
-    // at its first kernel launch.
-    if (d.cc_major != 12 || d.cc_minor != 0) {
+    // The binary holds code for the architectures this build carries: Blackwell (12.0) and, in the Ampere
+    // fork, Ampere (8.6).  A card of another compute capability is refused here rather than failing at its
+    // first kernel launch.
+    if (!basalt::core::supported_compute_capability(d.cc_major, d.cc_minor)) {
         throw CudaError("device " + d.name + " reports compute capability " + std::to_string(d.cc_major) + "." +
-                            std::to_string(d.cc_minor) + "; basalt needs an NVIDIA GPU of compute capability 12.0",
+                        std::to_string(d.cc_minor) + "; this basalt build runs on compute capability 8.6 or 12.0",
                         -1);
     }
     return d;

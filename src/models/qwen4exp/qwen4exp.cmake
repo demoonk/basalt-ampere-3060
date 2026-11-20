@@ -47,9 +47,22 @@ add_library(model_qwen4exp_kernels STATIC
   src/models/qwen4exp/kernels/dense_tc.cu
   src/models/qwen4exp/kernels/mid_chain.cu
   src/models/qwen4exp/kernels/qsa_mid.cu
-  src/models/qwen4exp/kernels/hc_fused.cu
   src/models/qwen4exp/kernels/hc8_gr.cu)
-target_link_libraries(model_qwen4exp_kernels PUBLIC kernels)
+target_link_libraries(model_qwen4exp_kernels PUBLIC kernels model_qwen4exp_hc_fused)
+
+# The fused hyperconnection kernels use the tensor maps and the cluster barriers, so they are built for
+# sm_120 whatever the build's architectures are: an Ampere card fails the run-time capability check in
+# hc_fused.cu and takes the unfused path instead.
+add_library(model_qwen4exp_hc8 STATIC src/models/qwen4exp/kernels/hc8_copy.cu)
+target_include_directories(model_qwen4exp_hc8 PUBLIC ${CMAKE_SOURCE_DIR}/include
+                                                     PRIVATE ${_gpu_include_directories})
+target_link_libraries(model_qwen4exp_hc8 PUBLIC core ${_gpu_runtime_target})
+
+add_library(model_qwen4exp_hc_fused STATIC src/models/qwen4exp/kernels/hc_fused.cu)
+basalt_blackwell_target(model_qwen4exp_hc_fused)
+target_include_directories(model_qwen4exp_hc_fused PUBLIC ${CMAKE_SOURCE_DIR}/include
+                                                          PRIVATE ${_gpu_include_directories})
+target_link_libraries(model_qwen4exp_hc_fused PUBLIC kernels model_qwen4exp_hc8)
 
 # The composed layer: layer and session, the verify windows, the MTP drafter, the conversation state.
 add_library(model_qwen4exp_engine STATIC src/models/qwen4exp/decode/layer.cpp src/models/qwen4exp/decode/expert_dispatch.cpp
