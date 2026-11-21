@@ -7,6 +7,8 @@
 #include <cmath>
 #include <chrono>
 #include <immintrin.h>
+#include "basalt/core/diag.hpp"
+#include "basalt/platform/cpu.hpp"
 
 #include <cstdio>
 #include <cstdlib>
@@ -93,8 +95,14 @@ ExpertPool::ExpertPool(int n_workers, PoolAffinity affinity)
     split_multi_.resize((size_t) kMaxSplitMulti);
     fused_.reset(new FusedExpert[(size_t) kMaxSplitMulti]);
     threads_.reserve((size_t) n_);
+    // --exp pin_pool=1: worker i runs on worker_cores[i], the first logical processor of physical core i+1.
+    // The pool's own claim protocol is per-worker, so pinning changes nothing but where the OS schedules it.
+    const bool pin = basalt::core::exp_flag("pin_pool", 0.0) != 0.0;
     for (int i = 0; i < n_; ++i) {
         threads_.emplace_back([this, i] { worker(i); });
+        if (pin && i < (int) topo_.worker_cores.size() &&
+            basalt::platform::pin_thread(threads_.back(), topo_.worker_cores[(size_t) i]))
+            basalt::log::info("expert pool", "worker %d pinned to processor %d", i, topo_.worker_cores[(size_t) i]);
     }
 }
 

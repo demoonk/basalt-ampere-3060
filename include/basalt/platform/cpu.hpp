@@ -5,6 +5,7 @@
 #pragma once
 
 #include <string>
+#include <thread>
 #include <vector>
 
 namespace basalt::platform {
@@ -37,5 +38,8 @@ struct CpuInfo {
     int physical_cores = 0;
 };
 CpuInfo cpu_info();
+
+/// Put one thread on one processor, as named above.  False when the platform refuses or cannot.
+bool pin_thread(std::thread& t, int processor);
 
 }  // namespace basalt::platform

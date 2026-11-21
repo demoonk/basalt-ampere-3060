@@ -375,4 +375,18 @@ CpuInfo cpu_info() {
 
 #endif
 
+bool pin_thread(std::thread& t, int processor) {
+    if (processor < 0) return false;
+#if defined(_WIN32)
+    // A mask is per processor group; this machine's processors all live in group 0.
+    const unsigned long long mask = 1ull << (processor % 64);
+    return SetThreadAffinityMask((HANDLE) t.native_handle(), mask) != 0;
+#else
+    cpu_set_t set;
+    CPU_ZERO(&set);
+    CPU_SET(processor, &set);
+    return pthread_setaffinity_np(t.native_handle(), sizeof set, &set) == 0;
+#endif
+}
+
 }  // namespace basalt::platform
