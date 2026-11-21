@@ -29,9 +29,18 @@
 #include <cstdlib>
 #include <cstring>
 #include "basalt/log.hpp"
+#include "basalt/core/diag.hpp"
 
 namespace basalt::kernels {
 namespace {
+
+// E9.1: the expert blob is streamed once per round and never re-read from L2, so a normal load
+// evicts the resident data that the next round needs. `__ldcs` is the streaming hint; `--exp
+// stream_codes=1` turns it on so the A/B is a flag, not a rebuild.
+__device__ int g_stream_codes = 0;
+__device__ __forceinline__ uint2 load_codes(const uint2* p) {
+    return g_stream_codes ? __ldcs(p) : *p;
+}
 
 // THE BLOB'S OWN GEOMETRY, from `include/basalt/kernels/cpu/expert.hpp`.  Restated as literals because that
 // header is the CPU path's and this file must not silently follow it if the two ever disagree: the sizes below
@@ -770,8 +779,8 @@ __global__ void __launch_bounds__(256) gu_grouped_t_kernel(const unsigned long l
         for (int q = 0; q < GU_CHUNKS; ++q) {
             const int c = lane + 32 * q;
             if (c < NC) {
-                expand_codes(*(const uint2*) (codes + (size_t) c * 8), m0[q]);
-                expand_codes(*(const uint2*) (codes + ROW_GU + (size_t) c * 8), m1[q]);
+                expand_codes(load_codes((const uint2*) (codes + (size_t) c * 8)), m0[q]);
+                expand_codes(load_codes((const uint2*) (codes + ROW_GU + (size_t) c * 8)), m1[q]);
                 dw0[q] = f16_ld(scales + (size_t) (c >> 1) * 2);
                 dw1[q] = f16_ld(scales + SC_GU * 2 + (size_t) (c >> 1) * 2);
             }
@@ -833,8 +842,8 @@ __global__ void __launch_bounds__(256) down_grouped_t_kernel(const unsigned long
         int m0[8], m1[8];
         float dw0 = 0.0f, dw1 = 0.0f;
         if (c < NC) {
-            expand_codes(*(const uint2*) (codes + (size_t) c * 8), m0);
-            expand_codes(*(const uint2*) (codes + ROW_D + (size_t) c * 8), m1);
+            expand_codes(load_codes((const uint2*) (codes + (size_t) c * 8)), m0);
+            expand_codes(load_codes((const uint2*) (codes + ROW_D + (size_t) c * 8)), m1);
             dw0 = f16_ld(scales + (size_t) (c >> 1) * 2);
             dw1 = f16_ld(scales + SC_D * 2 + (size_t) (c >> 1) * 2);
         }
@@ -921,6 +930,12 @@ void moe_grouped_s2(const unsigned long long* grp_ptr, const int32_t* grp_start,
                     const int32_t* ent_dst, const int32_t* ent_tok, int64_t cap_groups, int64_t cap_entries,
                     const uint8_t* x_q8_0, const float* x_scales, void* scratch, float* out, void* stream) {
     if (cap_groups <= 0 || cap_entries <= 0) return;
+    static bool stream_set = false;
+    if (!stream_set) {
+        stream_set = true;
+        const int on = basalt::core::exp_flag("stream_codes", 0.0) != 0.0 ? 1 : 0;
+        cudaMemcpyToSymbol(g_stream_codes, &on, sizeof(int));
+    }
     cudaStream_t cs = (cudaStream_t) stream;
     const uint64_t gu_bytes = ((uint64_t) cap_entries * (uint64_t) (2 * FF) * 4 + 15) & ~15ull;
     const uint64_t q8_bytes = ((uint64_t) cap_entries * (uint64_t) (FF / 32) * 34 + 15) & ~15ull;

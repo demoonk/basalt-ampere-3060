@@ -655,6 +655,9 @@ private:
     GpuPlanSink sink_;
     int route_tail_skip_ = 0;
     float route_prior_ = 0.0f;
+    /// --exp solo_stage=1: a single-token window also stages a share of its CPU misses into the staging arena over
+    /// PCIe, the way a batch window does (see `dm_init`'s cost model).
+    bool solo_stage_ = false;
     uint32_t cur_layer_ = 0;
     static void publish_plan(void* ctx);
     void set_plan_slot();

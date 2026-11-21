@@ -207,17 +207,28 @@ bool Verifier::dm_init(std::string& err) {
         (int) std::min<int64_t>(kDmStageMax, (int64_t) (kStagingBlobs * (int64_t) lay.max_blob) / stride);
     if (stage && stage_slots >= 1) {
         // per layer: the pool's experts after its doorbell, the staged ones after the copy, their own launches and
-        // the combine's wait for them
-        constexpr double kPoolBytesPerUs = 45e3, kLinkBytesPerUs = 18e3, kPoolFixUs = 15.0, kStageFixUs = 35.0;
+        // the combine's wait for them.  The bytes-per-microsecond rates are the ones this machine actually measured
+        // (the pool reads its rows at ~12.5 GB/s, the link at the probe's ~13.1), not the 45/18 defaults; --exp
+        // stage_cpu_gbps / stage_link_gbps / stage_gpu_us override them, and stage_gpu_us is the GPU's own FFN time
+        // for a staged expert, which the old model did not count at all.
+        const double kPoolBytesPerUs = (double) basalt::core::exp_flag("stage_cpu_gbps", 12) * 1e3;
+        const double kLinkBytesPerUs = (double) basalt::core::exp_flag("stage_link_gbps", 13) * 1e3;
+        const double kStageGpuUs = (double) basalt::core::exp_flag("stage_gpu_us", 250.0);
+        constexpr double kPoolFixUs = 15.0, kStageFixUs = 35.0;
         const double cpu_us = (double) blob / kPoolBytesPerUs, link_us = (double) blob / kLinkBytesPerUs;
         std::vector<int32_t> kt((size_t) kDmCap + 1, 0);
         for (int m = 1; m <= kDmCap; ++m) {
             double best = kPoolFixUs + m * cpu_us;
             for (int k = 1; k <= std::min(m, stage_slots); ++k) {
-                const double t = std::max(kPoolFixUs + (m - k) * cpu_us, kStageFixUs + k * link_us);
+                const double t = std::max(kPoolFixUs + (m - k) * cpu_us, kStageFixUs + k * link_us) + k * kStageGpuUs;
                 if (t < best) { best = t; kt[(size_t) m] = k; }
             }
         }
+        solo_stage_ = basalt::core::exp_flag("solo_stage", 0) != 0;
+        if (solo_stage_)
+            basalt::log::info("basalt verify", "solo staging: a single window stages its CPU misses "
+                                             "(pool %d GB/s, link %d GB/s, a staged expert's GPU FFN %d us, %d slots)",
+                             (int) (kPoolBytesPerUs / 1e3), (int) (kLinkBytesPerUs / 1e3), (int) kStageGpuUs, stage_slots);
         int st_least = 0, st_greatest = 0;   // the copy's blocks go first as the FFN read's leave the SMs
         bool sok = cudaMalloc((void**) &d->stage_src, (size_t) LE * 8) == cudaSuccess &&
                    cudaMemset(d->stage_src, 0, (size_t) LE * 8) == cudaSuccess &&

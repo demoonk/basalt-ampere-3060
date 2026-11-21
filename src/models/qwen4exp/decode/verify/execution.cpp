@@ -84,6 +84,7 @@ bool Verifier::run_begin(int T, const int32_t* tokens, int64_t pos0, std::string
     if (T < 1 || T > max_t_) { err = "verify: window size out of range"; return false; }
     if (released_.load()) { err = "verify: an earlier window never finished on the GPU; restart the engine"; return false; }
     if (wait_abort_code() != 0) { err = "verify: a device wait timed out in an earlier window; restart the engine"; return false; }
+    if (dm_ != nullptr && solo_stage_ && !dm_stage_places(err)) return false;   // --exp solo_stage=1
     const ModelGeometry& g = *g_;
     SessionState& ss = *ss_;
     if (pos0 + T > ss.qsa_states[ss.qsa_primary()].max_cells) { err = "verify: the window runs past the context"; return false; }
