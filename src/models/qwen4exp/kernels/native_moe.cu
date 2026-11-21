@@ -188,6 +188,7 @@ __global__ void dm_combine4_kernel(const float* __restrict__ parts, const float*
         h = make_float4(sh_mul(h.x, gt), sh_mul(h.y, gt), sh_mul(h.z, gt), sh_mul(h.w, gt));
     if constexpr (DEP) pdl_wait();
     bool pmark = false;
+    bool gave_up = false;
     if constexpr (WAITC) {
         // as the wait kernel: every row after the pool's word when the layer has CPU entries (the peers' rows are not
         // polled while the pool reads its experts).  cpu_seen only ever steps through a window's rings in order, so
@@ -197,7 +198,7 @@ __global__ void dm_combine4_kernel(const float* __restrict__ parts, const float*
         if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0) {
             if (cpu) {
                 st_release_gpu(cpu_seen, ring | 0x80000000u);   // waiting for the pool
-                spin_ge(cpu_done, ring, abort, kWaitCombine, 4);
+                if (!spin_ge(cpu_done, ring, abort, kWaitCombine, 4)) gave_up = true;   // the pool's word never came
                 __threadfence_system();
             }
             st_release_gpu(cpu_seen, pmark ? ring | 0x40000000u : ring);   // (pmark: waiting for the peers' rows)
@@ -206,8 +207,10 @@ __global__ void dm_combine4_kernel(const float* __restrict__ parts, const float*
             unsigned long long elapsed = 0;
             while (ld_acquire_gpu(cpu_seen) != ring) {
                 if (abort != nullptr &&
-                    wait_give_up(abort, elapsed, kWaitGiveUpNs, wait_abort_code_of(kWaitCombine, 5, 0u, blockIdx.x)))
+                    wait_give_up(abort, elapsed, kWaitGiveUpNs, wait_abort_code_of(kWaitCombine, 5, 0u, blockIdx.x))) {
+                    gave_up = true;
                     break;
+                }
                 __nanosleep(32);
                 elapsed += 32;
             }
@@ -218,7 +221,11 @@ __global__ void dm_combine4_kernel(const float* __restrict__ parts, const float*
     for (int j = 0; j < KM; ++j) {
         if (j >= k) break;
         const int kd = s_kind[j];
-        if ((unsigned) kd > 1u && !(TAG && kd >= 2)) v[j] = __ldcv(mapped_row(j, kd));
+        if ((unsigned) kd > 1u && !(TAG && kd >= 2)) {
+            // a window whose pool word never arrived has rows nobody wrote: summing them would mix the
+            // previous window's bytes into a result the host is about to discard
+            v[j] = gave_up ? make_float4(0.f, 0.f, 0.f, 0.f) : __ldcv(mapped_row(j, kd));
+        }
     }
     if constexpr (TAG) {
         // a peer row still holding the tag word is read again until none is; a released window (tag_done past ring)
@@ -241,10 +248,15 @@ __global__ void dm_combine4_kernel(const float* __restrict__ parts, const float*
                 if ((++spins & 63u) == 0u && *tag_done >= ring) { __threadfence_system(); rel = true; }
                 if (abort != nullptr && (spins & 2047u) == 0u &&
                     wait_give_up(abort, (unsigned long long) spins * 250ull, kWaitGiveUpNs,
-                                 wait_abort_code_of(kWaitTagPoll, (unsigned) j, 0u, blockIdx.x)))
+                                 wait_abort_code_of(kWaitTagPoll, (unsigned) j, 0u, blockIdx.x))) {
+                    gave_up = true;
                     break;
+                }
                 v[j] = __ldcv(src);
             }
+            // a row whose writer never arrived still holds the tag word; adding it to the sum is a
+            // 4e16-sized float, so a discarded window contributes zeroes instead
+            if (gave_up && waiting(v[j])) v[j] = make_float4(0.f, 0.f, 0.f, 0.f);
             if (spins > 0) {
 #pragma unroll
                 for (int i = j + 1; i < KM; ++i) {
