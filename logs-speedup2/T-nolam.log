@@ -1,0 +1,54 @@
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 expert-cache=3400 mmap-experts adapt-swaps=0 prefill=8192 ctx=131072 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21176 experts on SSD (27.3 GiB) · free 27.3 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.0GiB 5.1s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2080/13044 368t/s 6s
+[server] s1 read  pp=4021/13044 350t/s 12s
+[server] s1 read  pp=5546/13044 310t/s 18s
+[server] s1 read  pp=8384/13044 361t/s 23s
+[server] s1 read  pp=12507/13044 437t/s 29s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=41/600 18.6t/s | total 19t/s
+[server] live | s1 tg=90/600 21.0t/s | total 21t/s
+[server] live | s1 tg=132/600 20.5t/s | total 20t/s
+[server] live | s1 tg=195/600 22.4t/s | total 22t/s
+[server] live | s1 tg=248/600 23.0t/s | total 23t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=304/600 23.5t/s | total 23t/s
+[server] s1 done  pp=13044/0c 0.0s 130440000t/s  tg=330 19.1t/s acc=77% dl=2.8  ttft=30.8s  end=stop  hit=28.9%  pcie=0.0%
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] live | s1 tg=19/600 22.5t/s | total 22t/s
+[server] live | s1 tg=72/600 23.9t/s | total 24t/s
+[server] live | s1 tg=120/600 23.5t/s | total 23t/s
+[server] live | s1 tg=180/600 25.0t/s | total 25t/s
+[server] live | s1 tg=235/600 25.3t/s | total 25t/s
+[server] live | s1 tg=288/600 25.3t/s | total 25t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 22.1t/s | total 22t/s
+[server] live | s1 tg=308/600 19.4t/s | total 19t/s
+[server] s1 done  pp=13044/13039c 3.7s  tg=335 23.3t/s acc=78% dl=2.7  ttft=0.2s  end=stop  hit=30.1%  pcie=0.0%
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] live | s1 tg=19/600 22.5t/s | total 23t/s
+[server] live | s1 tg=70/600 23.7t/s | total 24t/s
+[server] live | s1 tg=121/600 24.1t/s | total 24t/s
+[server] live | s1 tg=181/600 25.1t/s | total 25t/s
+[server] live | s1 tg=236/600 25.4t/s | total 25t/s
+[server] live | s1 tg=294/600 25.8t/s | total 26t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 22.4t/s | total 22t/s
+[server] live | s1 tg=305/600 19.5t/s | total 20t/s
+[server] s1 done  pp=13044/13039c 3.7s  tg=337 25.4t/s acc=90% dl=2.6  ttft=0.2s  end=stop  hit=30.1%  pcie=0.0%
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] live | s1 tg=19/600 22.7t/s | total 23t/s
+[server] live | s1 tg=72/600 24.0t/s | total 24t/s
+[server] error: engine reported verify: layer 3 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=13044/0c  tg=106 23.9t/s  ttft=0.2s  end=error

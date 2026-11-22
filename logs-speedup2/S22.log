@@ -1,0 +1,100 @@
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=131072 expert-cache=3400 mmap-experts adapt-swaps=0 route-prior=1 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21176 experts on SSD (27.3 GiB) · free 27.3 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.0GiB 5.2s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 250 tokens, output cap 500 (answer-room auto)
+[server] s1 read  pp=2010/29564 391t/s 5s
+[server] s1 read  pp=4485/29564 415t/s 11s
+[server] s1 read  pp=6650/29564 419t/s 16s
+[server] s1 read  pp=9744/29564 458t/s 21s
+[server] s1 read  pp=13456/29564 511t/s 26s
+[server] s1 read  pp=17322/29564 548t/s 32s
+[server] s1 read  pp=21034/29564 574t/s 37s
+[server] s1 read  pp=24701/29564 592t/s 42s
+basalt: error: prefill copy_i32: an illegal memory access was encountered
+basalt crash: error: EXCEPTION_ACCESS_VIOLATION (0xC0000005) at 0x7FF6542C6C64 (read from 0x68) in reading the prompt (batched): layer (24) chunk 22272, 2659 MiB RSS, 53796 MiB RAM free
+basalt crash: error: backtrace: 0x7FF6542D310D 0x7FF6542D2342 0x7FFD45CFFAA3 0x7FFD4883F8FD 0x7FFD487F7733 0x7FFD4883AB3F 0x7FFD48796985 0x7FFD4883A47E 0x7FF6542C6C64 0x7FF653E0C3BA 0x7FF653E09231 0x7FFD461CCD30 0x7FFD4772DDA7 0x7FFD48799C5C
+[server] warning: the engine ended (no exit status), last error in its log: basalt crash: error: backtrace: 0x7FF6542D310D 0x7FF6542D2342 0x7FFD45CFFAA3 0x7FFD4883F8FD 0x7FFD487F7733 0x7FFD4883AB3F 0x7FFD48796985 0x7FFD4883A47E 0x7FF6542C6C64 0x7FF653E0C3BA 0x7FF653E09231 0x7FFD461CCD30 0x7FFD4772DDA7 0x7FFD48799C5C (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=29564/0c  tg=0  end=error
+[server] warning: the engine exited (code 1), last error in its log: basalt crash: error: backtrace: 0x7FF6542D310D 0x7FF6542D2342 0x7FFD45CFFAA3 0x7FFD4883F8FD 0x7FFD487F7733 0x7FFD4883AB3F 0x7FFD48796985 0x7FFD4883A47E 0x7FF6542C6C64 0x7FF653E0C3BA 0x7FF653E09231 0x7FFD461CCD30 0x7FFD4772DDA7 0x7FFD48799C5C, restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21176 experts on SSD (27.3 GiB) · free 27.3 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.0GiB 5.2s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 250 tokens, output cap 500 (answer-room auto)
+[server] s1 read  pp=2010/29564 372t/s 5s
+[server] s1 read  pp=4176/29564 393t/s 11s
+[server] s1 read  pp=6496/29564 403t/s 16s
+[server] s1 read  pp=9898/29564 455t/s 22s
+[server] s1 read  pp=13610/29564 506t/s 27s
+[server] s1 read  pp=17168/29564 536t/s 32s
+[server] s1 read  pp=20570/29564 552t/s 37s
+[server] s1 read  pp=24245/29564 569t/s 43s
+[server] s1 read  pp=27585/29564 577t/s 48s
+[server] live | s1 tg=1/500 | total 0t/s
+[server] live | s1 tg=56/500 25.4t/s | total 25t/s
+[server] live | s1 tg=113/500 26.2t/s | total 26t/s
+[server] live | s1 tg=188/500 29.4t/s | total 29t/s
+[server] thinking budget reached (250 tokens), wrapping up
+[server] live | s1 tg=255/500 30.1t/s | total 30t/s
+[server] s1 done  pp=29564/0c 0.0s 295640000t/s  tg=293 24.1t/s acc=60% dl=2.6  ttft=52.2s  end=stop  hit=65.0%  pcie=0.0%
+[server] thinking budget 250 tokens, output cap 500 (answer-room auto)
+[server] s1 read  pp=26138/59064 725t/s 5s
+[server] s1 read  pp=29696/59064 715t/s 10s
+[server] s1 read  pp=33408/59064 705t/s 16s
+[server] s1 read  pp=37274/59064 715t/s 21s
+[server] s1 read  pp=40522/59064 695t/s 26s
+[server] s1 read  pp=44080/59064 684t/s 32s
+[server] s1 read  pp=47946/59064 694t/s 37s
+basalt: error: prefill copy_i32: an illegal memory access was encountered
+basalt crash: error: EXCEPTION_ACCESS_VIOLATION (0xC0000005) at 0x7FF6542C6C64 (read from 0x68) in reading the prompt (batched): layer (29) chunk 44544, 13785 MiB RSS, 45488 MiB RAM free
+basalt crash: error: backtrace: 0x7FF6542D310D 0x7FF6542D2342 0x7FFD45CFFAA3 0x7FFD4883F8FD 0x7FFD487F7733 0x7FFD4883AB3F 0x7FFD48796985 0x7FFD4883A47E 0x7FF6542C6C64 0x7FF653E0C3BA 0x7FF653E09231 0x7FFD461CCD30 0x7FFD4772DDA7 0x7FFD48799C5C
+[server] warning: the engine ended (no exit status), last error in its log: basalt crash: error: backtrace: 0x7FF6542D310D 0x7FF6542D2342 0x7FFD45CFFAA3 0x7FFD4883F8FD 0x7FFD487F7733 0x7FFD4883AB3F 0x7FFD48796985 0x7FFD4883A47E 0x7FF6542C6C64 0x7FF653E0C3BA 0x7FF653E09231 0x7FFD461CCD30 0x7FFD4772DDA7 0x7FFD48799C5C (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=59064/0c  tg=0  end=error
+[server] warning: the engine exited (code 1), last error in its log: basalt crash: error: backtrace: 0x7FF6542D310D 0x7FF6542D2342 0x7FFD45CFFAA3 0x7FFD4883F8FD 0x7FFD487F7733 0x7FFD4883AB3F 0x7FFD48796985 0x7FFD4883A47E 0x7FF6542C6C64 0x7FF653E0C3BA 0x7FF653E09231 0x7FFD461CCD30 0x7FFD4772DDA7 0x7FFD48799C5C, restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21176 experts on SSD (27.3 GiB) · free 27.3 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.0GiB 5.1s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 250 tokens, output cap 500 (answer-room auto)
+[server] s1 read  pp=2010/59064 394t/s 5s
+[server] s1 read  pp=4485/59064 418t/s 11s
+[server] s1 read  pp=6960/59064 431t/s 16s
+[server] s1 read  pp=10826/59064 503t/s 22s
+[server] s1 read  pp=15002/59064 561t/s 27s
+[server] s1 read  pp=19178/59064 597t/s 32s
+[server] s1 read  pp=23354/59064 625t/s 37s
+[server] s1 read  pp=27530/59064 644t/s 43s
+[server] s1 read  pp=31706/59064 659t/s 48s
+[server] s1 read  pp=35882/59064 672t/s 53s
+[server] s1 read  pp=40058/59064 681t/s 59s
+[server] s1 read  pp=44234/59064 690t/s 64s
+basalt: error: prefill copy_i32: an illegal memory access was encountered
+basalt crash: error: EXCEPTION_ACCESS_VIOLATION (0xC0000005) at 0x7FF6542C6C64 (read from 0x68) in reading the prompt (batched): layer (1) chunk 44544, 2602 MiB RSS, 56306 MiB RAM free
+basalt crash: error: backtrace: 0x7FF6542D310D 0x7FF6542D2342 0x7FFD45CFFAA3 0x7FFD4883F8FD 0x7FFD487F7733 0x7FFD4883AB3F 0x7FFD48796985 0x7FFD4883A47E 0x7FF6542C6C64 0x7FF653E0C3BA 0x7FF653E09231 0x7FFD461CCD30 0x7FFD4772DDA7 0x7FFD48799C5C
+[server] warning: the engine ended (no exit status), last error in its log: basalt crash: error: backtrace: 0x7FF6542D310D 0x7FF6542D2342 0x7FFD45CFFAA3 0x7FFD4883F8FD 0x7FFD487F7733 0x7FFD4883AB3F 0x7FFD48796985 0x7FFD4883A47E 0x7FF6542C6C64 0x7FF653E0C3BA 0x7FF653E09231 0x7FFD461CCD30 0x7FFD4772DDA7 0x7FFD48799C5C (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=59064/0c  tg=0  end=error

@@ -1,0 +1,19 @@
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=32768 expert-cache=auto mmap-experts adapt-swaps=0 route-prior=1 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: only 342 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 20194 experts on SSD (26.0 GiB) · free 26.0 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.2GiB 6.0s
+[server] kv       0.6GiB cuda0 solo=32768 draft=0.0GiB
+[server] weights  loaded, ctx=32768 images=off
+[server] thinking budget 200 tokens, output cap 400 (answer-room auto)
+basalt: error: prefill gr_write_norm_rs: an illegal memory access was encountered
+[server] warning: the engine ended (no exit status), last error in its log: basalt: error: prefill gr_write_norm_rs: an illegal memory access was encountered (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=11274/0c  tg=0  end=error

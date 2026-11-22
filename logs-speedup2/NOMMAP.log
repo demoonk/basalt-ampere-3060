@@ -1,0 +1,60 @@
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=131072 expert-cache=3400 adapt-swaps=0 route-prior=1 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     ram-experts=31.6GB pool-affinity=auto pool=7
+[server] loading model weights [========>               ]  12.4/35.2 GiB  2403 MB/s
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] loaded   35.2GiB 17.3s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=6656/13044 1267t/s 5s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=75/600 37.1t/s | total 37t/s
+[server] error: engine reported verify: layer 3 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=13044/0c  tg=148 38.7t/s  ttft=10.3s  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 3 never rang (an illegal memory access was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     ram-experts=31.6GB pool-affinity=auto pool=7
+[server] loading model weights [========>               ]  12.8/35.2 GiB  2408 MB/s
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] loaded   35.2GiB 17.0s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=6656/13044 1316t/s 5s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=73/600 36.3t/s | total 36t/s
+[server] live | s1 tg=153/600 37.9t/s | total 38t/s
+[server] live | s1 tg=249/600 40.3t/s | total 40t/s
+[server] error: engine reported verify: layer 42 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=13044/0c  tg=264 40.2t/s  ttft=10.1s  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 42 never rang (an illegal memory access was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     ram-experts=31.6GB pool-affinity=auto pool=7
+[server] loading model weights [========>               ]  12.8/35.2 GiB  2562 MB/s
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] loaded   35.2GiB 18.7s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=6656/13044 1237t/s 5s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=93/600 44.6t/s | total 45t/s
+[server] live | s1 tg=181/600 43.2t/s | total 43t/s
+[server] live | s1 tg=281/600 45.2t/s | total 45t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] s1 done  pp=13044/0c 0.0s 130440000t/s  tg=340 35.2t/s acc=76% dl=3.0  ttft=10.4s  end=stop  hit=66.2%  pcie=0.0%

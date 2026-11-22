@@ -1,0 +1,23 @@
+-- basalt: CUDA arch 86
+-- basalt: models qwen4exp
+-- Configuring done (6.5s)
+-- Generating done (0.5s)
+-- Build files have been written to: C:/Neurolib/Tools/basalt-ampere-3060/build-3060
+ninja: Entering directory `build-3060'
+[1/7] Refreshing the commit stamp
+[2/7] Building CUDA object CMakeFiles\model_qwen4exp_kernels.dir\src\models\qwen4exp\kernels\native_moe.cu.obj
+native_moe.cu
+[3/7] Linking CXX static library model_qwen4exp_kernels.lib
+[4/7] Linking CXX executable basalt-gguf.exe
+[5/7] Linking CXX executable C:\Neurolib\Tools\basalt-ampere-3060\bin\basalt.exe
+[6/7] Building CXX object CMakeFiles\basalt-bench.dir\src\program\bench_main.cpp.obj
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(179): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(180): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(181): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(182): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(185): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(194): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(209): warning C4324: 'basalt::kernels::cpu::ExpertPool::FusedExpert': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\src\program\bench_main.cpp(506): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Neurolib\Tools\basalt-ampere-3060\src\program\bench_main.cpp(1294): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+[7/7] Linking CXX executable C:\Neurolib\Tools\basalt-ampere-3060\bin\basalt-bench.exe

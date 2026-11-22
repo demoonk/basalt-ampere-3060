@@ -1,0 +1,75 @@
+-- basalt: CUDA arch 86
+-- basalt: models qwen4exp
+-- Configuring done (5.7s)
+-- Generating done (0.4s)
+-- Build files have been written to: C:/Neurolib/Tools/basalt-ampere-3060/build-3060
+ninja: Entering directory `build-3060'
+[1/22] Building CUDA object CMakeFiles\kernels.dir\src\kernels\cuda\wait_abort.cu.obj
+wait_abort.cu
+[2/22] Building CUDA object CMakeFiles\kernels.dir\src\kernels\cuda\elementwise.cu.obj
+elementwise.cu
+[3/22] Linking CXX static library kernels.lib
+[4/22] Building CUDA object CMakeFiles\model_qwen4exp_kernels.dir\src\models\qwen4exp\kernels\native_moe.cu.obj
+native_moe.cu
+[5/22] Building CXX object CMakeFiles\model_qwen4exp_engine.dir\src\models\qwen4exp\decode\verify\batch_execution.cpp.obj
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(179): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(180): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(181): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(182): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(185): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(194): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(209): warning C4324: 'basalt::kernels::cpu::ExpertPool::FusedExpert': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\src\models\qwen4exp\decode\verify\cpu_warm.hpp(31): warning C4324: 'basalt::core::CpuWarm': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\src\models\qwen4exp\decode\verify\cpu_warm.hpp(32): warning C4324: 'basalt::core::CpuWarm': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/platform/compiler.hpp(79): warning C4556: value of intrinsic immediate argument '8' is out of range '0 - 7'
+[6/22] Building CXX object CMakeFiles\model_qwen4exp_engine.dir\src\models\qwen4exp\decode\verify\diagnostics.cpp.obj
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(179): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(180): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(181): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(182): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(185): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(194): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(209): warning C4324: 'basalt::kernels::cpu::ExpertPool::FusedExpert': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\src\models\qwen4exp\decode\verify\cpu_warm.hpp(31): warning C4324: 'basalt::core::CpuWarm': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\src\models\qwen4exp\decode\verify\cpu_warm.hpp(32): warning C4324: 'basalt::core::CpuWarm': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/platform/compiler.hpp(79): warning C4556: value of intrinsic immediate argument '8' is out of range '0 - 7'
+[7/22] Building CXX object CMakeFiles\engine_session.dir\src\program\gpu_select.cpp.obj
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/core/gpu_arch.hpp(17): warning C4100: 'minor': unreferenced parameter
+C:\Neurolib\Tools\basalt-ampere-3060\src\program\gpu_select.cpp(308): warning C4996: 'getenv': This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+[8/22] Linking CXX static library engine_session.lib
+[9/22] Building CXX object CMakeFiles\model_qwen4exp_engine.dir\src\models\qwen4exp\decode\verify\execution.cpp.obj
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(179): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(180): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(181): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(182): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(185): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(194): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(209): warning C4324: 'basalt::kernels::cpu::ExpertPool::FusedExpert': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\src\models\qwen4exp\decode\verify\cpu_warm.hpp(31): warning C4324: 'basalt::core::CpuWarm': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\src\models\qwen4exp\decode\verify\cpu_warm.hpp(32): warning C4324: 'basalt::core::CpuWarm': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/platform/compiler.hpp(79): warning C4556: value of intrinsic immediate argument '8' is out of range '0 - 7'
+[10/22] Refreshing the commit stamp
+[11/21] Linking CXX executable basalt-load.exe
+[12/21] Building CXX object CMakeFiles\model_qwen4exp_engine.dir\src\models\qwen4exp\decode\verify\lifecycle.cpp.obj
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(179): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(180): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(181): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(182): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(185): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(194): warning C4324: 'basalt::kernels::cpu::ExpertPool': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/kernels/cpu/pool.hpp(209): warning C4324: 'basalt::kernels::cpu::ExpertPool::FusedExpert': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\src\models\qwen4exp\decode\verify\cpu_warm.hpp(31): warning C4324: 'basalt::core::CpuWarm': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\src\models\qwen4exp\decode\verify\cpu_warm.hpp(32): warning C4324: 'basalt::core::CpuWarm': structure was padded due to alignment specifier
+C:\Neurolib\Tools\basalt-ampere-3060\include\basalt/platform/compiler.hpp(79): warning C4556: value of intrinsic immediate argument '8' is out of range '0 - 7'
+[13/21] Building CUDA object CMakeFiles\model_qwen4exp_kernels.dir\src\models\qwen4exp\kernels\verify_kernels.cu.obj
+verify_kernels.cu
+[14/21] Building CUDA object CMakeFiles\model_qwen4exp_kernels.dir\src\models\qwen4exp\kernels\mid_chain.cu.obj
+mid_chain.cu
+[15/21] Building CUDA object CMakeFiles\model_qwen4exp_kernels.dir\src\models\qwen4exp\kernels\dec_moe.cu.obj
+dec_moe.cu
+[16/21] Linking CXX static library model_qwen4exp_kernels.lib
+[17/21] Linking CXX static library model_qwen4exp_engine.lib
+[18/21] Linking CXX executable basalt-gguf.exe
+[19/21] Linking CXX executable C:\Neurolib\Tools\basalt-ampere-3060\bin\basalt.exe
+[20/21] Linking CXX executable C:\Neurolib\Tools\basalt-ampere-3060\bin\basalt-probe.exe
+[21/21] Linking CXX executable C:\Neurolib\Tools\basalt-ampere-3060\bin\basalt-bench.exe

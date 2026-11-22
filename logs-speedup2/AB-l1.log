@@ -1,0 +1,43 @@
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=131072 expert-cache=3400 mmap-experts adapt-swaps=0 route-prior=1 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21176 experts on SSD (27.3 GiB) · free 27.3 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.0GiB 5.2s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 250 tokens, output cap 500 (answer-room auto)
+[server] s1 read  pp=1962/11274 354t/s 6s
+[server] s1 read  pp=3680/11274 346t/s 11s
+[server] s1 read  pp=5642/11274 350t/s 16s
+[server] s1 read  pp=8802/11274 407t/s 22s
+[server] s1 read  pp=11273/11274 400t/s 28s
+[server] live | s1 tg=19/500 18.0t/s | total 18t/s
+[server] live | s1 tg=74/500 23.7t/s | total 24t/s
+[server] live | s1 tg=130/500 25.1t/s | total 25t/s
+[server] live | s1 tg=195/500 27.1t/s | total 27t/s
+[server] thinking budget reached (250 tokens), wrapping up
+[server] live | s1 tg=255/500 27.2t/s | total 27t/s
+[server] s1 done  pp=11274/0c 0.0s 112740000t/s  tg=293 21.0t/s acc=77% dl=2.5  ttft=28.2s  end=stop  hit=65.5%  pcie=0.0%
+[server] thinking budget 250 tokens, output cap 500 (answer-room auto)
+[server] live | s1 tg=23/500 28.5t/s | total 29t/s
+[server] live | s1 tg=94/500 32.1t/s | total 32t/s
+[server] live | s1 tg=173/500 34.1t/s | total 34t/s
+[server] live | s1 tg=250/500 34.9t/s | total 35t/s
+[server] thinking budget reached (250 tokens), wrapping up
+[server] s1 done  pp=11274/11269c 0.0s  tg=293 27.5t/s acc=87% dl=2.6  ttft=0.2s  end=stop  hit=64.3%  pcie=0.0%
+[server] thinking budget 250 tokens, output cap 500 (answer-room auto)
+[server] live | s1 tg=29/500 33.9t/s | total 34t/s
+[server] live | s1 tg=98/500 33.6t/s | total 34t/s
+[server] live | s1 tg=173/500 34.5t/s | total 34t/s
+[server] thinking budget reached (250 tokens), wrapping up
+[server] live | s1 tg=253/500 34.6t/s | total 35t/s
+[server] live | s1 tg=253/500 26.7t/s | total 27t/s
+[server] live | s1 tg=253/500 21.6t/s | total 22t/s
+[server] s1 done  pp=11274/11269c 5.0s  tg=289 29.7t/s acc=78% dl=2.6  ttft=0.2s  end=stop  hit=66.4%  pcie=0.0%

@@ -1,0 +1,67 @@
+Free RAM before start: 58 GiB
+Starting Basalt on http://127.0.0.1:8105/v1  (ctx 131072, spec 4, route-prior 1, mmap experts)
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=131072 expert-cache=3400 mmap-experts adapt-swaps=0 route-prior=1 prefill=8192 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21176 experts on SSD (27.3 GiB) · free 27.3 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.0GiB 5.1s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2080/13044 369t/s 6s
+[server] s1 read  pp=4298/13044 386t/s 11s
+[server] s1 read  pp=6517/13044 396t/s 16s
+[server] s1 read  pp=9980/13044 459t/s 22s
+[server] s1 read  pp=13043/13044 476t/s 27s
+[server] live | s1 tg=23/600 22.7t/s | total 23t/s
+[server] live | s1 tg=82/600 26.5t/s | total 27t/s
+[server] live | s1 tg=154/600 29.3t/s | total 29t/s
+[server] live | s1 tg=236/600 32.1t/s | total 32t/s
+[server] live | s1 tg=299/600 31.8t/s | total 32t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 25.7t/s | total 26t/s
+[server] live | s1 tg=304/600 21.9t/s | total 22t/s
+[server] s1 done  pp=13044/0c 4.3s 3021t/s  tg=338 33.5t/s acc=91% dl=2.4  ttft=27.5s  end=stop  hit=65.5%  pcie=0.0%
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] live | s1 tg=28/600 32.6t/s | total 33t/s
+[server] live | s1 tg=101/600 34.8t/s | total 35t/s
+[server] live | s1 tg=190/600 37.4t/s | total 37t/s
+[server] live | s1 tg=273/600 38.2t/s | total 38t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 31.1t/s | total 31t/s
+[server] live | s1 tg=303/600 25.6t/s | total 26t/s
+[server] s1 done  pp=13044/13039c 4.2s  tg=339 35.9t/s acc=88% dl=2.5  ttft=0.2s  end=stop  hit=67.2%  pcie=0.0%
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] live | s1 tg=30/600 34.0t/s | total 34t/s
+[server] live | s1 tg=100/600 33.8t/s | total 34t/s
+[server] live | s1 tg=188/600 37.2t/s | total 37t/s
+[server] error: engine reported verify: layer 23 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=13044/0c  tg=240 38.4t/s  ttft=0.2s  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 23 never rang (an illegal memory access was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21176 experts on SSD (27.3 GiB) · free 27.3 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.0GiB 5.1s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2080/13044 370t/s 6s
+[server] s1 read  pp=4298/13044 389t/s 11s
+[server] s1 read  pp=6517/13044 400t/s 16s
+[server] s1 read  pp=10379/13044 481t/s 22s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=59/600 27.4t/s | total 27t/s
+[server] error: engine reported verify: layer 31 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=13044/0c  tg=92 27.1t/s  ttft=26.4s  end=error

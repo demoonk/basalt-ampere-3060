@@ -1,0 +1,134 @@
+Free RAM before start: 59.0800170898438 MiB
+Starting Basalt on http://127.0.0.1:8105/v1  (ctx 131072, spec 4, route-prior 1, mmap experts)
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=131072 expert-cache=auto mmap-experts adapt-swaps=0 route-prior=1 prefill=8192 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 19924 experts on SSD (25.7 GiB) · free 25.7 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.6GiB 6.1s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2320/59064 422t/s 6s
+[server] s1 read  pp=4794/59064 445t/s 11s
+[server] s1 read  pp=6960/59064 438t/s 16s
+[server] s1 read  pp=10362/59064 496t/s 21s
+[server] s1 read  pp=15002/59064 578t/s 26s
+[server] s1 read  pp=19642/59064 629t/s 31s
+[server] s1 read  pp=24282/59064 667t/s 36s
+[server] s1 read  pp=29077/59064 697t/s 42s
+[server] s1 read  pp=33562/59064 716t/s 47s
+[server] s1 read  pp=38202/59064 734t/s 52s
+[server] s1 read  pp=42997/59064 747t/s 58s
+[server] s1 read  pp=47482/59064 758t/s 63s
+[server] s1 read  pp=51968/59064 767t/s 68s
+[server] s1 read  pp=56104/59064 770t/s 73s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=70/600 33.7t/s | total 34t/s
+[server] error: engine reported verify: layer 11 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=59064/0c  tg=144 36.7t/s  ttft=77.7s  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 11 never rang (an illegal memory access was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 19924 experts on SSD (25.7 GiB) · free 25.7 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.6GiB 6.1s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2320/59064 418t/s 6s
+[server] s1 read  pp=4794/59064 443t/s 11s
+[server] s1 read  pp=7269/59064 458t/s 16s
+[server] s1 read  pp=11754/59064 557t/s 21s
+[server] s1 read  pp=16394/59064 626t/s 26s
+[server] s1 read  pp=21034/59064 671t/s 31s
+basalt: error: prefill copy_i32: an illegal memory access was encountered
+[server] warning: the engine ended (no exit status), last error in its log: basalt: error: prefill copy_i32: an illegal memory access was encountered (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=59064/0c  tg=0  end=error
+[server] warning: the engine exited (code 1), last error in its log: basalt: error: prefill copy_i32: an illegal memory access was encountered, restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 19924 experts on SSD (25.7 GiB) · free 25.7 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.6GiB 6.1s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2149/100364 419t/s 5s
+[server] s1 read  pp=4794/100364 454t/s 11s
+[server] s1 read  pp=7440/100364 470t/s 16s
+[server] s1 read  pp=12069/100364 567t/s 21s
+[server] s1 read  pp=17194/100364 641t/s 27s
+[server] s1 read  pp=22154/100364 688t/s 32s
+[server] s1 read  pp=26949/100364 720t/s 37s
+[server] s1 read  pp=31744/100364 744t/s 43s
+[server] s1 read  pp=36373/100364 760t/s 48s
+[server] s1 read  pp=41333/100364 776t/s 53s
+[server] s1 read  pp=46293/100364 788t/s 59s
+[server] s1 read  pp=50922/100364 796t/s 64s
+[server] s1 read  pp=55552/100364 805t/s 69s
+[server] s1 read  pp=60181/100364 810t/s 74s
+[server] s1 read  pp=65141/100364 816t/s 80s
+[server] s1 read  pp=69605/100364 820t/s 85s
+[server] s1 read  pp=74069/100364 823t/s 90s
+[server] s1 read  pp=78698/100364 826t/s 95s
+[server] s1 read  pp=82997/100364 828t/s 100s
+[server] s1 read  pp=87626/100364 830t/s 106s
+[server] s1 read  pp=92090/100364 831t/s 111s
+[server] s1 read  pp=96300/100364 830t/s 116s
+[server] s1 read  pp=99184/100364 817t/s 121s
+basalt: error: prefill copy_i32: an illegal memory access was encountered
+[server] warning: the engine ended (no exit status), last error in its log: basalt: error: prefill copy_i32: an illegal memory access was encountered (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=100364/0c  tg=0  end=error
+[server] warning: the engine exited (code 1), last error in its log: basalt: error: prefill copy_i32: an illegal memory access was encountered, restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 19924 experts on SSD (25.7 GiB) · free 25.7 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.6GiB 6.1s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2149/100364 426t/s 5s
+[server] s1 read  pp=4794/100364 457t/s 11s
+[server] s1 read  pp=7440/100364 472t/s 16s
+[server] s1 read  pp=12069/100364 568t/s 21s
+[server] s1 read  pp=17029/100364 642t/s 27s
+[server] s1 read  pp=21989/100364 688t/s 32s
+[server] s1 read  pp=26949/100364 721t/s 37s
+[server] s1 read  pp=31744/100364 746t/s 43s
+[server] s1 read  pp=36373/100364 762t/s 48s
+[server] s1 read  pp=41333/100364 777t/s 53s
+[server] s1 read  pp=46293/100364 789t/s 59s
+[server] s1 read  pp=51253/100364 798t/s 64s
+[server] s1 read  pp=55882/100364 806t/s 69s
+[server] s1 read  pp=60346/100364 811t/s 74s
+[server] s1 read  pp=65141/100364 816t/s 80s
+[server] s1 read  pp=69605/100364 820t/s 85s
+[server] s1 read  pp=74234/100364 823t/s 90s
+[server] s1 read  pp=78698/100364 826t/s 95s
+[server] s1 read  pp=82997/100364 828t/s 100s
+[server] s1 read  pp=87626/100364 830t/s 106s
+[server] s1 read  pp=92090/100364 830t/s 111s
+[server] s1 read  pp=96193/100364 830t/s 116s
+basalt: error: prefill copy_i32: an illegal memory access was encountered
+[server] warning: the engine ended (no exit status), last error in its log: basalt: error: prefill copy_i32: an illegal memory access was encountered (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=100364/0c  tg=0  end=error

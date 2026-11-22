@@ -1,0 +1,97 @@
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=131072 kv-resident=131072 expert-cache=2500 mmap-experts adapt-swaps=0 route-prior=1 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 22076 experts on SSD (28.4 GiB) · free 28.4 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   6.8GiB 4.4s
+[server] kv       1.9GiB cuda0 solo=131072 draft=0.0GiB
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=1525/13044 275t/s 6s
+[server] s1 read  pp=3744/13044 334t/s 11s
+[server] s1 read  pp=5962/13044 355t/s 17s
+[server] s1 read  pp=9182/13044 418t/s 22s
+[server] s1 read  pp=13039/13044 480t/s 27s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=44/600 21.6t/s | total 22t/s
+[server] live | s1 tg=106/600 25.6t/s | total 26t/s
+[server] error: engine reported verify: layer 10 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=13044/0c  tg=166 28.7t/s  ttft=28.6s  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 10 never rang (an illegal memory access was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 22076 experts on SSD (28.4 GiB) · free 28.4 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   6.8GiB 4.3s
+[server] kv       1.9GiB cuda0 solo=131072 draft=0.0GiB
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=1941/13044 371t/s 5s
+[server] s1 read  pp=4160/13044 382t/s 11s
+[server] s1 read  pp=6378/13044 387t/s 16s
+[server] s1 read  pp=9980/13044 459t/s 22s
+[server] s1 read  pp=13043/13044 480t/s 27s
+[server] live | s1 tg=20/600 19.4t/s | total 19t/s
+[server] live | s1 tg=75/600 24.5t/s | total 25t/s
+[server] live | s1 tg=149/600 28.5t/s | total 28t/s
+[server] error: engine reported verify: layer 44 never rang (an illegal instruction was encountered)
+[server] s1 done  pp=13044/0c  tg=161 28.6t/s  ttft=27.3s  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 44 never rang (an illegal instruction was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 22076 experts on SSD (28.4 GiB) · free 28.4 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   6.8GiB 4.3s
+[server] kv       1.9GiB cuda0 solo=131072 draft=0.0GiB
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2165/29564 409t/s 5s
+[server] s1 read  pp=4640/29564 422t/s 11s
+[server] s1 read  pp=7114/29564 429t/s 17s
+[server] s1 read  pp=11290/29564 514t/s 22s
+[server] s1 read  pp=15466/29564 574t/s 27s
+[server] s1 read  pp=19642/29564 615t/s 32s
+[server] s1 read  pp=23790/29564 642t/s 37s
+[server] s1 read  pp=27889/29564 663t/s 42s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=53/600 24.2t/s | total 24t/s
+[server] live | s1 tg=118/600 27.1t/s | total 27t/s
+[server] live | s1 tg=184/600 28.6t/s | total 29t/s
+[server] live | s1 tg=256/600 30.3t/s | total 30t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 28.5t/s | total 28t/s
+[server] live | s1 tg=303/600 23.6t/s | total 24t/s
+[server] live | s1 tg=325/600 21.7t/s | total 22t/s
+[server] s1 done  pp=29564/0c 4.1s 7216t/s  tg=344 26.7t/s acc=67% dl=2.4  ttft=45.6s  end=stop  hit=57.5%  pcie=0.0%
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=26602/59064 843t/s 5s
+[server] s1 read  pp=31242/59064 848t/s 11s
+[server] s1 read  pp=35882/59064 849t/s 16s
+[server] s1 read  pp=40522/59064 847t/s 22s
+[server] s1 read  pp=45162/59064 846t/s 27s
+[server] s1 read  pp=49802/59064 845t/s 33s
+[server] s1 read  pp=53888/59064 841t/s 38s
+[server] s1 read  pp=58320/59064 837t/s 43s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=67/600 31.5t/s | total 32t/s
+[server] live | s1 tg=146/600 34.6t/s | total 35t/s
+[server] live | s1 tg=222/600 35.6t/s | total 36t/s
+[server] live | s1 tg=295/600 35.6t/s | total 36t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 27.7t/s | total 28t/s
+[server] live | s1 tg=315/600 24.1t/s | total 24t/s
+[server] s1 done  pp=59064/22272c 4.0s 9118t/s  tg=338 28.2t/s acc=84% dl=2.5  ttft=44.7s  end=stop  hit=55.3%  pcie=0.0%

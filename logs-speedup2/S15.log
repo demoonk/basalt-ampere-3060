@@ -1,0 +1,90 @@
+SUCCESS: The process with PID 18312 has been terminated.
+ERROR: The process "16684" not found.
+Free RAM before start: 53.0775337219238 MiB
+Starting Basalt on http://127.0.0.1:8105/v1  (ctx 131072, spec 4, route-prior 1, mmap experts)
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=131072 expert-cache=auto mmap-experts adapt-swaps=0 route-prior=1 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: only 91 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 20434 experts on SSD (26.3 GiB) · free 26.3 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.9GiB 6.0s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=1840/11274 326t/s 6s
+[server] s1 read  pp=3557/11274 320t/s 11s
+[server] s1 read  pp=5274/11274 322t/s 16s
+[server] s1 read  pp=7681/11274 358t/s 21s
+[server] s1 read  pp=10035/11274 376t/s 27s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=53/600 25.0t/s | total 25t/s
+[server] live | s1 tg=102/600 24.7t/s | total 25t/s
+[server] live | s1 tg=172/600 27.9t/s | total 28t/s
+[server] live | s1 tg=245/600 29.5t/s | total 30t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 27.8t/s | total 28t/s
+[server] live | s1 tg=303/600 23.0t/s | total 23t/s
+[server] live | s1 tg=303/600 19.7t/s | total 20t/s
+[server] s1 done  pp=11274/0c 5.4s 2092t/s  tg=336 28.2t/s acc=87% dl=2.4  ttft=30.9s  end=stop  hit=70.7%  pcie=0.0%
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] live | s1 tg=27/600 32.9t/s | total 33t/s
+[server] live | s1 tg=93/600 32.3t/s | total 32t/s
+[server] live | s1 tg=161/600 32.5t/s | total 33t/s
+[server] live | s1 tg=239/600 34.2t/s | total 34t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 33.0t/s | total 33t/s
+[server] live | s1 tg=303/600 26.5t/s | total 26t/s
+[server] live | s1 tg=303/600 22.1t/s | total 22t/s
+[server] s1 done  pp=11274/11269c 5.7s  tg=330 25.1t/s acc=62% dl=2.4  ttft=0.2s  end=stop  hit=72.7%  pcie=0.0%
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] live | s1 tg=26/600 33.4t/s | total 33t/s
+[server] live | s1 tg=108/600 37.4t/s | total 37t/s
+[server] live | s1 tg=178/600 35.6t/s | total 36t/s
+[server] live | s1 tg=256/600 36.2t/s | total 36t/s
+[server] error: engine reported verify: layer 21 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=11274/0c  tg=263 36.3t/s  ttft=0.2s  end=error  hit=72.7%  pcie=0.0%
+[server] warning: the engine ended (no exit status), last log line: basalt serve: expert tiers: GPU 12215 hits this request; since the start RAM 0 blobs, files 0 blobs 159259.4 MB read (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=8392/0c  tg=0  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 21 never rang (an illegal memory access was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 20701 experts on SSD (26.7 GiB) · free 26.7 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.6GiB 5.8s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=858/11274 322t/s 13s
+[server] s1 read  pp=858/11274 322t/s 23s
+[server] s1 read  pp=858/11274 322t/s 33s
+basalt: error: prefill copy_i32: an illegal memory access was encountered
+[server] s1 read  pp=858/11274 322t/s 43s
+[server] s1 read  pp=858/11274 322t/s 53s
+[server] s1 read  pp=858/11274 322t/s 63s
+basalt serve: error: no progress for 60 s during a request (reading the prompt (batched): layer 8 of the prompt chunk from token 0) - stopping the engine so the server starts it again
+basalt serve: error: stall report (engine 0.5.0): stage "reading the prompt (batched): layer 8 of the prompt chunk from token 0" for 27 s; 0 layers served since the last finished step (0 = stopped, more = slow)
+  expert pool: epoch 0, batch epoch 0: 0 of 0 jobs claimed, 0 done; 7 of 7 workers parked, 7 sleeping; mode 0
+  expert pool active workers: 7
+  expert pool threads: w0=sleeping w1=sleeping w2=sleeping w3=sleeping w4=sleeping w5=sleeping w6=sleeping; host idle for 70016 ms
+  verify window (last window, not the current stage) (layers 0-47, device 0): 0 tokens at position 0, host at layer step 1; the GPU rang 0; flags: served 0, plan (A) 0, copies (B) 0, hand-off 0
+  device plan: ring 0 published, host flag 0
+  memory: 2697 MiB resident, 9935 MiB in swap, 51026 MiB RAM available; 1248018 major page faults so far
+  2 s later:
+  expert pool: epoch 0, batch epoch 0: 0 of 0 jobs claimed, 0 done; 7 of 7 workers parked, 7 sleeping; mode 0
+  expert pool active workers: 7
+  expert pool threads: w0=sleeping w1=sleeping w2=sleeping w3=sleeping w4=sleeping w5=sleeping w6=sleeping; host idle for 72021 ms
+  verify window (last window, not the current stage) (layers 0-47, device 0): 0 tokens at position 0, host at layer step 1; the GPU rang 0; flags: served 0, plan (A) 0, copies (B) 0, hand-off 0
+  device plan: ring 0 published, host flag 0
+  memory: 2697 MiB resident, 9935 MiB in swap, 51025 MiB RAM available; 1248018 major page faults so far

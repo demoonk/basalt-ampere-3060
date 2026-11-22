@@ -1,0 +1,180 @@
+basalt: system: Windows, CUDA driver 13.5 / runtime 13.5
+basalt: gpus: RTX 3060 (nvidia-smi 0) main
+basalt generate: experts Q2_0/Q2_0, layers 0-47: decode device-planned tail + grouped kernels, prefill MMQ, CPU tier dot
+basalt generate: PCIe probe: 13.2 GB/s host->device (best of 12.9 13.1 13.1 13.2) -> pcie_frac 0.36 (default 0.55)
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt load: planning
+basalt generate: C:\Neurolib\Models\Basalt\GSQ-RCO-Q2_0\Qwen3.8-Flash-Next-GSQ-RCO-Q2_0.basalt experts (largest blob 1.38 MB), token embedding Q3_K in mapped host memory (260 MiB, 0.0 s), its first 8192 rows in VRAM (8.6 MiB)
+basalt generate: profile C:\Neurolib\Tools\basalt-ampere-3060/data/profiles/qwen4exp-48x512.prof: 24576 ranked pairs, built for 24576 slots
+basalt generate: 204 MiB of weights from C:\Neurolib\Models\Basalt\GSQ-RCO-Q2_0\Qwen3.8-Flash-Next-GSQ-RCO-Q2_0.basalt laid out in 0.0 s (497 tensors skipped: served from the source tensors)
+basalt hc8: 194 hyper-connection matrices held only as 8-bit copies (659 MiB of copies) in 0.0 s
+basalt generate: 301 native projection matrices, 1376.20 MiB of weights, in 0.0 s
+basalt generate: the SSD is kept awake while rows are read: one page of the table after 40 ms without a read, until 60 s after the last request 
+basalt generate: PLE on, table 320001536 rows of C:\Neurolib\Models\Basalt\GSQ-RCO-Q2_0\Qwen3.8-Flash-Next-GSQ-RCO-Q2_0.basalt
+basalt load: kv cuda0 186254592 4096 186254592
+basalt hc8: the draft layer's hyper-connection matrices as 8-bit copies only (37.5 MiB of bf16 left out)
+basalt load: kv draft cuda0 4857344 4096 4857344
+basalt mtp: draft layer loaded, 758 MiB of VRAM (experts 675, dense 73), files read in 0.03 s (28694 MiB/s)
+basalt generate: native head: Q5_K, 437043200 bytes, in 0.0 s
+basalt generate: GPU 0: NVIDIA GeForce RTX 3060, compute capability 8.6
+basalt generate: experts via mmap (--mmap-experts)
+basalt hc8: 8-bit hyper-connection copies, 680 MiB of VRAM
+basalt generate: expert cache auto: 7.39 GiB free, 700 MiB reserved (+5 MiB for the draft head, +0 MiB for what loads after) -> 5201 slots
+basalt generate: warning: only 252 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: expert cache 4813 slots, 6.20 GiB of VRAM; policy is
+basalt generate: the GPU computes the experts in the cache; it rounds differently from the CPU,
+                 so a reply can differ slightly from a run without the cache (same quality).
+                 PROFILE, ranked by routing frequency, no eviction.
+basalt generate: pre-filled 4813 of 4813 slots from the profile (6653 MB, read in the start's pass; slot 0 verified after it)
+basalt generate: R4 hit path ON - resident experts are computed on the GPU
+basalt generate: session is up (engine 0.5.0)
+basalt generate: sampling temperature=1 top_k=20 top_p=0.95 seed=42
+basalt generate: token graph hit path: 4813 resident experts, decided on the device
+basalt generate: auto flags: resident 28.4 GB, pool-affinity auto, pool-workers 7
+basalt generate: 7 expert-pool workers + the host thread
+basalt: FileExpertSource: allocating 28.36 GiB page-locked cache complement
+basalt load: total 37838756352
+basalt load: weights 0 37838756352
+basalt load: weights 379873152 37838756352
+basalt load: weights 762636800 37838756352
+basalt load: weights 1144215040 37838756352
+basalt load: weights 1529948160 37838756352
+basalt load: weights 1910064640 37838756352
+basalt load: weights 2292401664 37838756352
+basalt load: weights 2678277632 37838756352
+basalt load: weights 3067299328 37838756352
+basalt load: weights 3446472192 37838756352
+basalt load: weights 3825249792 37838756352
+basalt load: weights 4204027392 37838756352
+basalt load: weights 4582804992 37838756352
+basalt load: weights 4961582592 37838756352
+basalt load: weights 5340360192 37838756352
+basalt load: weights 5719137792 37838756352
+basalt load: weights 6097915392 37838756352
+basalt load: weights 6476692992 37838756352
+basalt load: weights 6855470592 37838756352
+basalt load: weights 7234248192 37838756352
+basalt load: weights 7613025792 37838756352
+basalt load: weights 7991803392 37838756352
+basalt load: weights 8370580992 37838756352
+basalt load: weights 8749358592 37838756352
+basalt load: weights 9128136192 37838756352
+basalt load: weights 9506913792 37838756352
+basalt load: weights 9888456192 37838756352
+basalt load: weights 10272763392 37838756352
+basalt load: weights 10662709812 37838756352
+basalt load: weights 11042469258 37838756352
+basalt load: weights 11425684992 37838756352
+basalt load: weights 11818888774 37838756352
+basalt load: weights 12208311808 37838756352
+basalt load: weights 12593812992 37838756352
+basalt load: weights 12976737792 37838756352
+basalt load: weights 13358310626 37838756352
+basalt load: weights 13743969792 37838756352
+basalt load: weights 14124129792 37838756352
+basalt load: weights 14504052971 37838756352
+basalt load: weights 14885832192 37838756352
+basalt load: weights 15273591996 37838756352
+basalt load: weights 15653084411 37838756352
+basalt load: weights 16031841792 37838756352
+basalt load: weights 16414766592 37838756352
+basalt load: weights 16793544192 37838756352
+basalt load: weights 17172081107 37838756352
+basalt load: weights 17551099392 37838756352
+basalt load: weights 17939553792 37838756352
+basalt load: weights 18320270262 37838756352
+basalt load: weights 18699873792 37838756352
+basalt load: weights 19081416192 37838756352
+basalt load: weights 19460193792 37838756352
+basalt load: weights 19846335726 37838756352
+basalt load: weights 20231572992 37838756352
+basalt load: weights 20613115392 37838756352
+basalt load: weights 20997422592 37838756352
+basalt load: weights 21383112192 37838756352
+basalt load: weights 21761889792 37838756352
+basalt load: weights 22153965056 37838756352
+basalt load: weights 22546879180 37838756352
+basalt load: weights 22928608377 37838756352
+basalt load: weights 23310177792 37838756352
+basalt load: weights 23690337792 37838756352
+basalt load: weights 24069115392 37838756352
+basalt load: weights 24458952192 37838756352
+basalt load: weights 24837729792 37838756352
+basalt load: weights 25227462426 37838756352
+basalt load: weights 25610491392 37838756352
+basalt load: weights 25989268992 37838756352
+basalt load: weights 26370811392 37838756352
+basalt load: weights 26752510805 37838756352
+basalt load: weights 27143572992 37838756352
+basalt load: weights 27530974720 37838756352
+basalt load: weights 27920481792 37838756352
+basalt load: weights 28299259392 37838756352
+basalt load: weights 28687825432 37838756352
+basalt load: weights 29069256192 37838756352
+basalt load: weights 29450798592 37838756352
+basalt load: weights 29835105792 37838756352
+basalt load: weights 30218358651 37838756352
+basalt load: weights 30600955392 37838756352
+basalt load: weights 30981115392 37838756352
+basalt load: weights 31362465280 37838756352
+basalt load: weights 31742817792 37838756352
+basalt load: weights 32128664405 37838756352
+basalt load: weights 32517398425 37838756352
+basalt load: weights 32897121792 37838756352
+basalt load: weights 33281428992 37838756352
+basalt load: weights 33668500992 37838756352
+basalt load: weights 34051425792 37838756352
+basalt load: weights 34430195922 37838756352
+basalt load: weights 34808980992 37838756352
+basalt load: weights 35189140992 37838756352
+basalt load: weights 35576212992 37838756352
+basalt load: weights 35957755392 37838756352
+basalt load: weights 36342062592 37838756352
+basalt load: weights 36726369792 37838756352
+basalt load: weights 37105147392 37838756352
+basalt load: weights 37486085632 37838756352
+basalt: FileExpertSource: cache complement: allocation 10.2 s, registration 0.0 s, 30.45 GB read in the start's pass (unbuffered)
+basalt: FileExpertSource: mapped pinned cache complement ready: resident 28.36 GiB, pinned 28.36 GiB in 27 s; CUDA-pinned through host VMM
+basalt: FileExpertSource: 2264 of the prompt path's 2264 lendable slots keep their experts in RAM too
+basalt generate: resident RAM mode: 28.36 GiB of experts in RAM (page-locked), 4813 in the GPU cache; adaptive swaps exchange them with the GPU cache (no file reads)
+basalt generate: prompt path lends at most 85% of the cache (90% of the expert bytes pinned)
+basalt generate: experts live in VRAM 6.2 GiB (20%), peer GPU 0.0 GiB (0%), RAM 25.4 GiB (80%), file (SSD) 0.0 GiB (0%); 31.6 GiB in all
+basalt generate: prompt chunk auto: 256 tokens
+basalt generate: prompt path borrows 217 cache slots (0.28 GiB)
+basalt generate: 217 lent slots refilled in 24.2 ms
+basalt generate: prefill 37 tokens in 1 chunks, 675.3 ms (54.8 tok/s); experts streamed 1660 (1660 by DMA, host 67.5 ms), resident 1788, on the CPU 2352 (share 0.60); PLE 4.5 ms
+basalt hc: CUDA0: the hyper-connection read runs as staged (the norm per token and stream, the down projection's activations staged ahead by cp.async); checked bit for bit against the plain read on this card
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt verify: side branches at stream priority -5
+basalt verify: the MoE tail planned on the device
+basalt verify: the CPU pool warms its likeliest next-layer expert between doorbells
+basalt verify: window up to 6 tokens, 55.1 MiB of device buffers
+basalt verify: captured the 1-token window (upload no error, sync no error), 0 programmatic dependent launches
+basalt verify: captured the 4-token window (upload no error, sync no error), 0 programmatic dependent launches
+basalt verify: captured the 3-token window (upload no error, sync no error), 0 programmatic dependent launches
+basalt verify: captured the 2-token window (upload no error, sync no error), 0 programmatic dependent launches
+basalt generate: position 155, 118 tokens, 64 rounds
+basalt generate: position 292, 255 tokens, 128 rounds
+basalt verify: captured the 5-token window (upload no error, sync no error), 0 programmatic dependent launches
+basalt generate: position 463, 426 tokens, 192 rounds
+basalt generate: position 606, 569 tokens, 256 rounds
+basalt generate: position 742, 705 tokens, 320 rounds
+basalt generate: position 894, 857 tokens, 384 rounds
+basalt generate: position 1032, 995 tokens, 448 rounds
+basalt generate: position 1157, 1120 tokens, 512 rounds
+speculation              554 rounds of 6, drafts accepted 646 of 966 (0.669), 2.17 tokens per round
+window sizes             T1:57 T2:205 T3:116 T4:175 T5:1 T6:0  (cumulative draft rule)
+suffix drafts            7 windows, drafts accepted 9 of 16
+accepted per round       0:211 1:153 2:77 3:113 4:0 5:0
+verify window            wait for rings 27.120  pool 30.757  host 0.152  commit 0.084 ms/round; CPU experts 5.88 distinct / 7.00 routed per layer
+pool multi               gate/up 20.138  quantize 0.000  down 10.069 ms/round; 13.1 GB/s over the rows phases; CPU pool call 30.705 ms/round
+dispatch                 plan 0.249  activation quantize 0.696  jobs 0.044  run 29.693 ms/round
+adaptive tier            13221 experts swapped into the VRAM tier (every 4 rounds, 1.778 ms/round)
+resident RAM             28.36 GiB of experts in RAM, 5952 exchanged with the VRAM tier, 1 blob reads from the file
+expert tiers             decode: RAM 169463 blobs, files 0 blobs, 0.0 MB read from the files
+pcie experts             0.00 distinct experts per layer read over PCIe (share 93/256 of the misses)
+mtp                      4.089 ms/round drafting (553 rounds), MTP prompt 14.7 ms, 758 MiB of VRAM
+prompt  : 248045 846 198 814 20139 1204 264 417 39100 42103 494 449 87361 4757 11 440 264 6237 3010 314 1754 13 9680 220 21 15 15 4105 13 248046 198 248045 74455 198 248068 271 248069 271
+output  : 332 33 2308 7610 332 321 2972 7041 44 318 2132 12 94096 38754 8 12052 332 513 1330 85188 795 13976 1429 310 9791 3349 28465 383 12977 11 15048 303 30762 13 5788 2107 8940 310 3300 10727 50233 11 781 1684 41080 303 1204 781 3579 13514 11 15339 11 321 795 5638 12261 13 561 6007 28241 14995 303 279 6355 12105 1881 1301 321 3165 4906 25 417 2308 7610 513 32237 364 2972 851 71065 332 944 31600 440 3238 3165 21697 2325 11 19248 87361 12052 513 32237 364 2972 4775 71065 332 944 31600 539 81347 13514 321 687 14029 32145 7289 13 271 13962 561 417 12 6330 4744 271 32 417 39100 369 264 23086 4757 5759 1332 1754 2357 5435 5081 6679 321 26564 310 1623 7552 13 1049 369 5995 748 421 279 2521 314 279 4757 369 78284 11 21873 421 866 1328 18054 7225 1132 264 2342 12977 74992 318 83113 86844 20569 11 393 46 11189 813 443 14646 553 733 264 417 39100 11 13514 513 10345 5774 310 836 10300 2234 13 3095 264 491 1328 369 20918 11 279 11767 28457 287 279 4757 310 1423 279 15463 2357 321 47640 279 1328 1017 13 1368 279 2357 369 2400 11 424 39129 11 16494 1060 279 2222 38453 13 1061 5759 30941 264 3074 11 10300 1593 314 279 795 506 660 2942 13 271 332 6563 290 12996 318 33 12 6330 188912 198 49338 264 4475 314 1156 27437 9476 303 264 417 39100 314 1906 220 18 318 2721 220 17 6679 791 2357 553 198 16 13 2972 6140 3130 64700 18284 5829 5435 74988 20 15 11 220 16 15 15 60 27653 14608 6435 74988 16 15 11 220 19 15 60 63 321 74988 22 15 11 220 24 15 60 27653 198 17 13 2972 13384 5141 220 21 15 64700 198 256 471 7304 8211 506 18284 13 8439 393 20 15 361 220 21 15 361 220 16 15 15 53031 3166 310 279 1245 1623 74988 22 15 11 220 24 15 60 27653 198 256 471 16598 220 21 15 1083 411 2357 13 561 2357 8772 74988 21 15 11 220 22 15 11 220 24 15 60 27653 198 256 471 8439 279 2357 32689 8390 318 17 6679 681 424 39129 13 561 5956 869 318 22 15 8 369 27984 310 279 2594 13 198 256 471 2972 2009 64700 18284 8772 74988 20 15 11 220 22 15 11 220 16 15 15 60 27653 13333 1623 369 74988 16 15 11 220 19 15 60 7561 1245 2748 513 74988 21 15 60 63 321 74988 24 15 60 27653 198 256 471 2972 14508 64700 561 3165 6197 44504 264 2342 7552 303 1925 13 42272 628 1423 866 1328 303 56014 46451 220 18 3 7123 13 271 13962 561 87361 8672 4744 271 2014 87361 4757 1503 524 10000 264 3074 11 13542 10300 5759 383 12977 13 11746 11 424 5533 264 67528 5313 13 1478 13514 708 1083 449 303 61932 4011 318 64 10300 2336 553 3095 411 4011 39248 11 424 369 71214 310 264 2526 383 1676 3086 2119 318 4303 220 15 553 1577 777 795 14971 22433 11 5684 513 25170 318 5511 21479 8 1083 7875 11 49835 20006 13 1946 1423 264 1328 11 279 1785 25628 1472 660 5684 494 22863 310 22778 2980 264 2353 369 1669 466 279 1844 2119 318 7949 5435 279 2400 10031 8 369 8379 13 1061 328 18479 1 1817 369 25402 11 864 18305 24469 3165 29997 13 271 332 6563 290 12996 318 7041 44 8672 188912 198 16 13 2972 13384 5141 220 16 15 15 64700 198 256 471 17158 310 279 303 61932 4011 13 10006 25 51891 16 15 15 5368 13 198 17 13 2972 13384 5141 220 24 15 64700 198 256 471 17158 310 4011 13 10006 25 51891 24 15 11 220 16 15 15 5368 318 27379 553 198 18 13 2972 13384 5141 220 16 15 15 318 4149 188912 198 256 471 10006 25 51891 24 15 11 220 16 15 15 11 220 16 15 15 5368 13 357 328 83 2762 10495 1 318 26843 364 34872 8 466 264 491 2243 1189 381 5158 11313 383 7873 13 6558 579 9370 4145 888 24501 25 51891 24 15 11 220 16 15 15 5368 440 220 16 15 15 57172 13 198 19 13 2972 3959 8363 318 45307 188912 198 256 471 561 4307 4011 51891 24 15 11 220 16 15 15 5368 369 5158 310 12977 430 264 8387 11 49835 999 318 4303 220 15 553 198 20 13 2972 13384 5141 220 16 15 64700 198 256 471 10006 25 51891 16 15 5368 13 198 21 13 2972 4274 5141 220 16 15 15 64700 198 256 471 7304 9116 220 15 318 1719 71214 999 1590 48927 220 16 15 15 13 198 256 471 7304 9116 220 16 25 2717 2945 13 198 256 471 2972 2009 64700 11962 303 9116 220 15 13 271 623 264 1865 87361 11 413 9116 220 15 39248 685 11 424 369 25170 440 9116 220 16 13 1368 488 1380 310 3572 220 16 15 15 11 488 5479 264 328 83 2762 10495 1 10811 13 3095 9116 220 15 78161 440 9116 220 16 11 279 41658 10495 668 3921 279 3889 220 16 15 15 494 279 25170 2468 13 271 13962 5141 82833 594 16706 61782 271 332 7734 20025 64700 198 7041 44 12052 513 15873 364 13514 13 8938 13514 513 6937 290 321 8977 310 2526 11 303 61932 13976 1518 1602 71214 310 12977 11 781 5471 4055 2528 12261 421 52612 417 2308 7610 13 417 2308 7610 3428 7433 494 328 4775 21697 2325 1 1521 264 3074 19214 3165 628 7926 39129 321 311 57081 3808 5081 7552 13 271 332 4274 20025 64700 198 33 2308 7610 513 15873 364 15339 13 357 3074 18054 10695 264 69892 1752 310 799 3602 13 87361 12052 1325 33939 5081 5684 314 3425 13 733 1496 12 52175 1301 24481 11 279 13540 29997 314 14603 5081 5684 628 381 4927 11 3384 49722 13019 318 2506 303 87361 82 8 1438 47699 411 539 5964 60476 6679 524 2945 303 264 2119 13 271 332 5612 594 68230 64700 198 33 2308 7610 3436 795 303 264 3074 11 29865 5860 5759 13 87361 12052 3436 795 303 5081 49835 3425 318 50 759 4635 553 87361 82 1325 6150 25053 4281 321 10562 14400 310 55557 3433 321 3921 41658 31437 11 3154 1070 777 6150 310 4072 321 24439 1056 417 2308 7610 13 271 332 41998 64700 198 23298 264 2972 33 39100 332 413 678 51797 369 1301 71065 466 7225 12594 11 3238 95013 2179 15339 318 68 1257 2487 7622 30762 1040 71100 553
+decode                   1200 tokens in 39470.8 ms  ->  30.40 tok/s
+prefill                  37 tokens in 699.6 ms  ->  52.89 tok/s  (time to first token 28459.2 ms)

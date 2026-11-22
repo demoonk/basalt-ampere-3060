@@ -1,0 +1,59 @@
+Free RAM before start: 58 GiB
+Starting Basalt on http://127.0.0.1:8105/v1  (ctx 131072, spec 4, route-prior 1, mmap experts)
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=131072 expert-cache=auto mmap-experts adapt-swaps=0 route-prior=1 prefill=8192 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: only 622 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 20032 experts on SSD (25.8 GiB) · free 25.8 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.4GiB 6.1s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=1941/13044 384t/s 5s
+[server] s1 read  pp=4160/13044 406t/s 10s
+[server] s1 read  pp=6378/13044 416t/s 15s
+[server] s1 read  pp=9980/13044 484t/s 21s
+[server] s1 read  pp=13043/13044 502t/s 26s
+[server] live | s1 tg=29/600 28.6t/s | total 29t/s
+[server] live | s1 tg=105/600 33.5t/s | total 34t/s
+[server] live | s1 tg=186/600 35.6t/s | total 36t/s
+[server] live | s1 tg=265/600 36.6t/s | total 37t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 32.3t/s | total 32t/s
+[server] live | s1 tg=303/600 26.3t/s | total 26t/s
+[server] s1 done  pp=13044/0c 4.0s 3296t/s  tg=335 36.4t/s acc=95% dl=2.5  ttft=26.1s  end=stop  hit=72.7%  pcie=0.0%
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] live | s1 tg=34/600 38.1t/s | total 38t/s
+[server] live | s1 tg=131/600 44.7t/s | total 45t/s
+[server] error: engine reported verify: layer 15 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=13044/0c  tg=174 44.5t/s  ttft=0.2s  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 15 never rang (an illegal memory access was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 19924 experts on SSD (25.7 GiB) · free 25.7 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.6GiB 6.2s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2080/13044 366t/s 6s
+[server] s1 read  pp=4021/13044 355t/s 11s
+[server] s1 read  pp=6240/13044 382t/s 16s
+[server] s1 read  pp=9581/13044 449t/s 21s
+[server] s1 read  pp=13043/13044 478t/s 27s
+[server] live | s1 tg=29/600 29.0t/s | total 29t/s
+[server] live | s1 tg=102/600 32.4t/s | total 32t/s
+[server] live | s1 tg=189/600 35.9t/s | total 36t/s
+[server] error: engine reported verify: layer 14 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=13044/0c  tg=263 37.9t/s  ttft=27.3s  end=error

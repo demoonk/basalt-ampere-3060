@@ -1,0 +1,81 @@
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=131072 expert-cache=auto mmap-experts adapt-swaps=0 prefill=8192 route-prior=1 spec=8 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: only 622 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 20034 experts on SSD (25.8 GiB) · free 25.8 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.4GiB 6.2s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2080/13044 380t/s 5s
+[server] s1 read  pp=4298/13044 402t/s 11s
+[server] s1 read  pp=6517/13044 414t/s 16s
+[server] s1 read  pp=9980/13044 481t/s 21s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=59/600 28.8t/s | total 29t/s
+[server] live | s1 tg=128/600 31.0t/s | total 31t/s
+[server] error: engine reported verify: layer 34 never rang (an illegal instruction was encountered)
+[server] s1 done  pp=13044/0c  tg=152 31.7t/s  ttft=26.2s  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 34 never rang (an illegal instruction was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: only 622 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 20034 experts on SSD (25.8 GiB) · free 25.8 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.4GiB 6.1s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2080/13044 377t/s 6s
+[server] s1 read  pp=4298/13044 402t/s 11s
+[server] s1 read  pp=6517/13044 414t/s 16s
+[server] s1 read  pp=9980/13044 481t/s 21s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=79/600 36.5t/s | total 37t/s
+[server] live | s1 tg=152/600 35.5t/s | total 36t/s
+[server] error: engine reported verify: layer 1 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=13044/0c  tg=167 35.7t/s  ttft=26.2s  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 1 never rang (an illegal memory access was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 19926 experts on SSD (25.7 GiB) · free 25.7 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.6GiB 6.2s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2080/13044 376t/s 6s
+[server] s1 read  pp=4298/13044 401t/s 11s
+[server] s1 read  pp=6656/13044 414t/s 16s
+[server] s1 read  pp=10379/13044 488t/s 21s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=81/600 35.2t/s | total 35t/s
+[server] live | s1 tg=163/600 37.2t/s | total 37t/s
+[server] live | s1 tg=254/600 39.1t/s | total 39t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 34.7t/s | total 35t/s
+[server] live | s1 tg=303/600 27.8t/s | total 28t/s
+[server] s1 done  pp=13044/0c 4.0s 3242t/s  tg=332 31.1t/s acc=82% dl=3.2  ttft=26.4s  end=stop  hit=69.4%  pcie=0.0%
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] live | s1 tg=33/600 37.7t/s | total 38t/s
+[server] live | s1 tg=123/600 41.4t/s | total 41t/s
+[server] live | s1 tg=204/600 40.8t/s | total 41t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 42.2t/s | total 42t/s
+[server] live | s1 tg=303/600 32.3t/s | total 32t/s
+[server] s1 done  pp=13044/13039c 4.0s  tg=320 33.0t/s acc=100% dl=3.1  ttft=0.1s  end=stop  hit=69.9%  pcie=0.0%

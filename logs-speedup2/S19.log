@@ -1,0 +1,98 @@
+Free RAM before start: 56.4979400634766 MiB
+Starting Basalt on http://127.0.0.1:8105/v1  (ctx 131072, spec 4, route-prior 1, mmap experts)
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=32768 expert-cache=auto mmap-experts adapt-swaps=0 route-prior=1 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: only 294 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 20231 experts on SSD (26.0 GiB) · free 26.0 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.2GiB 5.9s
+[server] kv       0.6GiB cuda0 solo=32768 draft=0.0GiB
+[server] weights  loaded, ctx=32768 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2085/11274 371t/s 6s
+[server] s1 read  pp=4048/11274 365t/s 11s
+[server] s1 read  pp=6560/11274 395t/s 17s
+[server] s1 read  pp=9699/11274 448t/s 22s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=61/600 28.6t/s | total 29t/s
+[server] live | s1 tg=128/600 30.3t/s | total 30t/s
+[server] live | s1 tg=213/600 33.4t/s | total 33t/s
+[server] error: engine reported verify: an illegal memory access was encountered
+[server] s1 done  pp=11274/0c  tg=282 33.9t/s  ttft=25.6s  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: an illegal memory access was encountered, restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: only 572 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 20020 experts on SSD (25.8 GiB) · free 25.8 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.5GiB 6.0s
+[server] kv       0.6GiB cuda0 solo=32768 draft=0.0GiB
+[server] engine running again
+[server] weights  loaded, ctx=32768 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2085/11274 373t/s 6s
+[server] s1 read  pp=4048/11274 368t/s 11s
+[server] s1 read  pp=6560/11274 398t/s 16s
+[server] s1 read  pp=10484/11274 478t/s 22s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=66/600 30.3t/s | total 30t/s
+[server] live | s1 tg=138/600 31.5t/s | total 32t/s
+[server] live | s1 tg=210/600 31.9t/s | total 32t/s
+[server] error: engine reported verify: layer 27 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=11274/0c  tg=237 31.9t/s  ttft=24.3s  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 27 never rang (an illegal memory access was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: only 604 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 19996 experts on SSD (25.7 GiB) · free 25.7 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.5GiB 6.1s
+[server] kv       0.6GiB cuda0 solo=32768 draft=0.0GiB
+[server] engine running again
+[server] weights  loaded, ctx=32768 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2085/11274 369t/s 6s
+[server] s1 read  pp=4048/11274 366t/s 11s
+[server] s1 read  pp=6112/11274 381t/s 16s
+[server] s1 read  pp=9363/11274 439t/s 21s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=71/600 32.8t/s | total 33t/s
+[server] live | s1 tg=145/600 34.4t/s | total 34t/s
+[server] error: engine reported verify: layer 15 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=11274/0c  tg=178 34.3t/s  ttft=25.9s  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 15 never rang (an illegal memory access was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: only 607 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 19993 experts on SSD (25.7 GiB) · free 25.7 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.5GiB 6.0s
+[server] kv       0.6GiB cuda0 solo=32768 draft=0.0GiB
+[server] engine running again
+[server] weights  loaded, ctx=32768 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2085/11274 370t/s 6s
+[server] s1 read  pp=4048/11274 367t/s 11s
+[server] s1 read  pp=6560/11274 397t/s 17s
+[server] s1 read  pp=9811/11274 451t/s 22s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=71/600 33.2t/s | total 33t/s
+[server] live | s1 tg=149/600 35.2t/s | total 35t/s
+[server] error: engine reported verify: layer 3 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=11274/0c  tg=204 34.8t/s  ttft=25.5s  end=error

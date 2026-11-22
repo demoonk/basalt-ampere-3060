@@ -1,0 +1,8 @@
+-- basalt: CUDA arch 86
+-- basalt: models qwen4exp
+-- Configuring done (5.5s)
+-- Generating done (0.4s)
+-- Build files have been written to: C:/Neurolib/Tools/basalt-ampere-3060/build-3060
+ninja: Entering directory `build-3060'
+[1/4] Refreshing the commit stamp
+[2/2] Linking CXX executable C:\Neurolib\Tools\basalt-ampere-3060\bin\basalt.exe

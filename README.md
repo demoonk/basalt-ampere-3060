@@ -8,6 +8,22 @@ in system RAM, and optionally on more GPUs. The server speaks the OpenAI and Ant
 
 **Help wanted:** spare Blackwell compute for testing? See [Contributing](CONTRIBUTING.md#other-ways-to-help).
 
+## This fork: the RTX 3060 (sm_86, 12 GB) branch
+
+Everything measured on an Ampere 3060 lives here, in plain markdown:
+
+| file | what it holds |
+|---|---|
+| [FORK-3060-v0.5.0.md](FORK-3060-v0.5.0.md) | what the fork changes for sm_86 and how to build it |
+| [SPEEDUP-3060.md](SPEEDUP-3060.md) | round 1: the fork, the first measured speed-ups, the `--mmap-experts` finding |
+| [SPEEDUP2-3060.md](SPEEDUP2-3060.md) | round 2: S1–S8, the 128K context, `--route-prior`, the crash analysis, the ready-to-run shortcuts |
+| [basalt-3060-edits.md](basalt-3060-edits.md) | the code edits, one by one |
+| [basalt-3060-speedup-task.md](basalt-3060-speedup-task.md), [task 2](basalt-3060-speedup-task-2.md) | the task statements the two rounds were written against |
+
+Run it with `serve-3060.cmd` / `serve-3060.json` (and the `safe`, `16k`, `65k`, `spec8`,
+`stable` and `nommap` variants); the raw run logs of both rounds are in `logs-speedup/` and
+`logs-speedup2/`.
+
 ## Requirements
 
 - Linux x86-64 with AVX2, or Windows 10 1903+ x64 ([platforms](docs/platforms.md)).

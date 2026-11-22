@@ -1,0 +1,154 @@
+basalt: system: Windows, CUDA driver 13.5 / runtime 13.5
+basalt: gpus: RTX 3060 (nvidia-smi 0) main
+basalt generate: experts Q2_0/Q2_0, layers 0-47: decode device-planned tail + grouped kernels, prefill MMQ, CPU tier dot
+basalt generate: PCIe probe: 13.2 GB/s host->device (best of 13.1 13.2 13.2 13.1) -> pcie_frac 0.36 (default 0.55)
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt load: planning
+basalt generate: C:\Neurolib\Models\Basalt\GSQ-RCO-Q2_0\Qwen3.8-Flash-Next-GSQ-RCO-Q2_0.basalt experts (largest blob 1.38 MB), token embedding Q3_K in mapped host memory (260 MiB, 0.0 s), its first 8192 rows in VRAM (8.6 MiB)
+basalt generate: profile C:\Neurolib\Tools\basalt-ampere-3060/data/profiles/qwen4exp-48x512.prof: 24576 ranked pairs, built for 24576 slots
+basalt generate: 204 MiB of weights from C:\Neurolib\Models\Basalt\GSQ-RCO-Q2_0\Qwen3.8-Flash-Next-GSQ-RCO-Q2_0.basalt laid out in 0.0 s (497 tensors skipped: served from the source tensors)
+basalt hc8: 194 hyper-connection matrices held only as 8-bit copies (659 MiB of copies) in 0.0 s
+basalt generate: 301 native projection matrices, 1376.20 MiB of weights, in 0.0 s
+basalt generate: the SSD is kept awake while rows are read: one page of the table after 40 ms without a read, until 60 s after the last request 
+basalt generate: PLE on, table 320001536 rows of C:\Neurolib\Models\Basalt\GSQ-RCO-Q2_0\Qwen3.8-Flash-Next-GSQ-RCO-Q2_0.basalt
+basalt load: kv cuda0 245564672 8192 245564672
+basalt hc8: the draft layer's hyper-connection matrices as 8-bit copies only (37.5 MiB of bf16 left out)
+basalt load: kv draft cuda0 9711104 8192 9711104
+basalt mtp: draft layer loaded, 765 MiB of VRAM (experts 675, dense 73), files read in 0.03 s (22683 MiB/s)
+basalt generate: native head: Q5_K, 437043200 bytes, in 0.0 s
+basalt generate: GPU 0: NVIDIA GeForce RTX 3060, compute capability 8.6
+basalt generate: experts via mmap (--mmap-experts)
+basalt hc8: 8-bit hyper-connection copies, 680 MiB of VRAM
+basalt generate: expert cache auto: 7.32 GiB free, 700 MiB reserved (+7 MiB for the draft head, +0 MiB for what loads after) -> 5151 slots
+basalt generate: warning: only 232 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 599 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: expert cache 4622 slots, 5.95 GiB of VRAM; policy is
+basalt generate: the GPU computes the experts in the cache; it rounds differently from the CPU,
+                 so a reply can differ slightly from a run without the cache (same quality).
+                 PROFILE, ranked by routing frequency, no eviction.
+basalt generate: pre-filled 4622 of 4622 slots from the profile (6389 MB, read in the start's pass; slot 0 verified after it)
+basalt generate: R4 hit path ON - resident experts are computed on the GPU
+basalt generate: session is up (engine 0.5.0)
+basalt generate: sampling temperature=1 top_k=20 top_p=0.95 seed=42
+basalt generate: token graph hit path: 4622 resident experts, decided on the device
+basalt generate: auto flags: resident 28.6 GB, pool-affinity auto, pool-workers 7
+basalt generate: 7 expert-pool workers + the host thread
+basalt: FileExpertSource: allocating 28.60 GiB page-locked cache complement
+basalt load: total 37838756352
+basalt load: weights 0 37838756352
+basalt load: weights 379873152 37838756352
+basalt load: weights 762636800 37838756352
+basalt load: weights 1144215040 37838756352
+basalt load: weights 1529948160 37838756352
+basalt load: weights 1910064640 37838756352
+basalt load: weights 2292401664 37838756352
+basalt load: weights 2678277632 37838756352
+basalt load: weights 3067299328 37838756352
+basalt load: weights 3446472192 37838756352
+basalt load: weights 3825249792 37838756352
+basalt load: weights 4204027392 37838756352
+basalt load: weights 4582804992 37838756352
+basalt load: weights 4961582592 37838756352
+basalt load: weights 5340360192 37838756352
+basalt load: weights 5719137792 37838756352
+basalt load: weights 6097915392 37838756352
+basalt load: weights 6476692992 37838756352
+basalt load: weights 6855470592 37838756352
+basalt load: weights 7234248192 37838756352
+basalt load: weights 7613025792 37838756352
+basalt load: weights 7991803392 37838756352
+basalt load: weights 8370580992 37838756352
+basalt load: weights 8749358592 37838756352
+basalt load: weights 9128136192 37838756352
+basalt load: weights 9506913792 37838756352
+basalt load: weights 9885691392 37838756352
+basalt load: weights 10274293158 37838756352
+basalt load: weights 10662773027 37838756352
+basalt load: weights 11041377792 37838756352
+basalt load: weights 11431435945 37838756352
+basalt load: weights 11813088768 37838756352
+basalt load: weights 12204764605 37838756352
+basalt load: weights 12596051456 37838756352
+basalt load: weights 12980291005 37838756352
+basalt load: weights 13369711497 37838756352
+basalt load: weights 13749423575 37838756352
+basalt load: weights 14137953792 37838756352
+basalt load: weights 14527718408 37838756352
+basalt load: weights 14912179302 37838756352
+basalt load: weights 15295022592 37838756352
+basalt load: weights 15680712192 37838756352
+basalt load: weights 16071931392 37838756352
+basalt load: weights 16453473792 37838756352
+basalt load: weights 16832251392 37838756352
+basalt load: weights 17213793792 37838756352
+basalt load: weights 17600865792 37838756352
+basalt load: weights 17979929335 37838756352
+basalt load: weights 18372252081 37838756352
+basalt load: weights 18756552192 37838756352
+basalt load: weights 19145006592 37838756352
+basalt load: weights 19529313792 37838756352
+basalt load: weights 19909473792 37838756352
+basalt load: weights 20298668690 37838756352
+basalt load: weights 20691912192 37838756352
+basalt load: weights 21076219392 37838756352
+basalt load: weights 21456935862 37838756352
+basalt load: weights 21843224649 37838756352
+basalt load: weights 22229140992 37838756352
+basalt load: weights 22611399645 37838756352
+basalt load: weights 22991559645 37838756352
+basalt load: weights 23384028912 37838756352
+basalt load: weights 23767543860 37838756352
+basalt load: weights 24149294592 37838756352
+basalt load: weights 24533974235 37838756352
+basalt load: weights 24922056192 37838756352
+basalt load: weights 25310510592 37838756352
+basalt load: weights 25689288192 37838756352
+basalt load: weights 26073069056 37838756352
+basalt load: weights 26463712452 37838756352
+basalt load: weights 26843592192 37838756352
+basalt load: weights 27230664192 37838756352
+basalt load: weights 27620689408 37838756352
+basalt load: weights 28005180635 37838756352
+basalt load: weights 28384595749 37838756352
+basalt load: weights 28776187392 37838756352
+basalt load: weights 29170171392 37838756352
+basalt load: weights 29556281994 37838756352
+basalt load: weights 29945294817 37838756352
+basalt load: weights 30338299392 37838756352
+basalt load: weights 30717076992 37838756352
+basalt load: weights 31100001792 37838756352
+basalt load: weights 31482926592 37838756352
+basalt load: weights 31864468992 37838756352
+basalt load: weights 32244628992 37838756352
+basalt load: weights 32630318592 37838756352
+basalt load: weights 33014625792 37838756352
+basalt load: weights 33404462592 37838756352
+basalt load: weights 33787387392 37838756352
+basalt load: weights 34175841792 37838756352
+basalt load: weights 34558955008 37838756352
+basalt load: weights 34945838592 37838756352
+basalt load: weights 35325998592 37838756352
+basalt load: weights 35708923392 37838756352
+basalt load: weights 36090465792 37838756352
+basalt load: weights 36473390592 37838756352
+basalt load: weights 36857697792 37838756352
+basalt load: weights 37238605312 37838756352
+basalt load: weights 37618632192 37838756352
+basalt: FileExpertSource: cache complement: allocation 10.3 s, registration 0.0 s, 30.71 GB read in the start's pass (unbuffered)
+basalt: FileExpertSource: mapped pinned cache complement ready: resident 28.60 GiB, pinned 28.60 GiB in 27 s; CUDA-pinned through host VMM
+basalt: FileExpertSource: 2264 of the prompt path's 2264 lendable slots keep their experts in RAM too
+basalt generate: resident RAM mode: 28.60 GiB of experts in RAM (page-locked), 4622 in the GPU cache; adaptive swaps exchange them with the GPU cache (no file reads)
+basalt generate: prompt path lends at most 90% of the cache (90% of the expert bytes pinned)
+basalt generate: experts live in VRAM 6.0 GiB (19%), peer GPU 0.0 GiB (0%), RAM 25.7 GiB (81%), file (SSD) 0.0 GiB (0%); 31.6 GiB in all
+basalt generate: prompt chunk auto: 256 tokens
+basalt generate: prompt path borrows 217 cache slots (0.28 GiB)
+basalt generate: 217 lent slots refilled in 25.2 ms
+basalt generate: prefill 37 tokens in 1 chunks, 1078.2 ms (34.3 tok/s); experts streamed 1701 (1701 by DMA, host 35.9 ms), resident 1707, on the CPU 2385 (share 0.60); PLE 22.2 ms
+basalt hc: CUDA0: the hyper-connection read runs as staged (the norm per token and stream, the down projection's activations staged ahead by cp.async); checked bit for bit against the plain read on this card
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt verify: side branches at stream priority -5
+basalt verify: the MoE tail planned on the device
+basalt verify: the CPU pool warms its likeliest next-layer expert between doorbells
+basalt verify: window up to 8 tokens, 66.4 MiB of device buffers
+basalt verify: captured the 1-token window (upload no error, sync no error), 0 programmatic dependent launches
+basalt: error: verify: a device wait timed out (device wait: kind 5, line 0, block 3); the window is discarded; restart the engine

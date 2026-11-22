@@ -1,0 +1,92 @@
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=131072 kv-resident=131072 expert-cache=3000 mmap-experts adapt-swaps=0 route-prior=1 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21576 experts on SSD (27.8 GiB) · free 27.8 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   7.5GiB 4.8s
+[server] kv       1.9GiB cuda0 solo=131072 draft=0.0GiB
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2165/29564 415t/s 5s
+[server] s1 read  pp=4021/29564 372t/s 11s
+[server] s1 read  pp=6496/29564 398t/s 16s
+basalt serve: error: no progress for 60 s during a request (reading the prompt (batched): waiting for the GPU (attention, router) at layer 7 of the prompt chunk from token 7424) - stopping the engine so the server starts it again
+basalt serve: error: stall report (engine 0.5.0): stage "reading the prompt (batched): waiting for the GPU (attention, router) at layer 7 of the prompt chunk from token 7424" for 340 s; 0 layers served since the last finished step (0 = stopped, more = slow)
+  expert pool: epoch 0, batch epoch 0: 0 of 0 jobs claimed, 0 done; 7 of 7 workers parked, 7 sleeping; mode 0
+  expert pool active workers: 7
+  expert pool threads: w0=sleeping w1=sleeping w2=sleeping w3=sleeping w4=sleeping w5=sleeping w6=sleeping; host idle for 364991 ms
+  verify window (last window, not the current stage) (layers 0-47, device 0): 0 tokens at position 0, host at layer step 1; the GPU rang 0; flags: served 0, plan (A) 0, copies (B) 0, hand-off 0
+  device plan: ring 0 published, host flag 0
+  memory: 13262 MiB resident, 223 MiB in swap, 44102 MiB RAM available; 3787551 major page faults so far
+[server] warning: the engine said nothing for 341 s during the request; the server ended the engine: the engine and the server lost step (engine_silence_s, 0 = wait forever) (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=29564/0c  tg=0  end=error
+[server] warning: the engine and the server lost step (engine_silence_s, 0 = wait forever), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21576 experts on SSD (27.8 GiB) · free 27.8 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   7.5GiB 4.8s
+[server] kv       1.9GiB cuda0 solo=131072 draft=0.0GiB
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+basalt: error: prefill copy_i32: an illegal memory access was encountered
+basalt crash: error: EXCEPTION_ACCESS_VIOLATION (0xC0000005) at 0x7FF653E18B78 (read from 0x40) in reading the prompt (batched): layer (8) chunk 0, 2740 MiB RSS, 56061 MiB RAM free
+basalt crash: error: backtrace: 0x7FF6542D310D 0x7FF6542D2342 0x7FFD45CFFAA3 0x7FFD4883F8FD 0x7FFD487F7733 0x7FFD4883AB3F 0x7FFD48796985 0x7FFD4883A47E 0x7FF653E18B78 0x7FF653E1890E 0x7FFD461CCD30 0x7FFD4772DDA7 0x7FFD48799C5C
+[server] warning: the engine ended (no exit status), last error in its log: basalt crash: error: backtrace: 0x7FF6542D310D 0x7FF6542D2342 0x7FFD45CFFAA3 0x7FFD4883F8FD 0x7FFD487F7733 0x7FFD4883AB3F 0x7FFD48796985 0x7FFD4883A47E 0x7FF653E18B78 0x7FF653E1890E 0x7FFD461CCD30 0x7FFD4772DDA7 0x7FFD48799C5C (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=29564/0c  tg=0  end=error
+[server] warning: the engine exited (code 1), last error in its log: basalt crash: error: backtrace: 0x7FF6542D310D 0x7FF6542D2342 0x7FFD45CFFAA3 0x7FFD4883F8FD 0x7FFD487F7733 0x7FFD4883AB3F 0x7FFD48796985 0x7FFD4883A47E 0x7FF653E18B78 0x7FF653E1890E 0x7FFD461CCD30 0x7FFD4772DDA7 0x7FFD48799C5C, restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21576 experts on SSD (27.8 GiB) · free 27.8 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   7.5GiB 4.8s
+[server] kv       1.9GiB cuda0 solo=131072 draft=0.0GiB
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2010/59064 401t/s 5s
+[server] s1 read  pp=4485/59064 421t/s 11s
+[server] s1 read  pp=6341/59064 391t/s 16s
+[server] s1 read  pp=9898/59064 455t/s 22s
+[server] s1 read  pp=14074/59064 520t/s 27s
+[server] s1 read  pp=18250/59064 562t/s 32s
+[server] s1 read  pp=22272/59064 594t/s 38s
+[server] s1 read  pp=26138/59064 615t/s 43s
+[server] s1 read  pp=30314/59064 632t/s 48s
+[server] s1 read  pp=34490/59064 647t/s 53s
+[server] s1 read  pp=38666/59064 658t/s 59s
+[server] s1 read  pp=42842/59064 667t/s 64s
+[server] s1 read  pp=47018/59064 674t/s 70s
+[server] s1 read  pp=51194/59064 681t/s 75s
+[server] s1 read  pp=55218/59064 684t/s 81s
+[server] s1 read  pp=59059/59064 687t/s 86s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=46/600 21.8t/s | total 22t/s
+[server] live | s1 tg=111/600 26.1t/s | total 26t/s
+[server] live | s1 tg=189/600 29.5t/s | total 30t/s
+[server] live | s1 tg=255/600 29.9t/s | total 30t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=316/600 29.9t/s | total 30t/s
+[server] s1 done  pp=59064/0c 0.0s 20366897t/s  tg=335 23.1t/s acc=72% dl=2.4  ttft=87.5s  end=stop  hit=58.0%  pcie=0.0%
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] live | s1 tg=23/600 27.6t/s | total 28t/s
+[server] live | s1 tg=92/600 31.0t/s | total 31t/s
+[server] live | s1 tg=179/600 35.3t/s | total 35t/s
+[server] live | s1 tg=251/600 34.7t/s | total 35t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 32.0t/s | total 32t/s
+[server] live | s1 tg=303/600 26.0t/s | total 26t/s
+[server] s1 done  pp=59064/59059c 4.3s  tg=321 34.4t/s acc=92% dl=2.4  ttft=0.2s  end=stop  hit=65.0%  pcie=0.0%

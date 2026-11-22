@@ -1,0 +1,93 @@
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=131072 expert-cache=3400 mmap-experts adapt-swaps=0 route-prior=1 spec=2 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21176 experts on SSD (27.3 GiB) · free 27.3 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.0GiB 5.0s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2080/13044 375t/s 6s
+[server] s1 read  pp=4298/13044 392t/s 11s
+[server] s1 read  pp=6517/13044 402t/s 16s
+[server] s1 read  pp=10379/13044 482t/s 22s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=51/600 25.5t/s | total 25t/s
+[server] error: engine reported mtp draft: misaligned address
+[server] s1 done  pp=13044/0c  tg=96 27.2t/s  ttft=26.3s  end=error
+[server] warning: the engine exited (code 1) after it reported: mtp draft: misaligned address, restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21176 experts on SSD (27.3 GiB) · free 27.3 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.0GiB 5.0s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2080/13044 366t/s 6s
+[server] s1 read  pp=4298/13044 387t/s 11s
+[server] s1 read  pp=6517/13044 399t/s 16s
+[server] s1 read  pp=10379/13044 480t/s 22s
+[server] live | s1 tg=1/600 | total 0t/s
+[server] live | s1 tg=54/600 25.6t/s | total 26t/s
+[server] live | s1 tg=119/600 28.7t/s | total 29t/s
+[server] live | s1 tg=204/600 32.6t/s | total 33t/s
+[server] error: engine reported verify: layer 3 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=13044/0c  tg=235 33.3t/s  ttft=26.4s  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 3 never rang (an illegal memory access was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21176 experts on SSD (27.3 GiB) · free 27.3 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.0GiB 5.0s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2080/13044 370t/s 6s
+[server] s1 read  pp=4298/13044 389t/s 11s
+[server] s1 read  pp=6517/13044 389t/s 17s
+[server] s1 read  pp=9581/13044 438t/s 22s
+[server] s1 read  pp=13043/13044 470t/s 28s
+[server] live | s1 tg=23/600 23.5t/s | total 23t/s
+[server] error: engine reported verify: layer 35 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=13044/0c  tg=51 25.0t/s  ttft=27.8s  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 35 never rang (an illegal memory access was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] loading model weights [=====>                  ]   1.9/8.0 GiB
+[server] starting 577s
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21176 experts on SSD (27.3 GiB) · free 27.3 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.0GiB 581.4s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=1941/13044 369t/s 5s
+[server] s1 read  pp=4160/13044 386t/s 11s
+[server] s1 read  pp=6378/13044 396t/s 16s
+[server] s1 read  pp=9980/13044 462t/s 22s
+[server] s1 read  pp=13043/13044 478t/s 27s
+[server] live | s1 tg=22/600 22.6t/s | total 23t/s
+[server] live | s1 tg=74/600 24.7t/s | total 25t/s
+[server] live | s1 tg=145/600 28.7t/s | total 29t/s
+[server] live | s1 tg=222/600 31.4t/s | total 31t/s
+[server] error: engine reported verify: layer 31 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=13044/0c  tg=260 32.0t/s  ttft=27.4s  end=error

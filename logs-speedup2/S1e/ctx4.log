@@ -1,0 +1,955 @@
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] Qwen3.8-Flash-Next GSQ-RCO Q2_0  kv=int8 ctx=4096 expert-cache=auto batch=1 spec=8 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8127/v1  openai+anthropic  stats http://127.0.0.1:8127/
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: --batch 1 is off: it needs 2 or more slots
+[server] warning: only 457 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     ram-experts=28.9GB pool-affinity=auto pool=7
+[server] loading model weights [======>                 ]   8.8/35.2 GiB  1786 MB/s
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] loaded   35.2GiB 17.9s
+[server] kv       0.2GiB cuda0 solo=4096 draft=0.0GiB
+[server] warning: 1 parallel requests asked, the engine runs one
+[server] weights  loaded, ctx=4096 images=off
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=62/300 29.7t/s | total 30t/s
+[server] live | s1 tg=137/300 32.8t/s | total 33t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=206/300 32.5t/s | total 33t/s
+[server] live | s1 tg=276/300 33.1t/s | total 33t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 32.9t/s acc=68% dl=2.5  ttft=1.3s  end=length  hit=75.5%  pcie=0.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=2/300 | total 0t/s
+[server] live | s1 tg=90/300 39.2t/s | total 39t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=153/300 34.2t/s | total 34t/s
+[server] live | s1 tg=222/300 33.8t/s | total 34t/s
+[server] live | s1 tg=295/300 34.1t/s | total 34t/s
+[server] s1 done  pp=77/0c 0.8s  tg=300 36.0t/s acc=75% dl=2.5  ttft=0.9s  end=length  hit=75.4%  pcie=0.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=2/300 | total 0t/s
+[server] live | s1 tg=86/300 39.1t/s | total 39t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=153/300 33.4t/s | total 33t/s
+[server] live | s1 tg=224/300 33.6t/s | total 34t/s
+[server] live | s1 tg=295/300 33.6t/s | total 34t/s
+[server] s1 done  pp=77/0c 0.8s  tg=300 35.7t/s acc=77% dl=2.5  ttft=0.8s  end=length  hit=74.6%  pcie=0.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=2/300 | total 0t/s
+[server] live | s1 tg=83/300 37.8t/s | total 38t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=161/300 37.7t/s | total 38t/s
+[server] live | s1 tg=239/300 37.6t/s | total 38t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 35.4t/s acc=73% dl=2.5  ttft=0.8s  end=length  hit=76.2%  pcie=0.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=2/300 | total 0t/s
+[server] live | s1 tg=91/300 39.6t/s | total 40t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=158/300 36.0t/s | total 36t/s
+[server] live | s1 tg=230/300 35.6t/s | total 36t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 34.1t/s acc=70% dl=2.5  ttft=0.8s  end=length  hit=75.3%  pcie=0.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=2/300 | total 0t/s
+[server] live | s1 tg=80/300 36.0t/s | total 36t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=153/300 32.7t/s | total 33t/s
+[server] live | s1 tg=220/300 32.8t/s | total 33t/s
+[server] s1 done  pp=77/0c 0.8s  tg=300 39.3t/s acc=81% dl=2.5  ttft=0.8s  end=length  hit=78.8%  pcie=0.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=6/300 | total 0t/s
+[server] live | s1 tg=100/300 43.5t/s | total 44t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=153/300 34.1t/s | total 34t/s
+[server] error: engine reported verify: layer 4 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=77/0c 0.7s  tg=219 39.7t/s acc=86% dl=2.5  ttft=0.8s  end=error  hit=79.3%  pcie=0.0%
+[server] warning: the engine ended (no exit status), last log line: basalt serve: suffix drafts: 1 windows, 7 of 7 drafts accepted (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=94/0c  tg=0  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 4 never rang (an illegal memory access was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: --batch 1 is off: it needs 2 or more slots
+[server] warning: only 456 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     ram-experts=28.9GB pool-affinity=auto pool=7
+[server] loading model weights [=======>                ]  11.0/35.2 GiB  2270 MB/s
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] loaded   35.2GiB 17.8s
+[server] kv       0.2GiB cuda0 solo=4096 draft=0.0GiB
+[server] warning: 1 parallel requests asked, the engine runs one
+[server] engine running again
+[server] weights  loaded, ctx=4096 images=off
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=65/300 29.8t/s | total 30t/s
+[server] live | s1 tg=146/300 34.2t/s | total 34t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=219/300 34.6t/s | total 35t/s
+[server] live | s1 tg=293/300 34.6t/s | total 35t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 34.0t/s acc=69% dl=2.5  ttft=1.1s  end=length  hit=75.7%  pcie=0.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=2/300 | total 0t/s
+[server] live | s1 tg=91/300 39.5t/s | total 39t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=173/300 39.6t/s | total 40t/s
+[server] live | s1 tg=251/300 39.2t/s | total 39t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 35.7t/s acc=76% dl=2.5  ttft=0.8s  end=length  hit=75.8%  pcie=0.0%
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: --batch 1 is off: it needs 2 or more slots
+basalt generate: warning: only 463 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: the engine exited (code 1), last log line: basalt load: weights 37838756352 37838756352, restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: --batch 1 is off: it needs 2 or more slots
+[server] warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] warning: model 35.0 GiB, free VRAM + RAM 14.9 GiB: the rest is read from the SSD while generating (slow)
+[server] auto     ram-experts=3.6GB pool-affinity=auto pool=7
+[server] ram      floor 8.1 GiB (4.0 file cache) of 11.8 GiB free, 24.7 GiB experts on SSD, RAM copy <= 3.7 GiB
+[server] warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (11.76 GiB) minus the 8 GiB safety headroom); the hottest 3.66 GiB are kept in RAM
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 19127 experts on SSD (24.6 GiB) · free 24.6 GiB RAM, or a smaller quant, --gpu 0,1
+[server] loaded   10.6GiB 7.3s
+[server] kv       0.2GiB cuda0 solo=4096 draft=0.0GiB
+[server] warning: 1 parallel requests asked, the engine runs one
+[server] engine running again
+[server] weights  loaded, ctx=4096 images=off
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] s1 read  pp=61/77 12t/s 5s
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=20/300 6.6t/s | total 7t/s
+[server] live | s1 tg=51/300 9.2t/s | total 9t/s
+[server] live | s1 tg=85/300 10.6t/s | total 11t/s
+[server] live | s1 tg=114/300 11.2t/s | total 11t/s
+[server] live | s1 tg=135/300 11.0t/s | total 11t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=153/300 10.5t/s | total 11t/s
+[server] live | s1 tg=153/300 9.2t/s | total 9t/s
+[server] live | s1 tg=173/300 9.2t/s | total 9t/s
+[server] live | s1 tg=209/300 9.8t/s | total 10t/s
+[server] live | s1 tg=245/300 10.4t/s | total 10t/s
+[server] live | s1 tg=272/300 10.3t/s | total 10t/s
+[server] live | s1 tg=297/300 10.5t/s | total 10t/s
+[server] s1 done  pp=77/0c 3.8s  tg=300 13.4t/s acc=74% dl=2.5  ttft=8.0s  end=length  hit=53.0%  pcie=0.0%  ssd=24.1%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=31/300 11.6t/s | total 12t/s
+[server] live | s1 tg=67/300 13.3t/s | total 13t/s
+[server] live | s1 tg=103/300 14.3t/s | total 14t/s
+[server] live | s1 tg=128/300 13.7t/s | total 14t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=154/300 13.4t/s | total 13t/s
+[server] live | s1 tg=178/300 13.0t/s | total 13t/s
+[server] live | s1 tg=219/300 13.9t/s | total 14t/s
+[server] live | s1 tg=260/300 14.4t/s | total 14t/s
+[server] live | s1 tg=292/300 14.4t/s | total 14t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 15.2t/s acc=78% dl=2.5  ttft=5.6s  end=length  hit=57.2%  pcie=0.0%  ssd=20.7%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=32/300 14.9t/s | total 15t/s
+[server] live | s1 tg=67/300 15.5t/s | total 15t/s
+[server] live | s1 tg=103/300 16.0t/s | total 16t/s
+[server] live | s1 tg=129/300 15.1t/s | total 15t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=158/300 14.7t/s | total 15t/s
+[server] live | s1 tg=185/300 14.4t/s | total 14t/s
+[server] live | s1 tg=226/300 14.8t/s | total 15t/s
+[server] live | s1 tg=262/300 15.0t/s | total 15t/s
+[server] live | s1 tg=286/300 14.4t/s | total 14t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 13.6t/s acc=74% dl=2.5  ttft=4.5s  end=length  hit=54.1%  pcie=0.0%  ssd=22.4%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=32/300 13.9t/s | total 14t/s
+[server] live | s1 tg=68/300 14.8t/s | total 15t/s
+[server] live | s1 tg=107/300 16.1t/s | total 16t/s
+[server] live | s1 tg=131/300 15.0t/s | total 15t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=153/300 13.9t/s | total 14t/s
+[server] live | s1 tg=154/300 11.8t/s | total 12t/s
+[server] live | s1 tg=188/300 12.4t/s | total 12t/s
+[server] live | s1 tg=217/300 12.6t/s | total 13t/s
+[server] live | s1 tg=248/300 12.8t/s | total 13t/s
+[server] live | s1 tg=280/300 13.0t/s | total 13t/s
+[server] s1 done  pp=77/0c 3.2s  tg=300 15.0t/s acc=79% dl=2.5  ttft=4.6s  end=length  hit=58.4%  pcie=0.0%  ssd=19.9%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=31/300 13.0t/s | total 13t/s
+[server] live | s1 tg=69/300 14.9t/s | total 15t/s
+[server] live | s1 tg=102/300 15.0t/s | total 15t/s
+[server] live | s1 tg=134/300 15.0t/s | total 15t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=155/300 13.8t/s | total 14t/s
+[server] live | s1 tg=176/300 12.9t/s | total 13t/s
+[server] live | s1 tg=206/300 12.9t/s | total 13t/s
+[server] live | s1 tg=238/300 13.0t/s | total 13t/s
+[server] live | s1 tg=266/300 12.9t/s | total 13t/s
+[server] live | s1 tg=293/300 12.8t/s | total 13t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 11.5t/s acc=70% dl=2.5  ttft=4.9s  end=length  hit=56.0%  pcie=0.0%  ssd=21.7%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=35/300 16.1t/s | total 16t/s
+[server] live | s1 tg=71/300 16.6t/s | total 17t/s
+[server] live | s1 tg=102/300 15.9t/s | total 16t/s
+[server] live | s1 tg=133/300 15.5t/s | total 16t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=171/300 15.5t/s | total 15t/s
+[server] live | s1 tg=199/300 15.1t/s | total 15t/s
+[server] live | s1 tg=237/300 15.5t/s | total 15t/s
+[server] live | s1 tg=269/300 15.3t/s | total 15t/s
+[server] live | s1 tg=295/300 14.9t/s | total 15t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 13.8t/s acc=65% dl=2.5  ttft=4.4s  end=length  hit=55.1%  pcie=0.0%  ssd=21.8%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=31/300 13.4t/s | total 13t/s
+[server] live | s1 tg=64/300 14.7t/s | total 15t/s
+[server] live | s1 tg=95/300 14.6t/s | total 15t/s
+[server] live | s1 tg=115/300 13.4t/s | total 13t/s
+[server] live | s1 tg=141/300 13.1t/s | total 13t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=169/300 13.0t/s | total 13t/s
+[server] live | s1 tg=199/300 13.2t/s | total 13t/s
+[server] live | s1 tg=239/300 13.9t/s | total 14t/s
+[server] live | s1 tg=271/300 13.7t/s | total 14t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 14.3t/s acc=69% dl=2.5  ttft=4.8s  end=length  hit=55.5%  pcie=0.0%  ssd=22.3%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=27/300 11.9t/s | total 12t/s
+[server] live | s1 tg=64/300 14.5t/s | total 14t/s
+[server] live | s1 tg=99/300 15.1t/s | total 15t/s
+[server] live | s1 tg=128/300 14.6t/s | total 15t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=153/300 13.8t/s | total 14t/s
+[server] live | s1 tg=153/300 11.6t/s | total 12t/s
+[server] live | s1 tg=158/300 10.3t/s | total 10t/s
+[server] live | s1 tg=192/300 10.9t/s | total 11t/s
+[server] live | s1 tg=224/300 11.4t/s | total 11t/s
+[server] live | s1 tg=247/300 11.3t/s | total 11t/s
+[server] live | s1 tg=276/300 11.3t/s | total 11t/s
+[server] s1 done  pp=77/0c 3.8s  tg=300 12.7t/s acc=75% dl=2.5  ttft=5.0s  end=length  hit=54.5%  pcie=0.0%  ssd=23.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=31/300 13.4t/s | total 13t/s
+[server] live | s1 tg=68/300 14.8t/s | total 15t/s
+[server] live | s1 tg=102/300 15.2t/s | total 15t/s
+[server] live | s1 tg=131/300 14.9t/s | total 15t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=161/300 14.6t/s | total 15t/s
+[server] live | s1 tg=199/300 15.0t/s | total 15t/s
+[server] live | s1 tg=231/300 15.0t/s | total 15t/s
+[server] live | s1 tg=272/300 15.5t/s | total 16t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 16.1t/s acc=78% dl=2.5  ttft=5.2s  end=length  hit=56.5%  pcie=0.0%  ssd=21.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=40/300 16.9t/s | total 17t/s
+[server] live | s1 tg=78/300 17.1t/s | total 17t/s
+[server] live | s1 tg=113/300 17.0t/s | total 17t/s
+[server] live | s1 tg=142/300 16.2t/s | total 16t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=180/300 16.4t/s | total 16t/s
+[server] live | s1 tg=218/300 16.6t/s | total 17t/s
+[server] live | s1 tg=257/300 16.6t/s | total 17t/s
+[server] live | s1 tg=283/300 15.8t/s | total 16t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 14.2t/s acc=72% dl=2.5  ttft=4.4s  end=length  hit=53.2%  pcie=0.0%  ssd=23.1%
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: --batch 1 is off: it needs 2 or more slots
+basalt generate: warning: only 150 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: the engine exited (code 1), last log line: basalt load: weights 37838756352 37838756352, restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: --batch 1 is off: it needs 2 or more slots
+[server] warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] warning: model 35.0 GiB, free VRAM + RAM 16.0 GiB: the rest is read from the SSD while generating (slow)
+[server] auto     ram-experts=4.6GB pool-affinity=auto pool=7
+[server] ram      floor 8.1 GiB (4.0 file cache) of 12.9 GiB free, 23.6 GiB experts on SSD, RAM copy <= 4.7 GiB
+[server] warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (12.86 GiB) minus the 8 GiB safety headroom); the hottest 4.73 GiB are kept in RAM
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 18297 experts on SSD (23.6 GiB) · free 23.6 GiB RAM, or a smaller quant, --gpu 0,1
+[server] loaded   11.7GiB 8.0s
+[server] kv       0.2GiB cuda0 solo=4096 draft=0.0GiB
+[server] warning: 1 parallel requests asked, the engine runs one
+[server] engine running again
+[server] weights  loaded, ctx=4096 images=off
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] s1 read  pp=70/77 13t/s 5s
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=26/300 9.5t/s | total 9t/s
+[server] live | s1 tg=51/300 9.7t/s | total 10t/s
+[server] live | s1 tg=85/300 11.1t/s | total 11t/s
+[server] live | s1 tg=111/300 11.3t/s | total 11t/s
+[server] live | s1 tg=129/300 10.7t/s | total 11t/s
+[server] live | s1 tg=149/300 10.5t/s | total 11t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=153/300 9.1t/s | total 9t/s
+[server] live | s1 tg=155/300 8.2t/s | total 8t/s
+[server] live | s1 tg=189/300 8.3t/s | total 8t/s
+[server] live | s1 tg=226/300 9.0t/s | total 9t/s
+[server] live | s1 tg=257/300 9.5t/s | total 9t/s
+[server] live | s1 tg=279/300 9.5t/s | total 9t/s
+[server] s1 done  pp=77/0c 4.2s  tg=300 12.2t/s acc=77% dl=2.5  ttft=6.6s  end=length  hit=54.3%  pcie=0.0%  ssd=19.1%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=31/300 13.4t/s | total 13t/s
+[server] live | s1 tg=67/300 15.5t/s | total 15t/s
+[server] live | s1 tg=96/300 15.0t/s | total 15t/s
+[server] live | s1 tg=121/300 14.3t/s | total 14t/s
+[server] live | s1 tg=145/300 13.7t/s | total 14t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=153/300 12.0t/s | total 12t/s
+[server] live | s1 tg=153/300 10.3t/s | total 10t/s
+[server] live | s1 tg=175/300 10.2t/s | total 10t/s
+[server] live | s1 tg=203/300 10.5t/s | total 10t/s
+[server] live | s1 tg=230/300 10.7t/s | total 11t/s
+[server] live | s1 tg=255/300 10.8t/s | total 11t/s
+[server] live | s1 tg=280/300 10.9t/s | total 11t/s
+[server] live | s1 tg=298/300 10.6t/s | total 11t/s
+[server] s1 done  pp=77/0c 4.4s  tg=300 11.4t/s acc=73% dl=2.5  ttft=4.8s  end=length  hit=52.1%  pcie=0.0%  ssd=20.4%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=32/300 12.1t/s | total 12t/s
+[server] live | s1 tg=63/300 13.4t/s | total 13t/s
+[server] live | s1 tg=96/300 14.0t/s | total 14t/s
+[server] live | s1 tg=117/300 12.8t/s | total 13t/s
+[server] live | s1 tg=144/300 12.6t/s | total 13t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=173/300 12.8t/s | total 13t/s
+[server] live | s1 tg=209/300 13.1t/s | total 13t/s
+[server] live | s1 tg=246/300 13.6t/s | total 14t/s
+[server] live | s1 tg=275/300 13.3t/s | total 13t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 13.3t/s acc=79% dl=2.5  ttft=5.7s  end=length  hit=53.7%  pcie=0.0%  ssd=18.7%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=32/300 13.3t/s | total 13t/s
+[server] live | s1 tg=66/300 14.6t/s | total 15t/s
+[server] live | s1 tg=99/300 14.9t/s | total 15t/s
+[server] live | s1 tg=122/300 13.8t/s | total 14t/s
+[server] live | s1 tg=150/300 13.6t/s | total 14t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=186/300 13.8t/s | total 14t/s
+[server] live | s1 tg=224/300 14.3t/s | total 14t/s
+[server] live | s1 tg=251/300 14.1t/s | total 14t/s
+[server] live | s1 tg=278/300 14.0t/s | total 14t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 13.9t/s acc=79% dl=2.5  ttft=4.8s  end=length  hit=53.0%  pcie=0.0%  ssd=19.4%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=24/300 11.1t/s | total 11t/s
+[server] live | s1 tg=63/300 14.2t/s | total 14t/s
+[server] live | s1 tg=94/300 14.3t/s | total 14t/s
+[server] live | s1 tg=125/300 14.4t/s | total 14t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=153/300 13.8t/s | total 14t/s
+[server] live | s1 tg=153/300 11.6t/s | total 12t/s
+[server] live | s1 tg=166/300 10.7t/s | total 11t/s
+[server] live | s1 tg=197/300 11.0t/s | total 11t/s
+[server] live | s1 tg=233/300 11.6t/s | total 12t/s
+[server] live | s1 tg=262/300 11.9t/s | total 12t/s
+[server] live | s1 tg=282/300 11.6t/s | total 12t/s
+[server] s1 done  pp=77/0c 3.7s  tg=300 12.6t/s acc=72% dl=2.5  ttft=4.8s  end=length  hit=52.0%  pcie=0.0%  ssd=20.3%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=27/300 11.8t/s | total 12t/s
+[server] live | s1 tg=61/300 13.4t/s | total 13t/s
+[server] live | s1 tg=93/300 13.6t/s | total 14t/s
+[server] live | s1 tg=120/300 13.4t/s | total 13t/s
+[server] live | s1 tg=149/300 13.4t/s | total 13t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=153/300 11.3t/s | total 11t/s
+[server] live | s1 tg=171/300 10.9t/s | total 11t/s
+[server] live | s1 tg=202/300 11.3t/s | total 11t/s
+[server] live | s1 tg=238/300 11.9t/s | total 12t/s
+[server] live | s1 tg=266/300 12.0t/s | total 12t/s
+[server] live | s1 tg=289/300 11.8t/s | total 12t/s
+[server] s1 done  pp=77/0c 3.4s  tg=300 13.8t/s acc=71% dl=2.5  ttft=5.7s  end=length  hit=52.1%  pcie=0.0%  ssd=20.4%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=35/300 17.1t/s | total 17t/s
+[server] live | s1 tg=69/300 16.7t/s | total 17t/s
+[server] live | s1 tg=105/300 16.6t/s | total 17t/s
+[server] live | s1 tg=136/300 16.1t/s | total 16t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=174/300 16.1t/s | total 16t/s
+[server] live | s1 tg=206/300 15.6t/s | total 16t/s
+[server] live | s1 tg=243/300 15.9t/s | total 16t/s
+[server] live | s1 tg=273/300 15.7t/s | total 16t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 14.6t/s acc=68% dl=2.5  ttft=4.7s  end=length  hit=53.5%  pcie=0.0%  ssd=19.1%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=32/300 13.6t/s | total 14t/s
+[server] live | s1 tg=70/300 15.9t/s | total 16t/s
+[server] live | s1 tg=100/300 15.4t/s | total 15t/s
+[server] live | s1 tg=131/300 15.2t/s | total 15t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=153/300 13.8t/s | total 14t/s
+[server] live | s1 tg=153/300 11.5t/s | total 12t/s
+[server] live | s1 tg=186/300 12.0t/s | total 12t/s
+[server] live | s1 tg=229/300 12.9t/s | total 13t/s
+[server] live | s1 tg=255/300 12.3t/s | total 12t/s
+[server] live | s1 tg=285/300 12.4t/s | total 12t/s
+[server] s1 done  pp=77/0c 3.3s  tg=300 14.5t/s acc=82% dl=2.5  ttft=4.2s  end=length  hit=54.0%  pcie=0.0%  ssd=19.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=35/300 16.7t/s | total 17t/s
+[server] live | s1 tg=75/300 17.4t/s | total 17t/s
+[server] live | s1 tg=108/300 17.0t/s | total 17t/s
+[server] live | s1 tg=140/300 16.4t/s | total 16t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=174/300 16.2t/s | total 16t/s
+[server] live | s1 tg=214/300 16.7t/s | total 17t/s
+[server] live | s1 tg=250/300 16.8t/s | total 17t/s
+[server] live | s1 tg=283/300 16.7t/s | total 17t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 16.3t/s acc=72% dl=2.5  ttft=4.7s  end=length  hit=53.9%  pcie=0.0%  ssd=18.7%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=40/300 17.0t/s | total 17t/s
+[server] live | s1 tg=81/300 18.4t/s | total 18t/s
+[server] live | s1 tg=117/300 17.9t/s | total 18t/s
+[server] live | s1 tg=146/300 17.0t/s | total 17t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=175/300 16.4t/s | total 16t/s
+[server] live | s1 tg=220/300 17.0t/s | total 17t/s
+[server] live | s1 tg=258/300 17.0t/s | total 17t/s
+[server] live | s1 tg=296/300 17.1t/s | total 17t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 17.1t/s acc=74% dl=2.5  ttft=4.2s  end=length  hit=54.1%  pcie=0.0%  ssd=18.5%
+[server] warning: the engine exited (code 1), last log line: basalt serve: suffix drafts: 1 windows, 1 of 2 drafts accepted, restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: --batch 1 is off: it needs 2 or more slots
+[server] warning: only 150 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     ram-experts=29.2GB pool-affinity=auto pool=7
+[server] loading model weights [=====>                  ]   7.8/35.2 GiB  1685 MB/s
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] loaded   35.2GiB 18.0s
+[server] kv       0.2GiB cuda0 solo=4096 draft=0.0GiB
+[server] warning: 1 parallel requests asked, the engine runs one
+[server] engine running again
+[server] weights  loaded, ctx=4096 images=off
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=61/300 27.2t/s | total 27t/s
+[server] live | s1 tg=128/300 30.0t/s | total 30t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=174/300 26.4t/s | total 26t/s
+[server] live | s1 tg=237/300 27.4t/s | total 27t/s
+[server] live | s1 tg=292/300 27.1t/s | total 27t/s
+[server] s1 done  pp=77/0c 0.9s  tg=300 28.9t/s acc=68% dl=2.5  ttft=1.5s  end=length  hit=72.0%  pcie=0.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=2/300 | total 0t/s
+[server] live | s1 tg=68/300 30.5t/s | total 31t/s
+[server] live | s1 tg=142/300 33.3t/s | total 33t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=195/300 30.3t/s | total 30t/s
+[server] live | s1 tg=261/300 30.6t/s | total 31t/s
+[server] s1 done  pp=77/0c 0.9s  tg=300 34.3t/s acc=83% dl=2.5  ttft=0.9s  end=length  hit=74.0%  pcie=0.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=2/300 | total 0t/s
+[server] live | s1 tg=75/300 33.4t/s | total 33t/s
+[server] live | s1 tg=145/300 33.9t/s | total 34t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=226/300 35.1t/s | total 35t/s
+[server] live | s1 tg=296/300 34.8t/s | total 35t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 34.7t/s acc=85% dl=2.5  ttft=1.0s  end=length  hit=74.8%  pcie=0.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=2/300 | total 0t/s
+[server] live | s1 tg=77/300 33.0t/s | total 33t/s
+[server] live | s1 tg=147/300 33.5t/s | total 33t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=189/300 29.1t/s | total 29t/s
+[server] live | s1 tg=261/300 30.4t/s | total 30t/s
+[server] s1 done  pp=77/0c 0.9s  tg=300 34.4t/s acc=75% dl=2.5  ttft=0.9s  end=length  hit=79.0%  pcie=0.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=73/300 35.3t/s | total 35t/s
+[server] live | s1 tg=139/300 33.8t/s | total 34t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=185/300 29.1t/s | total 29t/s
+[server] error: engine reported verify: layer 19 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=77/0c 0.9s  tg=193 33.5t/s acc=84% dl=2.5  ttft=1.0s  end=error  hit=75.4%  pcie=0.0%
+[server] warning: the engine ended (no exit status), last log line: basalt serve: suffix drafts: 2 windows, 10 of 10 drafts accepted (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=94/0c  tg=0  end=error
+[server] warning: the engine exited (code 1) after it reported: verify: layer 19 never rang (an illegal memory access was encountered), restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: --batch 1 is off: it needs 2 or more slots
+[server] warning: only 376 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] warning: only 579 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     ram-experts=29.1GB pool-affinity=auto pool=7
+[server] loading model weights [=====>                  ]   8.1/35.2 GiB  1698 MB/s
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] loaded   35.2GiB 17.9s
+[server] kv       0.2GiB cuda0 solo=4096 draft=0.0GiB
+[server] warning: 1 parallel requests asked, the engine runs one
+[server] engine running again
+[server] weights  loaded, ctx=4096 images=off
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=1/300 | total 0t/s
+[server] live | s1 tg=55/300 27.0t/s | total 27t/s
+[server] live | s1 tg=125/300 30.8t/s | total 31t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=188/300 30.7t/s | total 31t/s
+[server] live | s1 tg=259/300 31.9t/s | total 32t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 32.0t/s acc=77% dl=2.5  ttft=1.4s  end=length  hit=73.6%  pcie=0.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=2/300 | total 0t/s
+[server] live | s1 tg=80/300 35.2t/s | total 35t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=153/300 35.5t/s | total 35t/s
+[server] live | s1 tg=200/300 31.2t/s | total 31t/s
+[server] live | s1 tg=273/300 31.9t/s | total 32t/s
+[server] s1 done  pp=77/0c 0.9s  tg=300 33.8t/s acc=80% dl=2.5  ttft=0.9s  end=length  hit=73.9%  pcie=0.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=2/300 | total 0t/s
+[server] live | s1 tg=78/300 34.3t/s | total 34t/s
+[server] live | s1 tg=148/300 33.9t/s | total 34t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=190/300 29.6t/s | total 30t/s
+[server] live | s1 tg=249/300 29.4t/s | total 29t/s
+[server] s1 done  pp=77/0c 0.9s  tg=300 31.3t/s acc=65% dl=2.5  ttft=0.9s  end=length  hit=77.9%  pcie=0.0%
+[server] thinking budget 150 tokens, output cap 300 (answer-room auto)
+[server] live | s1 tg=2/300 | total 0t/s
+[server] live | s1 tg=87/300 37.1t/s | total 37t/s
+[server] thinking budget reached (150 tokens), wrapping up
+[server] live | s1 tg=154/300 34.9t/s | total 35t/s
+[server] live | s1 tg=217/300 33.8t/s | total 34t/s
+[server] live | s1 tg=282/300 33.2t/s | total 33t/s
+[server] s1 done  pp=77/0c 0.0s  tg=300 29.9t/s acc=69% dl=2.5  ttft=0.9s  end=length  hit=74.9%  pcie=0.0%
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 174 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 219 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 264 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 15.1 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (11.97 GiB) minus the 8 GiB safety headroom); the hottest 3.86 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 18973 experts on SSD (24.4 GiB) · free 24.4 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 840 MiB free once the slots are written (reserve 1500 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 15.3 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (12.21 GiB) minus the 8 GiB safety headroom); the hottest 4.09 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 18789 experts on SSD (24.2 GiB) · free 24.2 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 221 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 193 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 15.4 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (12.23 GiB) minus the 8 GiB safety headroom); the hottest 4.11 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 18778 experts on SSD (24.2 GiB) · free 24.2 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 119 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 16.7 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (13.62 GiB) minus the 8 GiB safety headroom); the hottest 5.46 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 17724 experts on SSD (22.8 GiB) · free 22.8 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 14.7 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (11.55 GiB) minus the 8 GiB safety headroom); the hottest 3.45 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19287 experts on SSD (24.8 GiB) · free 24.8 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 15.8 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (12.68 GiB) minus the 8 GiB safety headroom); the hottest 4.55 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 18435 experts on SSD (23.7 GiB) · free 23.7 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 178 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 14.7 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (11.53 GiB) minus the 8 GiB safety headroom); the hottest 3.43 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19301 experts on SSD (24.8 GiB) · free 24.8 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 73 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 13.7 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (10.52 GiB) minus the 8 GiB safety headroom); the hottest 2.41 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 20099 experts on SSD (25.9 GiB) · free 25.9 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 454 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19776 experts on SSD (25.5 GiB) · free 25.5 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 456 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19778 experts on SSD (25.5 GiB) · free 25.5 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 456 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19778 experts on SSD (25.5 GiB) · free 25.5 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 438 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19788 experts on SSD (25.5 GiB) · free 25.5 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 183 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: ExpertCache: 5886259200 slots x 1 B = 5.48 GiB, but only 2.96 GiB of VRAM is free (9.04 GiB of 12.00 GiB total). Lower --expert-cache.; trying a smaller expert cache: 3193 slots
+basalt generate: warning: ExpertCache: 4414003200 slots x 1 B = 4.11 GiB, but only 2.96 GiB of VRAM is free (9.04 GiB of 12.00 GiB total). Lower --expert-cache.; trying a smaller expert cache: 2394 slots
+basalt generate: warning: ExpertCache: 3309465600 slots x 1 B = 3.08 GiB, but only 2.96 GiB of VRAM is free (9.04 GiB of 12.00 GiB total). Lower --expert-cache.; trying a smaller expert cache: 1795 slots
+basalt generate: warning: expert cache: 1795 slots (2.31 GiB) after 3 smaller tries - a bigger page file lets it use more of the free VRAM
+basalt: warning: model 35.0 GiB, free VRAM + RAM 10.4 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 29.33 GiB exceeds available RAM (8.18 GiB) minus the 8 GiB safety headroom); the hottest 0.16 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 22654 experts on SSD (29.2 GiB) · free 29.2 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 325 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 13.7 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (10.54 GiB) minus the 8 GiB safety headroom); the hottest 2.42 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 20089 experts on SSD (25.9 GiB) · free 25.9 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 338 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 618 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19975 experts on SSD (25.7 GiB) · free 25.7 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 420 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 14.0 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (10.79 GiB) minus the 8 GiB safety headroom); the hottest 2.68 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19890 experts on SSD (25.6 GiB) · free 25.6 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 462 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19770 experts on SSD (25.5 GiB) · free 25.5 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 454 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19776 experts on SSD (25.5 GiB) · free 25.5 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 456 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 13.5 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (10.31 GiB) minus the 8 GiB safety headroom); the hottest 2.18 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 20272 experts on SSD (26.1 GiB) · free 26.1 GiB RAM, or a smaller quant, --gpu 0,1
+basalt: warning: RAM low: 2030 MiB free < 2048 MiB guard
+basalt serve: error: no progress for 60 s during a request (verify window: waiting for the GPU to reach layer 19) - stopping the engine so the server starts it again
+basalt serve: error: stall report (engine 0.5.0): stage "verify window: waiting for the GPU to reach layer 19" for 90 s; 0 layers served since the last finished step (0 = stopped, more = slow)
+  expert pool: epoch 11065, batch epoch 11065: 7 of 7 jobs claimed, 7 done; 7 of 7 workers parked, 7 sleeping; mode 7
+  expert pool active workers: 7
+  expert pool threads: w0=sleeping w1=sleeping w2=sleeping w3=sleeping w4=sleeping w5=sleeping w6=sleeping; host idle for 90652 ms
+  verify window (layers 0-47, device 0): 6 tokens at position 361, host at layer step 19; the GPU rang 19; flags: served 4294967295, plan (A) 4294967295, copies (B) 4294967295, hand-off 4294967295
+  device plan: ring 19 published (entries: VRAM 20, peer 0, CPU 40), host flag 4294967295
+  memory: 10447 MiB resident, 703 MiB in swap, 240 MiB RAM available; 14037855 major page faults so far
+  2 s later:
+  expert pool: epoch 11065, batch epoch 11065: 7 of 7 jobs claimed, 7 done; 7 of 7 workers parked, 7 sleeping; mode 7
+  expert pool active workers: 7
+  expert pool threads: w0=sleeping w1=sleeping w2=sleeping w3=sleeping w4=sleeping w5=sleeping w6=sleeping; host idle for 92653 ms
+  verify window (layers 0-47, device 0): 6 tokens at position 361, host at layer step 19; the GPU rang 19; flags: served 4294967295, plan (A) 4294967295, copies (B) 4294967295, hand-off 4294967295
+  device plan: ring 19 published (entries: VRAM 20, peer 0, CPU 40), host flag 4294967295
+  memory: 10447 MiB resident, 703 MiB in swap, 891 MiB RAM available; 14037855 major page faults so far
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 13.7 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (10.51 GiB) minus the 8 GiB safety headroom); the hottest 2.39 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 20108 experts on SSD (25.9 GiB) · free 25.9 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 16.1 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (12.95 GiB) minus the 8 GiB safety headroom); the hottest 4.81 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 18231 experts on SSD (23.5 GiB) · free 23.5 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 272 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19917 experts on SSD (25.6 GiB) · free 25.6 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 252 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 15.7 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (12.51 GiB) minus the 8 GiB safety headroom); the hottest 4.39 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 18561 experts on SSD (23.9 GiB) · free 23.9 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 14.3 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (11.09 GiB) minus the 8 GiB safety headroom); the hottest 2.99 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19649 experts on SSD (25.3 GiB) · free 25.3 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 462 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19770 experts on SSD (25.5 GiB) · free 25.5 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 462 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19770 experts on SSD (25.5 GiB) · free 25.5 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 462 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19770 experts on SSD (25.5 GiB) · free 25.5 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: RAM low: 1890 MiB free < 2048 MiB guard
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 13 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 20318 experts on SSD (26.2 GiB) · free 26.2 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 334 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19867 experts on SSD (25.6 GiB) · free 25.6 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 267 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19918 experts on SSD (25.6 GiB) · free 25.6 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 203 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19966 experts on SSD (25.7 GiB) · free 25.7 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 22076 experts on SSD (28.4 GiB) · free 28.4 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 21076 experts on SSD (27.1 GiB) · free 27.1 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 19976 experts on SSD (25.7 GiB) · free 25.7 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: error: no VRAM is left for the expert cache: it needs at least 345 slots (454 MiB), about 113 MiB more than this card has free. To make room: a smaller --max-context (the session, mostly its KV cache, takes 177 MiB at 4096 tokens), --kv q4_0, a smaller draft vocabulary (the draft head takes 7 MiB now), images on the CPU, or close other programs that use the GPU
+basalt: warning: model 35.0 GiB, free VRAM + RAM 16.4 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the resident RAM mode does not fit (FileExpertSource: the GPU expert cache is not open; FileExpertSource: the GPU expert cache is not open)
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt serve: error: verify: needs the profile-filled VRAM expert tier (the model file's profile and --expert-cache); with --expert-cache auto, no VRAM was left for it - the 'no VRAM is left for the expert cache' line above says how much is short and what makes room (a smaller --max-context, --kv q4_0, a smaller draft vocabulary, images on the CPU)
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt: warning: model 35.0 GiB, free VRAM + RAM 16.4 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 29.62 GiB exceeds available RAM (14.60 GiB) minus the 8 GiB safety headroom); the hottest 6.41 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 18027 experts on SSD (23.2 GiB) · free 23.2 GiB RAM, or a smaller quant, --gpu 0,1
+basalt generate: warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt generate: warning: only 0 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+basalt: warning: model 35.0 GiB, free VRAM + RAM 13.2 GiB: the rest is read from the SSD while generating (slow)
+basalt generate: warning: the whole complement does not fit in RAM (FileExpertSource: resident complement 28.28 GiB exceeds available RAM (9.95 GiB) minus the 8 GiB safety headroom); the hottest 1.83 GiB are kept in RAM
+basalt: warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+basalt: warning: 20549 experts on SSD (26.5 GiB) · free 26.5 GiB RAM, or a smaller quant, --gpu 0,1

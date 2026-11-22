@@ -1,0 +1,59 @@
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=131072 expert-cache=3400 mmap-experts adapt-swaps=0 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21176 experts on SSD (27.3 GiB) · free 27.3 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.0GiB 5.2s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=1840/11274 354t/s 5s
+[server] s1 read  pp=3802/11274 350t/s 11s
+[server] s1 read  pp=5765/11274 357t/s 16s
+[server] s1 read  pp=9026/11274 418t/s 22s
+basalt: error: prefill copy_i32: an illegal memory access was encountered
+[server] warning: the engine ended (no exit status), last error in its log: basalt: error: prefill copy_i32: an illegal memory access was encountered (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=11274/0c  tg=0  end=error
+[server] warning: the engine exited (code 1), last error in its log: basalt: error: prefill copy_i32: an illegal memory access was encountered, restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 21176 experts on SSD (27.3 GiB) · free 27.3 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   8.0GiB 5.2s
+[server] kv       0.7/2.1GiB cuda0 elastic
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=1840/11274 356t/s 5s
+[server] s1 read  pp=3802/11274 351t/s 11s
+[server] s1 read  pp=5765/11274 358t/s 16s
+[server] s1 read  pp=9026/11274 420t/s 22s
+[server] s1 read  pp=11273/11274 419t/s 27s
+[server] live | s1 tg=14/600 14.2t/s | total 14t/s
+[server] live | s1 tg=55/600 16.7t/s | total 17t/s
+[server] live | s1 tg=98/600 18.2t/s | total 18t/s
+[server] live | s1 tg=137/600 18.1t/s | total 18t/s
+[server] live | s1 tg=188/600 19.3t/s | total 19t/s
+[server] live | s1 tg=241/600 20.3t/s | total 20t/s
+[server] live | s1 tg=291/600 20.7t/s | total 21t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 18.5t/s | total 19t/s
+[server] live | s1 tg=303/600 16.4t/s | total 16t/s
+[server] s1 done  pp=11274/0c 4.3s 2606t/s  tg=330 19.2t/s acc=76% dl=2.7  ttft=27.0s  end=stop  hit=30.2%  pcie=0.0%
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] live | s1 tg=15/600 19.0t/s | total 19t/s
+[server] live | s1 tg=66/600 23.1t/s | total 23t/s
+[server] live | s1 tg=108/600 21.8t/s | total 22t/s
+[server] live | s1 tg=166/600 23.2t/s | total 23t/s
+[server] live | s1 tg=216/600 23.2t/s | total 23t/s
+[server] live | s1 tg=263/600 23.1t/s | total 23t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 22.1t/s | total 22t/s
+[server] live | s1 tg=303/600 19.0t/s | total 19t/s
+[server] live | s1 tg=323/600 17.9t/s | total 18t/s
+[server] s1 done  pp=11274/11269c 4.1s  tg=337 22.3t/s acc=80% dl=2.6  ttft=0.2s  end=stop  hit=31.4%  pcie=0.0%

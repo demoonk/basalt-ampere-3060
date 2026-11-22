@@ -1,0 +1,59 @@
+Free RAM before start: 53.5891304016113 MiB
+Starting Basalt on http://127.0.0.1:8105/v1  (ctx 131072, kv-resident 20480, route-prior 1)
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=131072 kv-resident=20480 expert-cache=auto mmap-experts adapt-swaps=0 route-prior=1 prefill=4096 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: only 131 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 20368 experts on SSD (26.2 GiB) · free 26.2 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.0GiB 6.0s
+[server] kv       0.6GiB cuda0 solo=131072 draft=0.0GiB
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=479/1443 96t/s 5s
+[server] s1 read  pp=958/1443 94t/s 10s
+[server] s1 read  pp=1442/1443 91t/s 16s
+[server] live | s1 tg=22/600 21.7t/s | total 22t/s
+[server] live | s1 tg=90/600 28.8t/s | total 29t/s
+[server] live | s1 tg=155/600 29.7t/s | total 30t/s
+[server] live | s1 tg=235/600 32.2t/s | total 32t/s
+[server] thinking budget reached (300 tokens), wrapping up
+[server] live | s1 tg=303/600 32.4t/s | total 32t/s
+[server] live | s1 tg=303/600 26.1t/s | total 26t/s
+[server] live | s1 tg=303/600 22.0t/s | total 22t/s
+[server] s1 done  pp=1443/0c 4.7s 307t/s  tg=345 31.4t/s acc=81% dl=2.7  ttft=16.0s  end=stop  hit=70.8%  pcie=0.0%
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=2000/41463 382t/s 5s
+[server] s1 read  pp=3840/41463 370t/s 10s
+[server] s1 read  pp=6480/41463 408t/s 16s
+basalt: error: prefill copy_i32: an illegal memory access was encountered
+[server] warning: the engine ended (no exit status), last error in its log: basalt: error: prefill copy_i32: an illegal memory access was encountered (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=41463/0c  tg=0  end=error
+[server] warning: the engine ended (no exit status), last error in its log: basalt: error: prefill copy_i32: an illegal memory access was encountered, restarting it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] warning: lossy flags enabled, these flags will affect the accuracy of the served model
+[server] warning: --route-prior 1 changes expert routing
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: only 179 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 20332 experts on SSD (26.2 GiB) · free 26.2 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.1GiB 5.9s
+[server] kv       0.6GiB cuda0 solo=131072 draft=0.0GiB
+[server] engine running again
+[server] weights  loaded, ctx=131072 images=off
+[server] thinking budget 300 tokens, output cap 600 (answer-room auto)
+[server] s1 read  pp=1200/41463 230t/s 5s
+[server] s1 read  pp=2320/41463 224t/s 10s
+[server] s1 read  pp=3440/41463 224t/s 15s
+[server] s1 read  pp=5760/41463 277t/s 21s
+[server] s1 read  pp=8080/41463 311t/s 26s
+basalt: error: prefill copy_i32: an illegal instruction was encountered
+[server] warning: the engine ended (no exit status), last error in its log: basalt: error: prefill copy_i32: an illegal instruction was encountered (the next request restarts it, log C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log)
+[server] s1 done  pp=41463/0c  tg=0  end=error

@@ -1,0 +1,20 @@
+Free RAM before start: 54.6307182312012 MiB
+Starting Basalt on http://127.0.0.1:8105/v1  (spec 4, mmap experts)
+[server] legend   pp=prompt read  tg=generation  c=cached  acc=drafts accepted  dl=tokens per window  hit=expert cache  pcie=routed experts over PCIe
+[server] qwen3.8-flash-next-gsq-rco-q2_0  kv=int8 ctx=4096 expert-cache=auto mmap-experts adapt-every=8 spec=4 temp=1.0 top_p=0.95 top_k=20
+[server] engine log: C:\Users\demOOn\.cache\basalt\dd4495d16955fe25\engine.log
+[server] ready    http://127.0.0.1:8105/v1  openai+anthropic  stats http://127.0.0.1:8105/
+[server] warning: this CPU has no AVX-512: the expert kernels run on AVX-2 (multi-token for the i-quant gate/up rows)
+[server] planning weight allocation
+[server] warning: only 47 MiB free once the slots are written (reserve 700 MiB); shrinking the expert cache
+[server] auto     pool-affinity=auto pool=7
+[server] warning: mid_chain: device not covered (28 SMs, 101376 B optin smem; need 16, 101376): the unfused kernels run
+[server] warning: 20085 experts on SSD (25.9 GiB) · free 25.9 GiB RAM, or a smaller quant, --resident-experts, --gpu 0,1
+[server] loaded   9.4GiB 6.3s
+[server] kv       0.2GiB cuda0 solo=4096 draft=0.0GiB
+[server] weights  loaded, ctx=4096 images=off
+[server] thinking budget 60 tokens, output cap 120 (answer-room auto)
+[server] s1 read  pp=62/67 8t/s 7s
+[server] live | s1 tg=6/120 8.5t/s | total 8t/s
+[server] live | s1 tg=30/120 9.8t/s | total 10t/s
+[server] s1 done  pp=67/0c 7.6s  tg=48 9.6t/s acc=79% dl=2.8  ttft=7.7s  end=stop  hit=33.6%  pcie=0.0%

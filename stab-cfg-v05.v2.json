@@ -1,0 +1,1 @@
+{"version": 2, "server": {"host": "127.0.0.1", "port": 8110}, "engine": {"kv": "q4_0", "max-context": 16384, "spec": 8, "expert-cache": 1500}, "models": [{"model": "C:\\Neurolib\\Models\\Basalt\\GSQ-RCO-Q2_0\\Qwen3.8-Flash-Next-GSQ-RCO-Q2_0.basalt", "gpu": "0", "parallel": 1, "fit-max-tokens": true, "kv": "q4_0", "max-context": 16384}]}
