@@ -830,6 +830,44 @@ CPU-экспертов на слой 4.45 distinct из 5.39 routed (`logs-speed
 (192.168.1.18:8105) и `local` (Strata) не тронуты. Профиль перечитывается при перезапуске DSH —
 после смены контекста его нужно перезапустить.
 
+### 13.2 Strata: ярлыки для того же движка
+
+Страта стоит отдельно от форка: терминал `C:\Neurolib\Tools\Strata\terminal\0.1.59`, движок
+`C:\Neurolib\Tools\Strata\components\engine\0.1.59-windows-x86_64-cuda-cuda13\strata.exe`, тот же
+Q2_0-пак (`C:\Neurolib\packs\q2_0`), native gguf
+`C:\Neurolib\Models\Strata\Q2_0\Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf` плюс PLE
+gguf (00002-of-00002) и профиль экспертов `terminal\0.1.59\data\expert-profile.bin`.
+
+Четыре ярлыка на рабочем столе ведут к
+`C:\Neurolib\Tools\strata-3060\serve-3060.cmd`:
+
+| ярлык | аргумент | что стартует |
+|---|---|---|
+| **Strata 3060 server** | — | ctx **16384**, spec 4, kv int8, expert-cache auto → `http://127.0.0.1:8103/v1` |
+| **Strata 3060 32k** | `32k` | ctx 32768, драфтинг выключен |
+| **Strata 3060 64k** | `64k` | ctx 65536, `--kv-resident 32768`, слой MTP-драфта (`--mtp C:\Neurolib\mtp\rt`) |
+| **Strata 3060 stop** | `stop` | убивает `strata.exe` и python-процесс сервера |
+
+Лончер перед стартом проверяет три вещи, и это не косметика:
+
+1. **нет `basalt.exe`** — два движка на одной карте не живут: и Strata, и Basalt закрепляют
+   `31.64 GiB` экспертов через `cudaHostRegister PORTABLE` (строка
+   `expert arena: cudaHostRegister PORTABLE ok` в `logs\strata-16k.log`), и Windows-коммит
+   (`4.9 GiB left of a 67.9 GiB limit`) ломается первым.
+2. **нет `strata.exe`** — повторный запуск поверх живого движка даст два arena-пининга.
+3. **свободная RAM ≥ 40 GiB** — тот же порог, что у `serve-3060.cmd`.
+
+Стартовый бюджет из лога: arena 31.64 GiB pinned, expert cache auto 3758 слотов = 4.84 GiB
+VRAM, dense-веса 1.38 GiB + Q5_K head 0.44 GiB, `1852 MiB free once the slots are written
+(reserve 2048 MiB)`. Холодный движок поднимается 8–15 минут (`engine_ready_s: 871` в
+`%LOCALAPPDATA%\Strata\launch\q2_0-16k.json`); когда arena уже в файловом кэше — 30 секунд.
+
+**Прогон ярлыка после создания** (`logs\smoke.log`): `GET /v1/models` через 30 с, 120 токенов
+за 4.2 с (≈28 tok/s), свободная RAM во время работы 20.5 GiB, после `stop` — 55.1 GiB,
+сирот нет. Конфигурации: `strata-16k.json`, `strata-32k.json`, `strata-64k.json` — повторяют
+пресеты Strata (`launch\q2_0-8k/16k/32k/64k.json`), только с логи в
+`C:\Neurolib\Tools\strata-3060\logs\` и портом 8103.
+
 ---
 
 ## 14. Приёмка по ТЗ (что выполнено, что нет)

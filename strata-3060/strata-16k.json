@@ -1,0 +1,26 @@
+{
+  "exe": "component:strata-engine",
+  "args": [
+    "--pack", "C:\\Neurolib\\packs\\q2_0",
+    "--native", "C:\\Neurolib\\Models\\Strata\\Q2_0\\Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+    "--ple-gguf", "C:\\Neurolib\\Models\\Strata\\Q2_0\\Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00002-of-00002.gguf",
+    "--expert-profile", "C:\\Neurolib\\Tools\\Strata\\terminal\\0.1.59\\data\\expert-profile.bin",
+    "--expert-cache", "auto",
+    "--prefill", "auto",
+    "--spec", "4",
+    "--max-context", "16384",
+    "--kv", "int8"
+  ],
+  "cwd": "C:\\Neurolib\\Tools\\Strata\\terminal\\0.1.59",
+  "tokenizer": "C:\\Neurolib\\packs\\q2_0\\tokenizer",
+  "model_name": "qwen3.8-flash-next-q2_0",
+  "log": "C:\\Neurolib\\Tools\\strata-3060\\logs\\strata-16k.log",
+  "lib_dirs": [],
+  "port": 8103,
+  "gpu": 0,
+  "gpus_asked": true,
+  "mtp": false,
+  "host": "127.0.0.1",
+  "drafting": "mtp",
+  "open_browser": false
+}
