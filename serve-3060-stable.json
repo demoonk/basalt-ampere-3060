@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8105
+  },
+  "engine": {
+    "kv": "int8",
+    "max-context": 131072,
+    "spec": 4,
+    "expert-cache": 3000,
+    "adapt-every": 8
+  },
+  "models": [
+    {
+      "model": "C:\\Neurolib\\Models\\Basalt\\GSQ-RCO-Q2_0\\Qwen3.8-Flash-Next-GSQ-RCO-Q2_0.basalt",
+      "alias": "qwen3.8-flash-next-gsq-rco-q2_0",
+      "gpu": "0",
+      "parallel": 1,
+      "vision": "off",
+      "fit-max-tokens": true
+    }
+  ]
+}
