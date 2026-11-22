@@ -872,7 +872,8 @@ VRAM, dense-веса 1.38 GiB + Q5_K head 0.44 GiB, `1852 MiB free once the slot
 prompt 63 токена за 1.08 с (58.5 tok/s), **decode 200 токенов за 3.39 с = 59.0 tok/s**,
 draft 135, принято 101 (**74.8% acc**), `n_ctx: 65536`. Это вдвое больше, чем тот же движок
 на 16k (28 tok/s в smoke-тесте) и вдвое больше, чем Basalt на 128K (36.4 tok/s на промпте
-13 044 токена) — на коротких запросах Strata на этой машине быстрее.
+13 044 токена) — на коротких запросах Strata на этой машине быстрее. Оговорка: 59 tok/s
+получены с включённым по умолчанию `STRATA_ROUTE_TAIL_SKIP=7` (§13.3, пункт 2).
 Стабильность того же конфига: из 5 запросов 3 прошли, 2 упали с той же сигнатурой, что и
 Basalt — `verify: layer 4 never rang (an illegal memory access)` и
 `verify: layer 13 never rang (misaligned address)`; сервер сам перезапускает движок,
@@ -886,6 +887,64 @@ retry-политика (`SERVER`, `EMPTY_RESPONSE`, `TIMEOUT` — три поп�
 DSH повторяет запрос, а не теряет шаг. `agent-default-model` остался на `basalt-3060` —
 Strata это модель на выбор, а не движок самого агента. Профиль перечитывается при
 перезапуске DSH.
+
+### 13.3 Разбор `logs\strata-64k.log`: почему Страта падает на этой машине
+
+Лог за 3.5 минуты содержит **шесть** запусков движка и **шесть** фатальных ошибок. Кто
+съедает 12 GB VRAM (строки startup-блока):
+
+| что | VRAM |
+|---|---|
+| dense-веса native pack | 1416 MiB |
+| 301 native проекций | 1376 MiB |
+| Q5_K head | 437 MiB |
+| expert cache auto | 3915 слотов → срезан до 3745 = **4.82 GiB** |
+| MTP draft layer | **837 MiB** + draft head 178 MiB |
+| KV streaming | 32768 клеток из 65536 в VRAM, остальное 0.77 GiB pinned RAM |
+| окна verify | 89.2 MiB буферов |
+| префилл | «borrowed 3317 CUDA0 cache slots (4.27 GiB)» — занимает слоты кэша экспертов |
+
+Итог: `353 MiB of VRAM free with everything loaded`, и движок сам пишет
+`WARNING: only 388 MiB of VRAM free at the start of this request (below 1024 MiB): …
+the driver can page GPU memory to system RAM, decode falls to a few tok/s and a window may
+never finish (#2065)`.
+
+**Четыре рычага, которые я проверил живыми прогонами** (22.11, все на порту 8103):
+
+| прогон | конфиг | VRAM free | итог |
+|---|---|---|---|
+| 64k дефолт | ctx 65536, spec 4, MTP, tail-skip 7 | 292–474 MiB | 6 запусков / 6 падений (`layer 4, 13, 20, 34×2, 17`), decode 39.5–59.0 tok/s |
+| + резерв | `--vram-reserve-mib 1408` → cache 3216 слотов (4.14 GiB) | **1030–1072 MiB** | warning пропадает, падения остаются (`layer 17`) |
+| без lossy-пропуска | `STRATA_ROUTE_TAIL_SKIP=0` + резерв | 924 MiB | 2 чистых из 7 попыток, decode **32.1 / 28.6 tok/s** вместо 46–59 |
+| без sm_86-переключателей | `STRATA_SM86_PERF=0` + резерв | 956 MiB | 3 запуска / 3 падения, decode 34.4 tok/s |
+| 32k | ctx 32768, drafting off | 519–630 MiB | 3 запуска / 3 падения (`layer 19, 21 (illegal instruction), 16`) |
+| 16k | ctx 16384, spec 4 | 626 MiB | 2 запуска / 1 падение (`layer 25 (illegal instruction)`); единственный чистый запрос — 120 токенов, 47.9 tok/s |
+| без verify-окна | `--suffix-draft 0` | — | движок **отказывается**: `a native (IQ) pack needs --native SHARD1, --spec T (T >= 2) and --prefill CHUNK` (exit 2) |
+
+Выводы, которые из этого следует:
+
+1. **Нехватка VRAM — триггер, а не причина.** Резерв 1.4 GiB убирает предупреждение #2065 и
+   поднимает headroom с ~300 MiB до ~1 GiB, но `verify: layer N never rang` продолжается.
+   layer 4/13/17/20/21/25/27/34 — точки детекции watchdog'а, а не места отказа (механизм
+   тот же, что в §2.7 для Basalt).
+2. **Скорость Strata на этой машине держится на lossy-флаге.** `STRATA_ROUTE_TAIL_SKIP=7`
+   включён по умолчанию и сам движок описывает его как «+10..20% decode, answers differ
+   slightly from 0.1.41»; за прогон было пропущено 41 872 обращения к нерезидентным
+   экспертам. С `=0` скорость падает до 28–32 tok/s. Сравнивать 59 tok/s Strata с 36.4 tok/s
+   Basalt λ=1 корректно только с этим оговоркой.
+3. **Verify-окно нельзя убрать** — для native IQ-пака `--spec T ≥ 2` обязателен, поэтому
+   «выключить окно» как способ стабилизации не работает.
+4. **Cooldown сервера.** После трёх фатальных ошибок за 10 минут serve отвечает 503:
+   `the engine ended (exit code 3) … (3 of 3 allowed in 10 minutes)`. Для агентной сессии
+   в DSH это означает ~10 минут недоступности после падения, retry-политика провайдера
+   в этот промежуток не помогает.
+5. `--vram-reserve-mib 1408` оставлен в `strata-64k.json`: он стоит ~700 MiB expert cache
+   (3915 → 3216 слотов) и снимает warning о pagingе, но падения не лечит.
+
+**Что делать в агентной работе:** если важна предсказуемость, а не пиковая скорость —
+16k/32k ярлык и честная маршрутизация (`STRATA_ROUTE_TAIL_SKIP=0`); 64k+дефолт — самый
+быстрый, но самый падающий путь. Если нужен 64K контекст без этих падений, устойчивее
+`Basalt 3060 safe` (128K, λ=0, 11 чистых из 14).
 
 ---
 
