@@ -1,8 +1,9 @@
 @echo off
 rem Strata 3060 - the same launcher idea as serve-3060.cmd, for the Strata engine.
-rem   no argument / 16k   ctx 16384, spec 4, kv int8        -> http://127.0.0.1:8103/v1
+rem   no argument / 64k   ctx 65536, kv-resident 32768, the MTP draft layer
+rem                       -> http://127.0.0.1:8103/v1   (this is the one DSH is set up for)
 rem   32k                 ctx 32768, drafting off
-rem   64k                 ctx 65536, kv-resident 32768, the MTP draft layer
+rem   16k                 ctx 16384, spec 4, kv int8
 rem   stop                kill the engine and the serve python
 rem Guards: only one engine at a time (Basalt and Strata each page-lock 31.6 GiB),
 rem and the run refuses to start below 40 GiB of free RAM.
@@ -35,7 +36,7 @@ if %FREE% LSS 40 (
 echo Free RAM %FREE% GiB. The arena pins 31.6 GiB, the expert cache takes what the 12 GB card leaves
 echo after the weights (about 4.8 GiB, auto). Engine ready in 8-15 minutes on this CPU.
 
-if /i "%1"=="32k" (set CFG=%ROOT%\strata-32k.json) else if /i "%1"=="64k" (set CFG=%ROOT%\strata-64k.json) else (set CFG=%ROOT%\strata-16k.json)
+if /i "%1"=="32k" (set CFG=%ROOT%\strata-32k.json) else if /i "%1"=="16k" (set CFG=%ROOT%\strata-16k.json) else (set CFG=%ROOT%\strata-64k.json)
 
 title Strata 3060 server %1
 cd /d "%ROOT%"

@@ -843,9 +843,9 @@ gguf (00002-of-00002) и профиль экспертов `terminal\0.1.59\data
 
 | ярлык | аргумент | что стартует |
 |---|---|---|
-| **Strata 3060 server** | — | ctx **16384**, spec 4, kv int8, expert-cache auto → `http://127.0.0.1:8103/v1` |
+| **Strata 3060 server** | — | ctx **65536**, kv int8, `--kv-resident 32768`, `--spec 4 --spec-min-p 0.5`, слой MTP-драфта (`--mtp C:\Neurolib\mtp\rt`) → `http://127.0.0.1:8103/v1` |
 | **Strata 3060 32k** | `32k` | ctx 32768, драфтинг выключен |
-| **Strata 3060 64k** | `64k` | ctx 65536, `--kv-resident 32768`, слой MTP-драфта (`--mtp C:\Neurolib\mtp\rt`) |
+| **Strata 3060 16k** | `16k` | ctx 16384, spec 4, kv int8 |
 | **Strata 3060 stop** | `stop` | убивает `strata.exe` и python-процесс сервера |
 
 Лончер перед стартом проверяет три вещи, и это не косметика:
@@ -867,6 +867,25 @@ VRAM, dense-веса 1.38 GiB + Q5_K head 0.44 GiB, `1852 MiB free once the slot
 сирот нет. Конфигурации: `strata-16k.json`, `strata-32k.json`, `strata-64k.json` — повторяют
 пресеты Strata (`launch\q2_0-8k/16k/32k/64k.json`), только с логи в
 `C:\Neurolib\Tools\strata-3060\logs\` и портом 8103.
+
+**Замер дефолта (64k, 22.11, движок уже прогрет)** — из `timings` самого ответа сервера:
+prompt 63 токена за 1.08 с (58.5 tok/s), **decode 200 токенов за 3.39 с = 59.0 tok/s**,
+draft 135, принято 101 (**74.8% acc**), `n_ctx: 65536`. Это вдвое больше, чем тот же движок
+на 16k (28 tok/s в smoke-тесте) и вдвое больше, чем Basalt на 128K (36.4 tok/s на промпте
+13 044 токена) — на коротких запросах Strata на этой машине быстрее.
+Стабильность того же конфига: из 5 запросов 3 прошли, 2 упали с той же сигнатурой, что и
+Basalt — `verify: layer 4 never rang (an illegal memory access)` и
+`verify: layer 13 never rang (misaligned address)`; сервер сам перезапускает движок,
+следующий запрос работает. То есть «never rang» — болезнь не форка, а общего пути
+`device-planned MoE tail + mmap` на sm_86 (§2.7 читается и для Strata).
+
+**Strata в DeepSeek Harness.** В `cordis.patch.yml` появился провайдер `strata-3060`:
+`baseURL: http://127.0.0.1:8103/v1`, модель `qwen3.8-flash-next-q2_0`,
+`contextWindow: 65536`, `maxTokens: 4096`, `reasoningEfforts: off/low/medium/high` и
+retry-политика (`SERVER`, `EMPTY_RESPONSE`, `TIMEOUT` — три попытки): после падения движка
+DSH повторяет запрос, а не теряет шаг. `agent-default-model` остался на `basalt-3060` —
+Strata это модель на выбор, а не движок самого агента. Профиль перечитывается при
+перезапуске DSH.
 
 ---
 
