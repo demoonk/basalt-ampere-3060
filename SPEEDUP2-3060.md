@@ -269,9 +269,130 @@ reproduce не удалось (4 последующих spec-8 arms либо п�
 последовательность — serve: ctx 4096 + spec 4 (24/24), ctx 8192 + spec 8 (10/10),
 ctx 4096 + `--expert-cache 4000` (10/10), ctx 4096 + `--vram-reserve-mib 1500` (10/10).
 
----
+### 2.7 Разбор живого сбоя 22.11 (дефолт ctx 131072, λ=1) — только анализ, кода не трогали
 
-## 3. S2. Staged PCIe: почему не взводится
+Запрошенное падение:
+
+```
+[server] live | s1 tg=470/4096 31.5t/s | total 31t/s
+[server] error: engine reported verify: layer 23 never rang (an illegal memory access was encountered)
+[server] s1 done  pp=14697/0c  tg=512 31.2t/s  ttft=5.9s  end=error
+```
+
+**1. Что строка означает буквально.** `Verifier::serve_poll`
+([execution.cpp:230-241](C:/Neurolib/Tools/basalt-ampere-3060/src/models/qwen4exp/decode/verify/execution.cpp#L230-L241))
+крутится на host-mapped `*seq < want`, каждые 1024 спина смотрит на часы, и раз в 2 мс делает
+`cudaStreamQuery(cs_)`. Если query возвращает **что-то кроме `cudaErrorNotReady`**, окно
+объявляется погибшим:
+
+```cpp
+err = "verify: layer " + std::to_string(l) + " never rang (" +
+      (q == cudaSuccess ? "graph finished" : cudaGetErrorString(q)) + ")";
+```
+
+То есть «never rang» — это **диагноз смотрителя, а не место аварии**. Дверbell слоя публикует
+GPU в route-кернеле (`dec_moe_kernels.cuh:164`, `dec_moe.cuh:331/401`:
+`*(volatile uint32_t*) a.host_seq_m = a.ring;`). Если кернел faultнул, слово никогда не будет
+записано, и первый же host-запрос к stream'у вернёт ошибку. CUDA-ошибки асинхронны и **липкие**:
+`illegal memory access` возвращается *первой* CUDA-функцией после падения, layer 23 — это слой,
+на котором хост в этот момент ждал, а не слой, где кернел полез в плохой адрес.
+
+**2. Номер слоя не имеет смысла — это видно по логам.** В собранном engine.log слой аварии
+перебирается: 3, 7, 10, 11, 15, 21, 23, 25, 27, 31, 35, 39, 42, 44. Ни один слой не повторяется
+чаще других → баг не layer-specific.
+
+**3. Где авария на самом деле.** Diagnostic-прогон с `CUDA_LAUNCH_BLOCKING=1` на той же
+конфигурации (`logs-speedup2\BLOCKING.log`, 3 запроса по 13 044 токена):
+
+```
+[server] s1 read  pp=13044/0c  tg=0  end=error
+basalt serve: error: verify: a device wait timed out (device wait: kind 4, line 0, block 0); the window is discarded
+---
+[server] s1 read  pp=4298/13044 413t/s 10s
+basalt: error: qsa_prompt_attn_batch: an illegal memory access was encountered
+[server] warning: the engine ended (no exit status), last error in its log: …
+```
+
+При блокирующих launch'ах первичное событие называется **своим именем**: `qsa_prompt_attn_batch`
+([qsa_prompt_attn.cu:786-796](C:/Neurolib/Tools/basalt-ampere-3060/src/models/qwen4exp/kernels/qsa_prompt_attn.cu#L786-L796)),
+attention sparse-KV на prompt-пути. Эта функция при ошибке запуска делает `std::exit(1)` — отсюда
+и «the engine exited (code 1)», и 500/503 у клиента. `kind 4` = `kWaitDmWait`
+([wait_abort.hpp:15-20](C:/Neurolib/Tools/basalt-ampere-3060/include/basalt/kernels/wait_abort.hpp#L15-L20)):
+устройство ждало релиз хоста 4 «учтённых» секунды и не дождалось — второй симптом той же
+связки, а не причина.
+
+**4. Откуда берётся адрес, которого нет.** Три строки из того же лога:
+
+```
+basalt serve: 571 MiB of VRAM free with everything loaded          (reserve 700 MiB)
+basalt serve: the prompt path borrows 2264 CUDA0 cache slots (2.91 GiB)
+basalt generate: elastic KV: 32768 cells backed per session, the other 1.39 GiB of KV
+                 are the expert cache's last 1084 slots until a request needs them
+```
+
+Экспертный кэш — сегментированный VMM-арен (`expert_cache.cpp:207-272`: `shrink()` делает
+`vmm::unmap` хвостовых сегментов, `grow()` мапит обратно). После shrink'а `slots()` =
+`live_slots_`, но `ExpertCache::device_slot()` проверяет границу по **полному** `slots_`, а не
+по живому ([expert_cache.cpp:435-443](C:/Neurolib/Tools/basalt-ampere-3060/src/core/expert_cache.cpp#L435-L443)).
+Device-план MoE строит указатели внутри route-кернела:
+
+```cpp
+const int32_t slot = a.res0[s_ids[tid]];
+p->ptr[s_gidx[tid]] = (unsigned long long) (a.cache_base + (a.slot_off ? (size_t) a.slot_off[slot]
+                                                      : (size_t) slot * (size_t) a.blob));   // dec_moe_kernels.cuh:89-91
+```
+
+при этом `dm_->slot_off` — один раз загруженный снимник offset'ов
+([expert_resources.cpp:81-83](C:/Neurolib/Tools/basalt-ampere-3060/src/models/qwen4exp/decode/verify/expert_resources.cpp#L81-L83)).
+QSA-attention читает KV так же без проверки:
+
+```cpp
+const int cell = ids[c0 + t];
+const long long page = (long long) p.page_table[cell / page_size];   // qsa_prompt_attn.cu:128-129
+```
+
+Хвост арены одновременно заёмствуют два владельца: elastic KV (1.39 GiB «последних 1084 слотов»)
+и prompt-путь (2264 слота, 2.91 GiB), когда свободной VRAM уже меньше резерва (571 MiB < 700 MiB).
+Любой адрес, который попал в unmap'нутый сегмент, даёт ровно `an illegal memory access`.
+QSA-отбор рассчитан на `kTopkMaxCells = 32768`
+([qsa.hpp:278](C:/Neurolib/Tools/basalt-ampere-3060/include/basalt/models/qwen4exp/kernels/qsa.hpp#L278));
+выше этого кернелы либо отказываются ([qsa.cu:760-762](C:/Neurolib/Tools/basalt-ampere-3060/src/models/qwen4exp/kernels/qsa.cu#L760-L762),
+[qsa_select.cu:1106](C:/Neurolib/Tools/basalt-ampere-3060/src/models/qwen4exp/kernels/qsa_select.cu#L1106)),
+либо работают за пределами своих буферов — ctx 131072 выводит QSA за проектный потолок.
+
+**5. Что НЕ является причиной (проверено).**
+* `--route-prior 1`: кернел `route_prior` bounds-safe (`held.t[q][lane+i*32)` ≤ 511 при NE=512,
+  `counts[3..5]` внутри 8×8-байтного `route_counts`), запускается только при `n*K ≤ kDmCap`;
+  падения есть и с λ=1, и без него.
+* Give-up путь device-wait: по замыслу он **не** роняет контекст
+  ([wait_abort.hpp:5](C:/Neurolib/Tools/basalt-ampere-3060/include/basalt/kernels/wait_abort.hpp#L5) —
+  «falls through … and the context stays usable»), а наш форк `6ea194ed` ещё и зануляет строки.
+  Значит `illegal memory access` — отдельный плохой указатель, а не «прочитали незаписанную строку».
+* MTP-граф: `--no-capture` движок не принимает вместе с пулом.
+* Adaptive swaps: уже `0`, падения остаются.
+* mmap experts: падают и с `--mmap-experts`, и без него.
+
+**6. Корреляция с длиной запроса (serve, дефолт ctx 131072, λ=1 vs λ=0).**
+
+| prompt tokens | чисто/всего |
+|---|---|
+| 700–900 | 3/3 |
+| 11 000–13 500 | 20/27 |
+| 30 000–60 000 | 2/8 |
+| 100 000 | 0/4 |
+
+Чем длиннее prompt, тем больше заёмствованных слотов и выше шанс, что arena уже unmap'нута.
+Спека (1, 2, 4) и mmap на частоту не влияют.
+
+**7. Что из этого следует для запуска (без пересборки).**
+* Для агентной работы держать **ctx ≤ 32768** (ярлык «Basalt 3060 16k» / `serve-3060-16k.json`) —
+  там QSA и elastic KV работают в проектном диапазоне.
+* Если 128K нужен: `--kv-resident 131072` (elastic KV выключается, сегменты не unmap'ятся) плюс
+  `--expert-cache 2500`; в тестах это 2/4 чисто, при 30–60k токенах decode чистый (26.7/28.2 tok/s).
+* Не давать движку работать под резервом: свободная VRAM 571–595 MiB при резерве 700 MiB —
+  именно то состояние, в котором он постоянно переподтверждает сегменты арены.
+* Клиент должен быть готов к 500/503: сервер сам перезапускает движок, теряется один запрос
+  (512 токенов в приведённом случае), сессия и контекст не теряются.
 
 Шаг 1 (по ТЗ): grep `PCIe grp` / `staged` в serve `--batch 2`. Во **всех** arms:
 ```
